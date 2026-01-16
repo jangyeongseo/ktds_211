@@ -1,0 +1,14 @@
+package exam;
+
+public class Q2557 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		// 코드를 작성하는 규칙
+
+		System.out.println("Hello World!");
+
+
+	}
+
+}

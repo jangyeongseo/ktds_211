@@ -1,0 +1,20 @@
+package java_exam;
+
+public class CompareExam {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		int age = 10;
+		// age가 10대 인지 확인해본다. 10 <= age <20
+		// 혹은 age가 20대 인지 확인해본다.
+		
+		boolean c = age >= 10 && age < 20;
+		System.out.println(c);
+		
+		// 20대가 맞다면 true 를 아니라면 false를 출력한다.
+		c = age >= 20 && age <30;
+		System.out.println(c);
+		
+	}
+
+}

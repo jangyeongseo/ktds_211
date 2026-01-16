@@ -1,0 +1,48 @@
+package java_exam;
+
+public class ArithmaticOperator {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		// 연산자
+
+		int n = 0;
+		System.out.println(n);
+
+		n++; // 1더하기 : n = n+1; , n+=1;
+		System.out.println(n);
+		
+		System.out.println(n++); 
+		// System.out.println(n+=1);
+		// n 값을 출력 후 1을 더해서 값이 2가 아닌 1이나옴.
+		
+		System.out.println(++n);
+		System.out.println(n);
+		
+		System.out.println();
+		
+		n = 0;
+		System.out.println(n);
+		n--; // n=n-1;. n-=1;
+		
+		System.out.println(n);
+		System.out.println(n--);
+		System.out.println(--n);
+		System.out.println(n);
+		
+		System.out.println();
+		
+		// 실습
+		int m = 10;
+		System.out.println(++m); // 11
+		System.out.println(m++); //11
+		System.out.println(m); // 12
+		
+		System.out.println(--m); // 11
+		System.out.println(m--);//11
+		System.out.println(m); //10
+		
+		
+	}
+
+}

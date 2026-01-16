@@ -1,0 +1,34 @@
+package exam;
+
+public class ArithmaticOperator4 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		int subjectA = 100;
+		int subjectB = 80;
+		int subjectC = 95;
+		int subjectD = 68;
+
+		int totalScore = 0; // 모든 과목들의 합.
+		double average = 0; // 평균 점
+		double score = 0; // 4.5 만점 기준 학점 계산. 소수점 이하 두자리까지. (평균점수 - 55) 에서 소수점 계산.
+
+		totalScore = subjectA + subjectB + subjectC + subjectD;
+		average = (double) totalScore / 4; // average = totalScore / 4d; || average = totalScore / 4.0;
+		score = Math.round((average - 55) * 10) / 100.0; 
+		// 100.0 혹은 100d여야지만 가능 지금 long 타입이라 그렇게 나온거임.
+		
+		/*
+		score = average - 55;
+		score *= 10;
+		score = Math.round(score);
+		score /= 100;
+		*/
+
+		System.out.println("점수 총합 : " + totalScore);
+		System.out.println("점수 평균 : " + average);
+		System.out.println("학점 결과 : " + score);
+
+	}
+
+}

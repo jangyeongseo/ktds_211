@@ -1,0 +1,141 @@
+package exam;
+
+import java.util.Scanner;
+
+public class Q1000 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		int a = 1;
+		int b = 2;
+		System.out.println(a + b);
+
+		System.out.println();
+
+		// Q1001
+		a = 3;
+		b = 2;
+		System.out.println(a - b);
+
+		System.out.println();
+
+		// Q1008
+		a = 1;
+		b = 3;
+		System.out.println((double) a / b);
+
+		a = 4;
+		b = 5;
+		System.out.println((float) a / b);
+
+		System.out.println();
+
+		// Q10998
+		a = 1;
+		b = 2;
+		System.out.println(a * b);
+
+		a = 3;
+		b = 4;
+		System.out.println(a * b);
+
+		System.out.println();
+
+		// Q10869
+		a = 7;
+		b = 3;
+		System.out.println(a + b);
+		System.out.println(a - b);
+		System.out.println(a * b);
+		System.out.println(a / b);
+		System.out.println(a % b);
+
+		System.out.println();
+
+		// Q18108
+		int y = 2541;
+		int n;
+		n = y - 543; // 불기 연도는 서기 연도에 543을 더하여 계산
+
+		System.out.println(n);
+
+		System.out.println();
+
+		// Q120804
+		int num1 = 3;
+		int num2 = 4;
+		System.out.println(num1 * num2);
+
+		num1 = 27;
+		num2 = 19;
+		System.out.println(num1 * num2);
+
+		System.out.println();
+
+		// Q120820
+		int age = 40;
+		int yyyy = 2022;
+		int answer = 0;
+
+		answer = yyyy - age + 1;
+		System.out.println(answer);
+
+		age = 23;
+		yyyy = 2000;
+		answer = 0;
+
+		answer = yyyy - age + 1;
+		System.out.println(answer);
+
+		System.out.println();
+
+		// Q120803
+		int number1 = 2;
+		int number2 = 3;
+		int ansWer = 0;
+		ansWer = number1 - number2;
+		System.out.println(ansWer);
+
+		number1 = 100;
+		number2 = 2;
+		ansWer = number1 - number2;
+
+		System.out.println(ansWer);
+
+		System.out.println();
+
+		// Q120810
+		number1 = 3;
+		number2 = 2;
+		ansWer = -1;
+		ansWer = number1 / number2;
+
+		System.out.println(ansWer);
+
+		number1 = 10;
+		number2 = 5;
+		ansWer = -1;
+		ansWer = number1 % number2;
+
+		System.out.println(ansWer);
+
+		System.out.println();
+
+		// Q120805
+		number1 = 10;
+		number2 = 5;
+		ansWer = 0;
+		ansWer = number1 / number2;
+
+		System.out.println(ansWer);
+
+		number1 = 7;
+		number2 = 2;
+		ansWer = 0;
+		ansWer = number1 / number2;
+
+		System.out.println(ansWer);
+
+	}
+
+}
