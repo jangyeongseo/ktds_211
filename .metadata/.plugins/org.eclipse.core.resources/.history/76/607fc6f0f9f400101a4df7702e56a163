@@ -1,0 +1,38 @@
+package exam;
+
+import java.util.Scanner;
+
+public class WhileExam1 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		// Q2739
+		Scanner multiply = new Scanner(System.in); // 숫자 입력 받음.
+		System.out.print("숫자 입력 : ");
+
+//		int n = 1;
+//		int num;
+//
+//		while (n < 9) {
+//			System.out.print("숫자 입력 : ");
+//			num = multiply.nextInt();
+//			int total = num *= n;
+//			System.out.println("결과 : " + num + "*" + n + "=" + total);
+//		}
+
+		// Q8393
+		int num = 3;
+		int sum = 1;
+
+		while (num > 1) {
+//			sum = multiply.nextInt();
+
+			sum += num;
+
+		}
+
+		// Q25314
+
+	}
+
+}

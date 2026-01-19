@@ -1,0 +1,49 @@
+package exam;
+
+public class IfExam3 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		// Q1330
+		int A = 1;
+		int B = 2;
+
+		if (A > B) {
+			System.out.println(">");
+		} else if (A < B) {
+			System.out.println("<");
+		} else {
+			System.out.println("==");
+		}
+
+		System.out.println();
+
+		// Q9498
+		int a = 100;
+
+		if (a >= 90 && a <= 100) {
+			System.out.println("A");
+		} else if (a >= 80 && a <= 89) {
+			System.out.println("B");
+		} else if (a >= 70 && a <= 79) {
+			System.out.println("C");
+		} else if (a >= 60 && a <= 69) {
+			System.out.println("D");
+		} else {
+			System.out.println("F");
+		}
+
+		System.out.println();
+
+		// Q2753
+		int year = 2000;
+
+		if (year / 4 == 0 && year / 100 != 0 && year / 400 == 0) {
+			System.out.println("윤년 1");
+		} else {
+			System.out.println("윤년이 아니다 0");
+		}
+
+	}
+
+}

@@ -1,0 +1,43 @@
+package exam;
+
+public class IfExam1 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		int korScore = 90;
+		int engScore = 88;
+		int mathScore = 70;
+		int progScore = 80;
+		int sum = 0;
+		int average = 0;
+
+		// 국어, 영어, 수학, 프로그래밍의 합계와 평균을 각각 계산해 할당하고
+		// 아래 기준에 따라 성적을 출력해보세요.
+		// 평균점수 95점 이상: A+
+		// 평균점수 90점 이상: A
+		// 평균점수 85점 이상: B+
+		// 평균점수 80점 이상: B
+		// 평균점수 70점 이상: C
+		// 평균점수 70점 미만: F
+
+		sum = korScore + engScore + mathScore + progScore;
+		average = sum / 4;
+		System.out.println(average);
+
+		if (average >= 95) {
+			System.out.println("평균점수 95점 이상: A+");
+		} else if (average >= 90) {
+			System.out.println("평균점수 90점 이상: A");
+		} else if (average >= 85) {
+			System.out.println("평균점수 85점 이상: B+");
+		} else if (average >= 80) {
+			System.out.println("평균점수 80점 이상: B");
+		} else if (average >= 70) {
+			System.out.println("평균점수 70점 이상: C");
+		} else {
+			System.out.println("평균점수 70점 미만: F");
+		}
+
+	}
+
+}
