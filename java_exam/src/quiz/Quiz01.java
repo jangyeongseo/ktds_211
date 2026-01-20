@@ -26,6 +26,8 @@ public class Quiz01 {
 				System.out.println(i);
 			}
 		}
+		
+		
 
 	}
 
