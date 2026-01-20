@@ -15,6 +15,7 @@ public class Quiz01 {
 			for (int j = 2; j <= Math.sqrt(i); j++) { // Math.sqrt(x) 반환값 : x의 양의 제곱근
 
 				if (i % j == 0) {
+					// 2의 배수일 경우 0이 나오며 false가 되기때문에 소수가 아니여서 안나온다.
 					isPrime = false;
 					// 소수가 아니여서 false
 
@@ -26,8 +27,6 @@ public class Quiz01 {
 				System.out.println(i);
 			}
 		}
-		
-		
 
 	}
 

@@ -2,6 +2,14 @@ package exam;
 
 public class IfExam2 {
 
+	public static int getFilghtFare(int age) {
+		if (age >= 19) {
+			return 300_000;
+		} else {
+			return 120_000;
+		}
+	}
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		int money = 1_000_000;
@@ -20,6 +28,20 @@ public class IfExam2 {
 		// 여행을 떠날 수 있다면 "여행가자!"
 		// 여행을 떠날 수 없다면 "다음에가자" 를 출력해보세요.
 
+		// 메소드 활용 방법
+		int filghtFare = 0;
+		filghtFare += getFilghtFare(father);
+		filghtFare += getFilghtFare(mother);
+		filghtFare += getFilghtFare(daughter);
+		
+		if (filghtFare <= money) {
+			System.out.println("여행가자!");
+		} else {
+			System.out.println("다음에가자");
+		}
+
+		
+		// --------------------------------------------------------------
 		int totalFare = 0;
 
 		// 아버지
