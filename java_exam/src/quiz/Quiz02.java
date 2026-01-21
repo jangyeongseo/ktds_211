@@ -11,7 +11,7 @@ public class Quiz02 {
 
 	public static double calcAverage(int amount, int subjectCount) {
 		// 평균을 구함.
-		return amount /= subjectCount;
+		return amount / (double) subjectCount;
 
 	}
 
