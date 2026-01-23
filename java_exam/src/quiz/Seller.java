@@ -10,7 +10,7 @@ public class Seller {
 	int capital; // 자본금
 
 	/**
-	 * 
+	 * 생성자 호출(파라미터 추가)
 	 * @param stock   상품의 재고 개수
 	 * @param capital 자본금
 	 */

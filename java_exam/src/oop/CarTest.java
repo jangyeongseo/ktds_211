@@ -4,7 +4,7 @@ public class CarTest {
 
 	public static void main(String[] args) {
 
-		Car kona = new Car();
+		Car kona = new Car("KOKO");
 		// new Car() : 인스턴스화 혹은 객체화 / car 클래스를 인스턴스로 생성함.
 		// Car kona = new Car(); - 인스턴스를 만들어 Car 타입의 car 변수에 할당
 		System.out.println(kona);
@@ -21,7 +21,7 @@ public class CarTest {
 		int konaSpeed = kona.speed;
 		System.out.println("Koan Speed : " + konaSpeed);
 
-		Car carnival = new Car();
+		Car carnival = new Car("CARNI");
 		System.out.println(carnival);
 
 		carnival.pressGasolinPedal(200);

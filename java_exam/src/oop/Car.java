@@ -30,9 +30,19 @@ public class Car {
 
 	int speed;
 
+	// 자동차의 모델 명
+	String name;
+
+	public Car(String name) {
+		// public Car() : 파라미터가 없는 기본생성자 ()안에 뭐가 없다면.
+		this.name = name; // 맴버 변수 -> 파라미터 할당
+
+	}
+
 	// 인스턴스 메소드
 	/**
-	 * <pre>seating
+	 * <pre>
+	 * seating
 	 * 현재 엔진의 상태에 따라서 시동을 켜거나 끈다.
 	 * 시동이 걸리면 isEnfineStart 의 값이 true, 꺼지면 false 가 된다.
 	 * 시동이 꺼지면 speed 의 값은 0이 된다.

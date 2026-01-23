@@ -9,12 +9,20 @@ public class Buyer {
 	int cart; // 장바구니 수량
 	int maxWeight; // 들 수 있는 최대 무게 (g)
 
+	/**
+	 * 생성자가 만들어준 인스턴스 / 파라미터 값을 가지고 있는 생성자다. 
+	 * 생성자 호출(파라미터 추가)
+	 * 
+	 * @param money     소비자의 돈
+	 * @param maxWeight 소비자가 들 수 잇는 최대 무게ㄴ
+	 */
 	public Buyer(int money, int maxWeight) {
-		this.money = money; // this : 멤버 변수 -> 매개 변수로 변환
+		this.money = money;
 		this.maxWeight = maxWeight;
 	}
 
 	/**
+	 * 소비자의 구매 목록과 남은 돈을 확인할 수 있다.
 	 * 
 	 * @param seller 매개 변수로 변환한 판매자 사용
 	 * @param count  구매할 개수
@@ -40,4 +48,5 @@ public class Buyer {
 		cart += bought; // 장바구니 수량 + 구매 수
 		money -= bought * price; // 지갑 = 재고수 * 상품 가격
 	}
+
 }

@@ -21,16 +21,16 @@ public class Result {
 		 * 구매자의 상품 수, 장바구니의 무게, 지갑의 돈을 출력합니다.
 		 */
 
-		Seller seller = new Seller(10, 0); // 판마자
-		Buyer buyer = new Buyer(10000, 3000); // 소비자 : 최대 3kg
+		Seller seller = new Seller(10, 0); // 판마자 : 재고, 자본
+		Buyer buyer = new Buyer(10000, 3000); // 소비자 : 소비자가 가지고 있는 돈: 최대 3kg
 
 		buyer.buy(seller, 5); // 상품의 가격, 구매 개수
 
-		System.out.println("판매자 재고: " + seller.stock);
-		System.out.println("판매자 자본금: " + seller.capital);
+		System.out.println("판매자 재고: " + seller.stock + "개");
+		System.out.println("판매자 자본금: " + seller.capital + "원" + "\n" + "");
 
-		System.out.println("구매자 상품 수: " + buyer.cart);
-		System.out.println("구매자 지갑: " + buyer.money);
+		System.out.println("구매자 상품 수: " + buyer.cart + "개");
+		System.out.println("구매자 지갑: " + buyer.money + "원");
 		System.out.println("장바구니 무게: " + (buyer.cart * 500) + "g");
 	}
 
