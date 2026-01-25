@@ -8,29 +8,30 @@ import com.project.pjt.restaurant.menu.Menu;
  */
 
 public class Restaurant {
-	String name;
-	double drunkLimit;
-	int fullLimit;
-	int sales = 0;
+	String name; // 이름
+	double drunkLimit; // 술 취함도
+	int fullLimit; // 배부름의 정도
+	int sales = 0; // 매출
 
-	Menu[] menus = new Menu[10];  // 크기 10으로 고정
+	Menu[] menus = new Menu[10]; // 크기 10으로 고정
 
 	public Restaurant(String name, double drunkLimit, int fullLimit) {
 		this.name = name;
 		this.drunkLimit = drunkLimit;
 		this.fullLimit = fullLimit;
 	}
-	
-	int menuCount = 0;
 
+	int menuCount = 0; // 메뉴 개수
+
+	// 현재 menuCount 위치에 메뉴 저장 / 저장 후 menuCount를 1 증가
 	public void addMenu(Menu menu) {
-	    if (menuCount < menus.length) {
-	        menus[menuCount++] = menu;
-	    } else {
-	        System.out.println("메뉴 배열이 가득 찼습니다!");
-	    }
+		// 메뉴 시킨거
+		if (menuCount < menus.length) {
+			menus[menuCount++] = menu;
+		} else {
+			System.out.println("메뉴 가득 찼습니다!");
+		}
 	}
-
 
 	public void order(Guests g, Menu m) {
 		System.out.println("고객명 : " + g.getName());
@@ -49,25 +50,34 @@ public class Restaurant {
 			return;
 		}
 
+		// 타입 분류
 		if (m.getType().equals("주류")) {
 			System.out.println(name + "식당의 취함 기준: " + drunkLimit);
+
+			// 손님의 취함정도가 식당의 취함보다 같거나 높을 경우
 			if (g.getDrunken() >= drunkLimit) {
 				System.out.println("주문 실패 - 너무 취함\n");
 				return;
 			}
+			// 손님한테 주류 판매
 			g.drink(m.getAlcohol());
 		}
 
 		if (m.getType().equals("식사류")) {
 			System.out.println(name + "식당의 배부름 기준: " + fullLimit);
+
+			// 손님의 배부름이 식당의 배부름보다 같거나 높을 경우
 			if (g.getFullness() >= fullLimit) {
 				System.out.println("주문 실패 - 너무 배부름\n");
 				return;
 			}
+			// 손남한테 음식 판매
 			g.eat(m.getWeight());
 		}
 
+		// 손님의 돈 - 메뉴 가격
 		g.setMoney(g.getMoney() - m.getPrice());
+		//
 		m.setStock(m.getStock() - 1);
 		sales += m.getPrice();
 

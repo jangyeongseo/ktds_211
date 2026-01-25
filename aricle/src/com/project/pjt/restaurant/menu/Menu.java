@@ -5,10 +5,10 @@ package com.project.pjt.restaurant.menu;
  */
 public class Menu {
 	private String type; // 주류 / 식사류
-	private int price;
+	private int price; // 메뉴 가격
 	private double alcohol; // 주류용
 	private int weight; // 식사용
-	private int stock;
+	private int stock; // 자본금
 
 	public Menu(String type, int price, double alcohol, int weight, int stock) {
 		this.type = type;
