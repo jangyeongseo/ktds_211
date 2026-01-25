@@ -6,33 +6,66 @@ package com.project.pjt.restaurant.guests;
 import com.project.pjt.restaurant.menu.Menu;
 
 public class Guests {
-	Menu[] restaurant; // 메뉴 개수 제한없음
+	private String name; // 이름
+	private double drunken; // 취함 정도
+	private int fullness; // 배부름 정도
+	private int money; // 소지하고 있는 금액
 
-	// 메뉴 배열 맞추기
-	// 메뉴마다 배부름과 취함 정도가 다름
-	/**
-	 * 배열에 메뉴넣기
-	 * 
-	 * @param a
-	 * @param b
-	 * @param c
-	 * @param d
-	 */
-	public Guests(Menu a, Menu b, Menu c, Menu d) {
-		this.restaurant = new Menu[4];
-		this.restaurant[0] = a;
-		this.restaurant[1] = b;
-		this.restaurant[2] = c;
-		this.restaurant[3] = d;
+	public Guests(String name, int money) {
+		this.name = name;
+		this.money = money;
+		this.drunken = 0.0;
+		this.fullness = 0;
 	}
 
-	// 손님이 음식을 주문하면 음식마다의 무게만틈 배부름 증가
-	// 손님이 술을 주문하면 술 마다의 알콜 비율 10% 만큼 취함 증가
-//	public int orderingFood() {
-//		
-//	}
-	
+	public Guests(String name, double drunken, int fullness, int money) {
+		super();
+		this.name = name;
+		this.drunken = drunken;
+		this.fullness = fullness;
+		this.money = money;
+	}
 
-	// 식당에서 음식을 시키기전 배부른 손심과 과하게 취한 손님 주문 못받음
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public double getDrunken() {
+		return drunken;
+	}
+
+	public void setDrunken(double drunken) {
+		this.drunken = drunken;
+	}
+
+	public int getFullness() {
+		return fullness;
+	}
+
+	public void setFullness(int fullness) {
+		this.fullness = fullness;
+	}
+
+	public int getMoney() {
+		return money;
+	}
+
+	public void setMoney(int money) {
+		this.money = money;
+	}
+
+	// 술의 알골 정도
+	public void drink(double alcohol) {
+		drunken += alcohol * 0.1;
+	}
+
+	// 배부름의 정도
+	public void eat(int weight) {
+		fullness += weight;
+	}
 
 }

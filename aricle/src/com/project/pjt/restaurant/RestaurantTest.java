@@ -2,22 +2,56 @@ package com.project.pjt.restaurant;
 
 import com.project.pjt.restaurant.guests.Guests;
 import com.project.pjt.restaurant.menu.Menu;
+import com.project.pjt.restaurant.restaurants.Restaurant;
 
 public class RestaurantTest {
 	public static void main(String[] args) {
-//		식당 애플리케이션을 만드세요.
-//		- 필요 클래스
-//		- 식당, 손님, 메뉴, 식당Test
-//		회사원들의 회식 장소로 유명한 A 식당이 있습니다.
-//		A 식당의 사장은 손님이 배가 부른 손님과 과하게 취한 손님에게는 주문을 받지 않기로 유명합니다.
-//		* 배 부름과 취함의 정도는 사장마다 기준이 다릅니다.
-//
-//		A 식당의 사장은 손님의 배부름 정도와 취함 정도로 주문을 받을지 판단합니다.
-//		손님이 음식을 주문하면 음식마다의 무게만큼 배부름 정도가 채워집니다.
-//		손님이 술을 주문하면 술 마다의 알콜 비율의 10% 만큼 취함 정도가 증가합니다.
-		Guests guests = new Guests();
-		Menu menu = new Menu();
+
+		Restaurant vips = new Restaurant("VIPS", 10.0, 1000);
+		Restaurant outback = new Restaurant("OUTBACK", 5.0, 300);
+
+		Menu soju1 = new Menu("주류", 5000, 19.0, 0, 100);
+		Menu soju2 = new Menu("주류", 6000, 6.0, 0, 80);
+		Menu soju3 = new Menu("주류", 5000, 40.0, 0, 15);
+		Menu food1 = new Menu("식사류", 10000, 0, 500, 200);
+		Menu food2 = new Menu("식사류", 8000, 0, 300, 70);
+
+		vips.addMenu(soju1);
+		vips.addMenu(soju2);
+		vips.addMenu(soju3);
+		vips.addMenu(food1);
+		vips.addMenu(food2);
+
+		outback.addMenu(new Menu("주류", 1000, 19.0, 0, 60));
+		outback.addMenu(new Menu("주류", 2000, 6.0, 0, 80));
+		outback.addMenu(new Menu("주류", 5000, 40.0, 0, 15));
+		outback.addMenu(food1);
+		outback.addMenu(food2);
+
+		Guests g1 = new Guests("고객1", 50000);
+		Guests g2 = new Guests("고객2", 30000);
+		Guests g3 = new Guests("고객3", 10000);
+
+		vips.order(g1, soju1);
+		vips.order(g1, soju1);
+		outback.order(g1, soju1);
+		vips.order(g1, soju3);
+		vips.order(g1, soju2);
+		vips.order(g1, food2);
+		outback.order(g1, food2);
+		vips.order(g1, food1);
+
+		outback.order(g2, food2);
+		vips.order(g2, soju2);
+		vips.order(g2, soju1);
+		outback.order(g2, food1);
+		vips.order(g2, soju1);
+
+		vips.order(g3, soju3);
+		vips.order(g3, food1);
+
+		vips.showStatus();
+		outback.showStatus();
 
 	}
-
 }

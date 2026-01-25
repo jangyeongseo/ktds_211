@@ -4,46 +4,58 @@ package com.project.pjt.restaurant.menu;
  * 메뉴 : 배부름, 술
  */
 public class Menu {
-	private int name; // 음식 이름
-	private int alcohol; // 술
-	private int full; // 배부름
+	private String type; // 주류 / 식사류
+	private int price;
+	private double alcohol; // 주류용
+	private int weight; // 식사용
+	private int stock;
 
-	public Menu() {
-		super();
-	}
-
-	public Menu(int name, int alcohol, int full) {
-		super();
-		this.name = name;
+	public Menu(String type, int price, double alcohol, int weight, int stock) {
+		this.type = type;
+		this.price = price;
 		this.alcohol = alcohol;
-		this.full = full;
+		this.weight = weight;
+		this.stock = stock;
 	}
 
-	public int getName() {
-		return name;
+	public String getType() {
+		return type;
 	}
 
-	public void setName(int name) {
-		this.name = name;
+	public void setType(String type) {
+		this.type = type;
 	}
 
-	public int getAlcohol() {
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
+	public double getAlcohol() {
 		return alcohol;
 	}
 
-	public void setAlcohol(int alcohol) {
+	public void setAlcohol(double alcohol) {
 		this.alcohol = alcohol;
 	}
 
-	public int getFull() {
-		return full;
+	public int getWeight() {
+		return weight;
 	}
 
-	public void setFull(int full) {
-		this.full = full;
+	public void setWeight(int weight) {
+		this.weight = weight;
 	}
-	
-	
-	
+
+	public int getStock() {
+		return stock;
+	}
+
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
 
 }
