@@ -15,7 +15,7 @@ public class Restaurant {
 	Menu[] menus = new Menu[10]; // 크기 10으로 고정
 
 	public Restaurant(String name, double drunkLimit, int fullLimit) {
-		this.name = name;
+		this.name = name;  
 		this.drunkLimit = drunkLimit;
 		this.fullLimit = fullLimit;
 	}
@@ -32,6 +32,9 @@ public class Restaurant {
 		}
 	}
 
+	// "%.1f" : 소수점 1까지만 나오게 하도록 가능 / 현재 점수는 %d %s 입니다.
+	// "%.1f", customer.getDrunkenness() -> 이렇게 하는 방법이 있다.
+	// %d 도 가능
 	public void order(Guests g, Menu m) {
 		System.out.println("고객명 : " + g.getName());
 		System.out.println(g.getName() + "의 취함 정도 : " + g.getDrunken());
@@ -50,6 +53,7 @@ public class Restaurant {
 		}
 
 		// 타입 분류
+		// String 으로 하지 않고 분류해서 놔누는것도 괜춘
 		if (m.getType().equals("주류")) {
 			System.out.println(name + "식당의 취함 기준: " + drunkLimit);
 
@@ -83,12 +87,13 @@ public class Restaurant {
 		System.out.println("주문 성공\n");
 	}
 
+	// 효율적으로 좋은쪽으로 한다면 보완이 필요할 수 있다.
 	public void showStatus() {
 		System.out.println(name + "상태 확인");
 		System.out.println("\nMenu ========");
 		int i = 1;
 
-		// 만약 메뉴의 배열 메뉴의 m 이라고 할때 m 의 타립이 주류랑 같다면
+		// 만약 메뉴의 배열 메뉴의 m 이라고 할때 m 의 타이 주류랑 같다면
 		for (Menu m : menus) {
 			if (m.getType().equals("주류")) {
 				System.out.println(

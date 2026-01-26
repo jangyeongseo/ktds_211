@@ -9,16 +9,49 @@ public class CoffeeShop {
 	/**
 	 * 커피숍에서 판매하는 따듯한 아메리카노
 	 */
-	Coffee hot;
+	private Coffee hot;
 
 	/**
 	 * 커피숍에서 판매하는 아이스 아메리카노
 	 */
-	Coffee ice;
+	private Coffee ice;
+
+	/**
+	 * 파라미터가 없는 생성자
+	 */
+	public CoffeeShop() {
+//		this.hot = new Coffee("기본 아메리카노", 1800, 30);
+//		this.ice = new Coffee("아이스 아메리카노", 2000, 30);
+
+		// this 를 사용한 인스턴스
+		this(new Coffee("기본 아메리카노", 1800, 30), new Coffee("아이스 아메리카노", 2000, 15));
+
+	}
 
 	public CoffeeShop(Coffee hot, Coffee ice) {
 		this.hot = hot;
 		this.ice = ice;
+	}
+
+	/**
+	 * 메소드 오버로딩
+	 * 
+	 * @return
+	 */
+	public int orderCoffee() {
+		int price = this.orderCoffee(1);
+		return price;
+	}
+
+	/**
+	 * 한개만 주문함
+	 * 
+	 * @param menu
+	 * @return
+	 */
+	public int orderCoffee(int menu) {
+		int price = this.orderCoffee(menu, 1);
+		return price;
 	}
 
 	/**
@@ -28,7 +61,6 @@ public class CoffeeShop {
 	 * @param quantity 주문 수량
 	 * @return 주문 가격
 	 */
-
 	public int orderCoffee(int menu, int quantity) {
 		if (menu == 1) {
 			if (this.hot.getStock() >= quantity) {

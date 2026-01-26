@@ -6,6 +6,7 @@ import com.project.pjt.restaurant.restaurants.Restaurant;
 
 public class RestaurantTest {
 	public static void main(String[] args) {
+		// JVM이 Java 파일을 실행시킬 수 있도록 클래스 메소드로 정의
 
 		// 손님 인정 알콜과 배부름의 정도 Max
 		Restaurant vips = new Restaurant("VIPS", 10.0, 1000);

@@ -8,7 +8,7 @@ public class Menu {
 	private int price; // 메뉴 가격
 	private double alcohol; // 주류용
 	private int weight; // 식사용
-	private int stock; // 자본금
+	private int stock; // 재고
 
 	public Menu(String type, int price, double alcohol, int weight, int stock) {
 		this.type = type;
