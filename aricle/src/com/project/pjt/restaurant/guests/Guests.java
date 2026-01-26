@@ -3,8 +3,6 @@ package com.project.pjt.restaurant.guests;
 /**
  * 손님
  */
-import com.project.pjt.restaurant.menu.Menu;
-
 public class Guests {
 	private String name; // 이름
 	private double drunken; // 취함 정도
