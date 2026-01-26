@@ -76,8 +76,8 @@ public class Restaurant {
 
 		// 손님의 돈 - 메뉴 가격
 		g.setMoney(g.getMoney() - m.getPrice());
-		//
 		m.setStock(m.getStock() - 1);
+		// 메출에 판가격 더하기
 		sales += m.getPrice();
 
 		System.out.println("주문 성공\n");
