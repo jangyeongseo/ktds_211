@@ -7,8 +7,26 @@ import com.ktdsuniversity.edu.vendingmachine.item.Drinkables;
  */
 
 public class VendingMachine {
-
+	// 환불과 입금 받을 금액
+	private int withdrawal; // 출금 줘야할 돈
+	private int deposit; // 돈 입급
 	Drinkables[] drinkables; // 음료수 배열
+
+	public int getWithdrawal() {
+		return withdrawal;
+	}
+
+	public void setWithdrawal(int withdrawal) {
+		this.withdrawal = withdrawal;
+	}
+
+	public int getDeposit() {
+		return deposit;
+	}
+
+	public void setDeposit(int deposit) {
+		this.deposit = deposit;
+	}
 
 	/**
 	 * 배열에 음료 개수 넣기
@@ -18,7 +36,6 @@ public class VendingMachine {
 	 * @param hotSix  핫식스
 	 * @param milkis  밀키스
 	 */
-
 	public VendingMachine(Drinkables bacchus, Drinkables monster, Drinkables hotSix, Drinkables milkis) {
 		this.drinkables = new Drinkables[4];
 		this.drinkables[0] = bacchus;
@@ -33,11 +50,11 @@ public class VendingMachine {
 	 * 
 	 * @param menu     구매 금액
 	 * @param quantity 음려의 개수
-	 * @param count    소비자가 구매한 음려
+	 * @param count    소비자가 구매한 음료
 	 * @return
 	 */
-
-	public int orderDrink(int menu, int quantity) {
+	public int orderDrink(int menu, int quantity, int inmoney) {
+		int deposit = inmoney; // 입금된 돈
 		if (menu < 0 && menu > drinkables.length) {
 			System.out.println("없는 제품입니다.");
 			return 0;
@@ -55,6 +72,10 @@ public class VendingMachine {
 		drink.setStock(drink.getStock() - quantity);
 		System.out.println(drink.getName() + "음료의 " + drink.getStock() + "개 남았습니다.");
 
+		// 돈 = 상품의 가격 * 산 개수
+		this.deposit += drink.getPrice() * quantity; // 사용자가 넣은 돈
+		this.withdrawal -= drink.getPrice() * quantity; // 사용자한테 줄 돈
+
 		return drink.getPrice() * quantity;
 
 	}
@@ -62,7 +83,6 @@ public class VendingMachine {
 	/**
 	 * 음료수 입고
 	 */
-
 	public void inDrinkables(int menu, int quantity) {
 		if (menu < 0 || menu >= this.drinkables.length) {
 			return;
@@ -77,10 +97,9 @@ public class VendingMachine {
 	/**
 	 * 모든 상품 재고 출력
 	 */
-
 	public void printAllDrinkInfo() {
 		for (int i = 0; i < this.drinkables.length; i++) {
-			System.out.println(this.drinkables[i].getName() + " " + this.drinkables[i].getStock() + "개 남았습니다.");
+			System.out.println(this.drinkables[i].getName() + " " + this.drinkables[i].getStock() + "개 남았습니다.\n");
 		}
 	}
 

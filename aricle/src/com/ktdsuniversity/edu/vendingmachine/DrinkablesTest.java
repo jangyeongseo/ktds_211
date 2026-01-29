@@ -18,19 +18,19 @@ public class DrinkablesTest {
 
 		lotte.printAllDrinkInfo();
 
-		int price = lotte.orderDrink(0, 3);
+		int price = lotte.orderDrink(0, 3, 5000);
 		System.out.println(price);
 
-		price = lotte.orderDrink(1, 5);
+		price = lotte.orderDrink(1, 5, 1000);
 		System.out.println(price);
 
-		price = lotte.orderDrink(2, 15);
+		price = lotte.orderDrink(2, 15, 2000);
 		System.out.println(price);
 
-		price = lotte.orderDrink(3, 55);
+		price = lotte.orderDrink(3, 55, 2100);
 		System.out.println(price);
 
-		price = lotte.orderDrink(4, 1);
+		price = lotte.orderDrink(4, 1, 1400);
 		System.out.println(price);
 
 		lotte.printAllDrinkInfo();

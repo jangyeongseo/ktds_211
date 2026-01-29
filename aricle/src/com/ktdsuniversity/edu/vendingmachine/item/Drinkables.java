@@ -8,6 +8,7 @@ public class Drinkables {
 	private int price; // 음료수 가격
 	private String name; // 음료수 이름
 	private int stock; // 재고
+	
 
 	public Drinkables(String name, int price, int stock) {
 		this.name = name;
