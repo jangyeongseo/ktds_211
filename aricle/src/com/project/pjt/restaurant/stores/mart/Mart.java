@@ -1,4 +1,4 @@
-package com.project.pjt.restaurant.stores;
+package com.project.pjt.restaurant.stores.mart;
 
 /**
  * 상속한 클래스가 추상 클래스 이면서 추상 메소드가 존재할 겨우 추상 메소드를 구현하지 않으면 에러가 발생

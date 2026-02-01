@@ -1,7 +1,4 @@
-package com.project.pjt.restaurant.restaurants;
-
-import com.project.pjt.restaurant.guests.Guests;
-import com.project.pjt.restaurant.menu.Menu;
+package com.project.pjt.restaurant.stores.restaurant;
 
 public class RestaurantTest {
 	public static void main(String[] args) {

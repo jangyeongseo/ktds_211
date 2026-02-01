@@ -1,7 +1,9 @@
-package com.project.pjt.restaurant.restaurants;
+package com.project.pjt.restaurant.stores.restaurant;
 
-import com.project.pjt.restaurant.guests.Guests;
-import com.project.pjt.restaurant.menu.Menu;
+import com.project.pjt.restaurant.stores.restaurant.custom.DrunkenException;
+import com.project.pjt.restaurant.stores.restaurant.custom.FullException;
+import com.project.pjt.restaurant.stores.restaurant.custom.NotEnoughMoneyException;
+import com.project.pjt.restaurant.stores.restaurant.custom.OutOfStockException;
 
 /**
  * 식당
@@ -15,7 +17,7 @@ public class Restaurant {
 	Menu[] menus = new Menu[10]; // 크기 10으로 고정
 
 	public Restaurant(String name, double drunkLimit, int fullLimit) {
-		this.name = name;  
+		this.name = name;
 		this.drunkLimit = drunkLimit;
 		this.fullLimit = fullLimit;
 	}
@@ -25,17 +27,22 @@ public class Restaurant {
 	// 현재 menuCount 위치에 메뉴 저장 / 저장 후 menuCount를 1 증가
 	public void addMenu(Menu menu) {
 		// 메뉴 시킨거
-		if (menuCount < menus.length) {
-			menus[menuCount++] = menu;
-		} else {
-			System.out.println("메뉴 가득 찼습니다!");
+		if (menuCount >= menus.length) {
+			throw new ArrayIndexOutOfBoundsException("더 이상 메뉴를 추가할 수 없습니다.");
 		}
+		menus[menuCount++] = menu;
 	}
 
 	// "%.1f" : 소수점 1까지만 나오게 하도록 가능 / 현재 점수는 %d %s 입니다.
 	// "%.1f", customer.getDrunkenness() -> 이렇게 하는 방법이 있다.
 	// %d 도 가능
-	public void order(Guests g, Menu m) {
+	public void order(Guests g, Menu m)
+			throws OutOfStockException, NotEnoughMoneyException, DrunkenException, FullException {
+
+		if (g == null || m == null) {
+			throw new NullPointerException("손님 혹은 메뉴의 정보가 null입니다.");
+		}
+
 		System.out.println("고객명 : " + g.getName());
 		System.out.println(g.getName() + "의 취함 정도 : " + g.getDrunken());
 		System.out.println(g.getName() + "의 배부름 정도 : " + g.getFullness());
@@ -44,12 +51,11 @@ public class Restaurant {
 
 		// 재고 확인 과정
 		if (m.getStock() <= 0) {
-			System.out.println("주문 실패 - 재고 없음");
+			throw new OutOfStockException("재고가 없어 주문할 수 없습니다.");
 		}
 
 		if (g.getMoney() < m.getPrice()) {
-			System.out.println(g.getName() + "의 소지금 부족\n");
-			return;
+			throw new NotEnoughMoneyException("소지금이 부족합니다.");
 		}
 
 		// 타입 분류
@@ -59,8 +65,7 @@ public class Restaurant {
 
 			// 손님의 취함정도가 식당의 취함보다 같거나 높을 경우
 			if (g.getDrunken() >= drunkLimit) {
-				System.out.println("주문 실패 - 너무 취함\n");
-				return;
+				throw new DrunkenException("이미 취함을 초과했습니다");
 			}
 			// 손님한테 주류 판매
 			g.drink(m.getAlcohol());
@@ -71,8 +76,7 @@ public class Restaurant {
 
 			// 손님의 배부름이 식당의 배부름보다 같거나 높을 경우
 			if (g.getFullness() >= fullLimit) {
-				System.out.println("주문 실패 - 너무 배부름\n");
-				return;
+				throw new FullException("이미 배부름을 초과했습니다.");
 			}
 			// 손남한테 음식 판매
 			g.eat(m.getWeight());
@@ -81,7 +85,7 @@ public class Restaurant {
 		// 손님의 돈 - 메뉴 가격
 		g.setMoney(g.getMoney() - m.getPrice());
 		m.setStock(m.getStock() - 1);
-		// 메출에 판가격 더하기
+		// 매출에 판가격 더하기
 		sales += m.getPrice();
 
 		System.out.println("주문 성공\n");

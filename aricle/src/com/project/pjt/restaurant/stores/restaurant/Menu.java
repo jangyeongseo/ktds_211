@@ -1,4 +1,4 @@
-package com.project.pjt.restaurant.menu;
+package com.project.pjt.restaurant.stores.restaurant;
 
 /**
  * 메뉴 : 배부름, 술
