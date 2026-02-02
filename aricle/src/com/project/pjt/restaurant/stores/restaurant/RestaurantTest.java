@@ -6,8 +6,10 @@ import com.project.pjt.restaurant.stores.restaurant.custom.NotEnoughMoneyExcepti
 import com.project.pjt.restaurant.stores.restaurant.custom.OutOfStockException;
 
 public class RestaurantTest {
-	public static void main(String[] args) throws OutOfStockException, NotEnoughMoneyException, DrunkenException, FullException {
+	public static void main(String[] args)
+			throws OutOfStockException, NotEnoughMoneyException, DrunkenException, FullException {
 		// JVM이 Java 파일을 실행시킬 수 있도록 클래스 메소드로 정의
+		// throws 로 불러오는것을 지양함 -> try-catch를 사용하는것을 더 선호
 
 		// 손님 인정 알콜과 배부름의 정도 Max
 		Restaurant vips = new Restaurant("VIPS", 10.0, 1000);

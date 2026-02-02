@@ -1,21 +1,31 @@
 package com.ktdsuniversity.edu.restaurant;
 
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * 배열 - List로 변경
+ */
 public class RestaurantTest {
 	public static void main(String[] args) {
 
-		Menu[] vipsMenus = new Menu[5];
-		vipsMenus[0] = new Menu(true, 0, 19, 5000, 100); // 주류
-		vipsMenus[1] = new Menu(true, 0, 6, 6000, 80); // 주류
-		vipsMenus[2] = new Menu(true, 0, 40, 5000, 15); // 주류
-		vipsMenus[3] = new Menu(false, 500, 0, 10000, 200); // 식사류
-		vipsMenus[4] = new Menu(false, 300, 0, 8000, 70); // 식사류
+		// 이럴때만 사용한다
+		String phone = "010-2655-4564";
+		String[] phoneSplitd = phone.split("-");
 
-		Menu[] outbackMenus = new Menu[5];
-		outbackMenus[0] = new Menu(true, 0, 19, 1000, 60); // 주류
-		outbackMenus[1] = new Menu(true, 0, 6, 2000, 80); // 주류
-		outbackMenus[2] = new Menu(true, 0, 40, 5000, 15); // 주류
-		outbackMenus[3] = new Menu(false, 500, 0, 10000, 200); // 식사류
-		outbackMenus[4] = new Menu(false, 300, 0, 8000, 70); // 식사류
+		List<Menu> vipsMenus = new ArrayList<>();
+		vipsMenus.add(new Menu(true, 0, 19, 5000, 100)); // 주류
+		vipsMenus.add(new Menu(true, 0, 6, 6000, 80)); // 주류
+		vipsMenus.add(new Menu(true, 0, 40, 5000, 15)); // 주류
+		vipsMenus.add(new Menu(false, 500, 0, 10000, 200)); // 식사류
+		vipsMenus.add(new Menu(false, 300, 0, 8000, 70)); // 식사류
+
+		List<Menu> outbackMenus = new ArrayList<>();
+		outbackMenus.add(new Menu(true, 0, 19, 1000, 60)); // 주류
+		outbackMenus.add(new Menu(true, 0, 6, 2000, 80)); // 주류
+		outbackMenus.add(new Menu(true, 0, 40, 5000, 15)); // 주류
+		outbackMenus.add(new Menu(false, 500, 0, 10000, 200)); // 식사류
+		outbackMenus.add(new Menu(false, 300, 0, 8000, 70)); // 식사류
 
 		Restuarant vips = new Restuarant("VIPS", vipsMenus, 1000, 10);
 		Restuarant outback = new Restuarant("OUTBACK", outbackMenus, 300, 5);

@@ -1,27 +1,29 @@
 package com.ktdsuniversity.edu.restaurant;
 
+import java.util.List;
+
 /**
  * 식당
  */
 public class Restuarant {
 	private String name;
-	private Menu[] menus;
+	private List<Menu> menus;
 	private int account;
 	private int maxFullRate;
 	private double maxDrunkenRate;
 
-	public Restuarant(String name, Menu[] menus, int maxFullRate, double maxDrunkenRate) {
+	public Restuarant(String name, List<Menu> menus, int maxFullRate, double maxDrunkenRate) {
 		this.name = name;
 		this.menus = menus;
 		this.maxFullRate = maxFullRate;
 		this.maxDrunkenRate = maxDrunkenRate;
 	}
 
-	public Menu[] getMenus() {
+	public List<Menu> getMenus() {
 		return this.menus;
 	}
 
-	public void setMenus(Menu[] menus) {
+	public void setMenus(List<Menu> menus) {
 		this.menus = menus;
 	}
 
@@ -54,11 +56,11 @@ public class Restuarant {
 	}
 
 	public Menu servMenu(Customer customer, int menuIndex) {
-		if (menuIndex < 0 || menuIndex >= this.menus.length) {
+		if (menuIndex < 0 || menuIndex >= this.menus.size()) {
 			return null; // 없는 메뉴
 		}
 
-		Menu menu = this.menus[menuIndex];
+		Menu menu = this.menus.get(menuIndex);
 		if (menu.getStock() == 0) {
 			return null; // 품절
 		}
@@ -88,19 +90,19 @@ public class Restuarant {
 		System.out.println();
 		System.out.println(this.name + "상태 확인");
 		System.out.println("Menu ========");
-		for (int i = 0; i < this.menus.length; i++) {
+		for (int i = 0; i < this.menus.size(); i++) {
 
 			System.out.print((i + 1) + ". ");
-			if (this.menus[i].getIsAlcohol()) {
+			if (this.menus.get(i).getIsAlcohol()) {
 				System.out.print("주류");
-				System.out.print(" / " + this.menus[i].getPrice() + "원");
-				System.out.print(" / " + this.menus[i].getAlcohol() + "%");
+				System.out.print(" / " + this.menus.get(i).getPrice() + "원");
+				System.out.print(" / " + this.menus.get(i).getAlcohol() + "%");
 			} else {
 				System.out.print("식사류");
-				System.out.print(" / " + this.menus[i].getPrice() + "원");
-				System.out.print(" / " + this.menus[i].getWeight() + "g");
+				System.out.print(" / " + this.menus.get(i).getPrice() + "원");
+				System.out.print(" / " + this.menus.get(i).getWeight() + "g");
 			}
-			System.out.print(" / " + this.menus[i].getStock() + "개");
+			System.out.print(" / " + this.menus.get(i).getStock() + "개");
 			System.out.println();
 		}
 

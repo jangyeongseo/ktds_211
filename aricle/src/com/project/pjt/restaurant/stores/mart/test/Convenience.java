@@ -4,7 +4,6 @@ package com.project.pjt.restaurant.stores.mart.test;
  * 편의점
  */
 public class Convenience extends Stores {
-
 	/**
 	 * 구매자의 포인트 사용 로직
 	 *  - 고객의 포인트가 100점 이상일 경우에만 사용 가능
