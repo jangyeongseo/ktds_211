@@ -19,11 +19,6 @@ public class DepartmentStore extends AbstractMart {
 
 	@Override
 	public void givePoint(Guest guest, int amount) {
-		/*
-		 * Guest : Guest is a Guest VIP : VIP is a Guest VVIP : VVIP is VIP and Guest 높은
-		 * 순서 대로 차례대로
-		 * 
-		 */
 		if (guest instanceof VVIP) {
 			guest.addPoint((int) (amount * 0.03)); // 3%
 		} else if (!(guest instanceof VIP)) {

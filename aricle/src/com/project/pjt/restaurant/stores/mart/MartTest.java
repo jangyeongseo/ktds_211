@@ -1,5 +1,4 @@
 package com.project.pjt.restaurant.stores.mart;
-
 /**
  * 매점?
  */

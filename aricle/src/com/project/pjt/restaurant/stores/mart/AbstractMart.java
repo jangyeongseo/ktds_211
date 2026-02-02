@@ -59,8 +59,6 @@ public abstract class AbstractMart {
 
 	}
 
-	// public int usePoint(Guest guest); -> 어떻게 동작을 할지 몰라서 놔두는 사상?
-	// public abstract int usePoint(Guest guest); -> 이렇게 만들경우 에러가 생기지 않는다.
 	public abstract int usePoint(Guest guest);
 
 	// 구매가격을 알고 고객한테 포인트를 지급해라
