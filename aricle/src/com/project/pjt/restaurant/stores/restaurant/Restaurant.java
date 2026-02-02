@@ -100,6 +100,7 @@ public class Restaurant {
 		// 만약 메뉴의 배열 메뉴의 m 이라고 할때 m 의 타이 주류랑 같다면
 		for (Menu m : menus) {
 			if (m.getType().equals("주류")) {
+				if(m.getType() == null)continue;
 				System.out.println(
 						i++ + ". 주류 / " + m.getPrice() + "원 / " + m.getAlcohol() + "% / " + m.getStock() + "개");
 			} else {
