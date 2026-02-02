@@ -1,7 +1,12 @@
 package com.project.pjt.restaurant.stores.restaurant;
 
+import com.project.pjt.restaurant.stores.restaurant.custom.DrunkenException;
+import com.project.pjt.restaurant.stores.restaurant.custom.FullException;
+import com.project.pjt.restaurant.stores.restaurant.custom.NotEnoughMoneyException;
+import com.project.pjt.restaurant.stores.restaurant.custom.OutOfStockException;
+
 public class RestaurantTest {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws OutOfStockException, NotEnoughMoneyException, DrunkenException, FullException {
 		// JVM이 Java 파일을 실행시킬 수 있도록 클래스 메소드로 정의
 
 		// 손님 인정 알콜과 배부름의 정도 Max
