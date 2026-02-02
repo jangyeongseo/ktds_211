@@ -24,39 +24,74 @@ import java.util.Scanner;
  */
 public class Airline {
 	public static void main(String[] args) {
-		List<Airplane> airplane = new ArrayList<>();
 		Scanner sn = new Scanner(System.in);
+		List<Airplane> airplanes = new ArrayList<>();
 
-		System.out.print("입력한 비행기 편 이름을 입력하세요: ");
-		boolean airline = true;// 입력받은 문자열을 airline 변수에 저장
+		// 비행기 데이터 초기화 false = 예약 가능(O) / true = 예약됨(X)
+		// 0002편 : 5번 좌석만 예약된 상태
+		airplanes.add(new Airplane("0002",
+				new ArrayList<>(List.of(false, false, false, false, true, false, false, false, false))));
 
-		while (airline) {
-			System.out.print(airline + "편의 좌석 현황입니다. (O: 예약 가능, X: 예약 불가능)");
+		// 0003편 : 모든 좌석이 예약된 상태
+		airplanes.add(
+				new Airplane("0003", new ArrayList<>(List.of(true, true, true, true, true, true, true, true, true))));
 
-			for (int i = 0; i < airplane.size(); i++) {
-				String a = (i + 1) + ". " + airplane.get(i); // * 2:O, 3: O, 4: O, 5: X, 6: O, 7: O, 8: O, 9: O
-				System.out.println(a);
-				if (a.equals("o")) {
-					System.out.print("좌석 예약을 하려면 번호를 입력하세요: ");
-					String num = sn.nextLine();
-					System.out.print(num + "번 좌석을 예약하시겠습니까? (y/n) : ");
-					String answer = sn.nextLine();
+		// 프로그램 종료 조건이 없으므로 무한 반복
+		while (true) {
 
-					if (answer.equals("y")) {
-						System.out.println(num + "번 좌석이 예약되었습니다.");
-					} else {
-						continue;
-					}
+			// 비행기 편명 입력
+			System.out.print("비행기 편의 이름을 입력하세요: ");
+			String input = sn.nextLine();
 
+			// 입력받은 편명에 해당하는 비행기 객체
+			Airplane selected = null;
+
+			// 비행기 목록에서 편명 검색
+			for (Airplane a : airplanes) {
+				if (a.getName().equals(input)) {
+					selected = a;
+					break;
 				}
 			}
 
+			// 존재하지 않는 비행기 편일 경우
+			if (selected == null) {
+				System.out.println("\"" + input + "\" 편은 존재하지 않습니다.");
+				continue; // 다시 편명 입력으로
+			}
+
+			// 좌석 현황 출력
+			System.out.println("\"" + input + "\" 편의 좌석 현황입니다. (O: 예약 가능, X: 예약 불가능)");
+			selected.printSeats();
+
+			// 예약 가능한 좌석이 하나도 없을 경우
+			if (!selected.hasAvailableSeat()) {
+				System.out.println("예약 가능한 좌석이 없습니다.");
+				continue;
+			}
+
+			// 좌석 번호 입력
+			System.out.print("좌석 번호를 입력하세요: ");
+			int seat = Integer.parseInt(sn.nextLine());
+
+			// 좌석 번호 범위 검사
+			if (!selected.isValidSeat(seat)) {
+				System.out.println("존재하지 않는 좌석입니다.");
+				continue;
+			}
+
+			// 이미 예약된 좌석인지 확인
+			if (!selected.isAvailable(seat)) {
+				System.out.println("이미 예약된 좌석입니다.");
+				continue;
+			}
+
+			// 예약 확인
+			System.out.print(seat + "번 좌석을 예약하시겠습니까? (y/n): ");
+			if (sn.nextLine().equalsIgnoreCase("y")) {
+				selected.reserve(seat);
+				System.out.println(seat + "번 좌석이 예약되었습니다.");
+			}
 		}
-
-		System.out.println(airplane.get(0).getName() + "편은 존재하지 않습니다.\n");
-		System.out.print("다른 비행기 편의 이름을 입력하세요 : ");
-		String aviation = sn.nextLine(); // 입력받은 문자열을 aviation 변수에 저장
-
 	}
-
 }
