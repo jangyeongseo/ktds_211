@@ -1,4 +1,4 @@
-package com.project.pjt.restaurant.stores.mart.test;
+package com.project.pjt.restaurant.stores.store.test;
 
 /**
  * 편의점
