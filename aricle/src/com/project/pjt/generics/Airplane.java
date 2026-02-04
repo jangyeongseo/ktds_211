@@ -1,5 +1,4 @@
-package com.project.pjt.restaurant.stores.generics;
-
+package com.project.pjt.generics;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.project.pjt.restaurant.stores.store;
+package com.project.pjt.store;
 
 /**
  * 일반 마트 public class name : 인스턴스로 생성할 수 있는 일반 클래스 정의 public abstract class name

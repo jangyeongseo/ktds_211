@@ -19,8 +19,9 @@ public class FriendList {
 		LocalDate tempBirthdate = null;
 
 		for (Friend f : friends) {
+			// 생일을 올해 기준으로 맞춤
 			tempBirthdate = LocalDate.parse(f.getBirthdate().toString());
-			tempBirthdate.withYear(LocalDate.now().getYear()); // 올해의 연도롤 변경
+			tempBirthdate = tempBirthdate.withYear(LocalDate.now().getYear()); // 올해의 연도롤 변경
 
 			if (base == Base.FUTURE) {
 				// 오늘을 기준으로 7일 이내에 생일을 맞이하는 친구 출력.

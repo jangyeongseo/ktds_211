@@ -1,4 +1,4 @@
-package com.project.pjt.restaurant.stores.store.test;
+package com.project.pjt.store.test;
 
 /**
  * 백화점 rating: 0=일반, 1=VIP, 2=VVIP

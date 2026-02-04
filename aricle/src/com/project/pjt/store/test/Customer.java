@@ -1,5 +1,4 @@
-package com.project.pjt.restaurant.stores.store.test;
-
+package com.project.pjt.store.test;
 /**
  * 고객
  */

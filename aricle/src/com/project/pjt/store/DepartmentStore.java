@@ -1,4 +1,4 @@
-package com.project.pjt.restaurant.stores.store;
+package com.project.pjt.store;
 
 public class DepartmentStore extends AbstractMart {
 

@@ -1,4 +1,4 @@
-package com.project.pjt.restaurant.stores.store.test;
+package com.project.pjt.store.test;
 
 public class StoreMain {
 	public static void main(String[] args) {

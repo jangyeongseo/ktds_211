@@ -1,4 +1,4 @@
-package com.project.pjt.restaurant.stores.generics;
+package com.project.pjt.generics;
 /**
  * 가능, 불가능
  */

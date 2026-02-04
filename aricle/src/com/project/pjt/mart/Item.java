@@ -1,4 +1,4 @@
-package com.project.pjt.restaurant.stores.mart;
+package com.project.pjt.mart;
 
 import java.time.LocalDate;
 
