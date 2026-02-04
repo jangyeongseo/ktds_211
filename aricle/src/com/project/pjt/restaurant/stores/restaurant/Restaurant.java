@@ -60,7 +60,7 @@ public class Restaurant {
 
 		// 타입 분류
 		// String 으로 하지 않고 분류해서 놔누는것도 괜춘
-		if (m.getType().equals("주류")) {
+		if (m.getItem() == Item.ALCOHOL) {
 			System.out.println(name + "식당의 취함 기준: " + drunkLimit);
 
 			// 손님의 취함정도가 식당의 취함보다 같거나 높을 경우
@@ -71,7 +71,7 @@ public class Restaurant {
 			g.drink(m.getAlcohol());
 		}
 
-		if (m.getType().equals("식사류")) {
+		if (m.getItem() == Item.FOOD) {
 			System.out.println(name + "식당의 배부름 기준: " + fullLimit);
 
 			// 손님의 배부름이 식당의 배부름보다 같거나 높을 경우
@@ -99,8 +99,8 @@ public class Restaurant {
 
 		// 만약 메뉴의 배열 메뉴의 m 이라고 할때 m 의 타이 주류랑 같다면
 		for (Menu m : menus) {
-			if (m.getType().equals("주류")) {
-				if (m.getType() == null) {
+			if (m.getItem() == Item.ALCOHOL) {
+				if (m.getItem() == null) {
 					continue;
 				}
 				System.out.println(

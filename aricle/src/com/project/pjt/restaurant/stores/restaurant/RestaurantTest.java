@@ -18,11 +18,11 @@ public class RestaurantTest {
 		Restaurant outback = new Restaurant("OUTBACK", 5.0, 300);
 
 		// 타입, 메뉴 가격, 주류, 삭사, 자본금
-		Menu soju1 = new Menu("주류", 5000, 19.0, 0, 100);
-		Menu soju2 = new Menu("주류", 6000, 6.0, 0, 80);
-		Menu soju3 = new Menu("주류", 5000, 40.0, 0, 15);
-		Menu food1 = new Menu("식사류", 10000, 0, 500, 200);
-		Menu food2 = new Menu("식사류", 8000, 0, 300, 70);
+		Menu soju1 = new Menu(Item.ALCOHOL, 5000, 19.0, 0, 100);
+		Menu soju2 = new Menu(Item.ALCOHOL, 6000, 6.0, 0, 80);
+		Menu soju3 = new Menu(Item.ALCOHOL, 5000, 40.0, 0, 15);
+		Menu food1 = new Menu(Item.FOOD, 10000, 0, 500, 200);
+		Menu food2 = new Menu(Item.FOOD, 8000, 0, 300, 70);
 
 		// 1 ~ 5가지의 식당
 		vips.addMenu(soju1);
@@ -32,9 +32,9 @@ public class RestaurantTest {
 		vips.addMenu(food2);
 
 		// 배열에 넣기
-		outback.addMenu(new Menu("주류", 1000, 19.0, 0, 60));
-		outback.addMenu(new Menu("주류", 2000, 6.0, 0, 80));
-		outback.addMenu(new Menu("주류", 5000, 40.0, 0, 15));
+		outback.addMenu(new Menu(Item.ALCOHOL, 1000, 19.0, 0, 60));
+		outback.addMenu(new Menu(Item.ALCOHOL, 2000, 6.0, 0, 80));
+		outback.addMenu(new Menu(Item.ALCOHOL, 5000, 40.0, 0, 15));
 		outback.addMenu(food1);
 		outback.addMenu(food2);
 

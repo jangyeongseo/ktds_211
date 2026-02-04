@@ -6,6 +6,7 @@ import java.util.Properties;
 /**
  * 같은 메세지가 쌓이는 것 : 재귀 호출 내가 나를 호출하는 것 (자기 자신을 반복적으로 실행) 
  * 재귀 호출은 무한반복에서 주의해서 사용해줘야한다.
+ * 파일 삭제 및 파일 경로 조회
  */
 public class Recursive {
 

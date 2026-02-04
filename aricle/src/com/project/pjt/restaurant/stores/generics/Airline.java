@@ -30,11 +30,15 @@ public class Airline {
 		// 비행기 데이터 초기화 false = 예약 가능(O) / true = 예약됨(X)
 		// 0002편 : 5번 좌석만 예약된 상태
 		airplanes.add(new Airplane("0002",
-				new ArrayList<>(List.of(false, false, false, false, true, false, false, false, false))));
+				new ArrayList<>(List.of(Reservation.POSSIBLE, Reservation.POSSIBLE, Reservation.POSSIBLE,
+						Reservation.POSSIBLE, Reservation.IMPOSSIBLE, Reservation.POSSIBLE, Reservation.POSSIBLE,
+						Reservation.POSSIBLE, Reservation.POSSIBLE))));
 
 		// 0003편 : 모든 좌석이 예약된 상태
-		airplanes.add(
-				new Airplane("0003", new ArrayList<>(List.of(true, true, true, true, true, true, true, true, true))));
+		airplanes.add(new Airplane("0003",
+				new ArrayList<>(List.of(Reservation.IMPOSSIBLE, Reservation.IMPOSSIBLE, Reservation.IMPOSSIBLE,
+						Reservation.IMPOSSIBLE, Reservation.IMPOSSIBLE, Reservation.IMPOSSIBLE, Reservation.IMPOSSIBLE,
+						Reservation.IMPOSSIBLE, Reservation.IMPOSSIBLE))));
 
 		// 프로그램 종료 조건이 없으므로 무한 반복
 		while (true) {

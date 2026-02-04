@@ -4,26 +4,26 @@ package com.project.pjt.restaurant.stores.restaurant;
  * 메뉴 : 배부름, 술
  */
 public class Menu {
-	private String type; // 주류 / 식사류
+	private Item item; // 주류 / 식사류
 	private int price; // 메뉴 가격
 	private double alcohol; // 주류용
 	private int weight; // 식사용
 	private int stock; // 재고
 
-	public Menu(String type, int price, double alcohol, int weight, int stock) {
-		this.type = type;
+	public Menu(Item item, int price, double alcohol, int weight, int stock) {
+		this.item = item;
 		this.price = price;
 		this.alcohol = alcohol;
 		this.weight = weight;
 		this.stock = stock;
 	}
 
-	public String getType() {
-		return type;
+	public Item getItem() {
+		return item;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setItem(Item item) {
+		this.item = item;
 	}
 
 	public int getPrice() {

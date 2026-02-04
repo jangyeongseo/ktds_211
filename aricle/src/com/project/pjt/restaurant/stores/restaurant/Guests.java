@@ -21,7 +21,6 @@ public class Guests {
 	}
 
 	public Guests(String name, double drunken, int fullness, int money) {
-		super();
 		this.name = name;
 		this.drunken = drunken;
 		this.fullness = fullness;
@@ -29,7 +28,7 @@ public class Guests {
 	}
 
 	public String getName() {
-		return this.name;
+		return name;
 	}
 
 	public void setName(String name) {

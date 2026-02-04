@@ -1,5 +1,6 @@
 package com.project.pjt.restaurant.stores.generics;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -8,18 +9,12 @@ import java.util.List;
  */
 public class Airplane {
 
-	private String name; // 비행기 현
-	private List<Boolean> seats; // 좌석 상태 목록 true = 예약됨(X) / false = 예약 가능(O)
+	private String name;
+	private List<Reservation> seats; // 좌석 상태 목록
 
-	/**
-	 * Airplane 생성자
-	 *
-	 * @param name  비행기 편명
-	 * @param seats 좌석 상태 목록
-	 */
-	public Airplane(String name, List<Boolean> seats) {
+	public Airplane(String name, List<Reservation> seats) {
 		this.name = name;
-		this.seats = seats;
+		this.seats = new ArrayList<>(seats);
 	}
 
 	public String getName() {
@@ -30,20 +25,11 @@ public class Airplane {
 		this.name = name;
 	}
 
-	public List<Boolean> getSeats() {
-		return this.seats;
-	}
-
-	public void setSeats(List<Boolean> seats) {
-		this.seats = seats;
-	}
-
-	/**
-	 * 좌석 현황 출력 예) 1: O, 2: X, 3: O
-	 */
+	/** 좌석 현황 출력 예) 1: O, 2: X, 3: O */
 	public void printSeats() {
 		for (int i = 0; i < seats.size(); i++) {
-			System.out.print((i + 1) + ": " + (seats.get(i) ? "X" : "O"));
+			String status = (seats.get(i) == Reservation.POSSIBLE) ? "O" : "X";
+			System.out.print((i + 1) + ": " + status);
 
 			if (i < seats.size() - 1) {
 				System.out.print(", ");
@@ -52,43 +38,25 @@ public class Airplane {
 		System.out.println();
 	}
 
-	/**
-	 * 좌석 번호가 유효한 범위인지 확인
-	 *
-	 * @param seatNumber 좌석 번호 (1부터 시작)
-	 * @return 유효하면 true
-	 */
+	/** 좌석 번호가 유효한 범위인지 확인 */
 	public boolean isValidSeat(int seatNumber) {
 		return seatNumber >= 1 && seatNumber <= seats.size();
 	}
 
-	/**
-	 * 해당 좌석이 예약 가능한지 확인
-	 *
-	 * @param seatNumber 좌석 번호
-	 * @return 예약 가능하면 true
-	 */
+	/** 해당 좌석이 예약 가능한지 확인 */
 	public boolean isAvailable(int seatNumber) {
-		return !seats.get(seatNumber - 1);
+		return seats.get(seatNumber - 1) == Reservation.POSSIBLE;
 	}
 
-	/**
-	 * 좌석 예약 처리
-	 *
-	 * @param seatNumber 좌석 번호
-	 */
+	/** 좌석 예약 처리 */
 	public void reserve(int seatNumber) {
-		seats.set(seatNumber - 1, true);
+		seats.set(seatNumber - 1, Reservation.IMPOSSIBLE);
 	}
 
-	/**
-	 * 예약 가능한 좌석이 하나라도 존재하는지 확인
-	 *
-	 * @return 예약 가능한 좌석이 있으면 true
-	 */
+	/** 예약 가능한 좌석이 하나라도 존재하는지 확인 */
 	public boolean hasAvailableSeat() {
-		for (boolean seat : seats) {
-			if (!seat) {
+		for (Reservation seat : seats) {
+			if (seat == Reservation.POSSIBLE) {
 				return true;
 			}
 		}
