@@ -40,7 +40,12 @@ public class Store {
 		// 오늘 날짜와 소비기한 사이의 일(day) 차이를 계산
 		// - 음수: 이미 소비기한이 지남
 		// - 0 : 오늘이 소비기한
-		// - 양수: 소비기한이 남아 있음
+		// - 양수: 소비기한이 남아 잇음
+		//- between 메서드:
+		// ChronoUnit의 각 단위(enum 상수)는 TemporalUnit 인터페이스를 구현하고 있으며, 
+		// between(Temporal startInclusive, Temporal endExclusive) 메서드를 제공
+		// long days = ChronoUnit.DAYS.between(today, expirationDate);
+		
 		long days = expirationDate.toEpochDay() - today.toEpochDay();
 		System.out.println("상품명: " + item.getName());
 
