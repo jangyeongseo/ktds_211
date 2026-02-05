@@ -41,7 +41,7 @@ public class Store {
 		// - 음수: 이미 소비기한이 지남
 		// - 0 : 오늘이 소비기한
 		// - 양수: 소비기한이 남아 있음
-		long days = java.time.temporal.ChronoUnit.DAYS.between(today, expirationDate);
+		long days = expirationDate.toEpochDay() - today.toEpochDay();
 		System.out.println("상품명: " + item.getName());
 
 		if (days < 0) {
