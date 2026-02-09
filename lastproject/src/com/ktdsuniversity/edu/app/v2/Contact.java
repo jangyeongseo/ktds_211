@@ -92,4 +92,11 @@ public class Contact {
 	public void setMemo(String memo) {
 		this.memo = memo;
 	}
+
+	@Override
+	public String toString() {
+		return "이름 : " + name + ", 별명 : " + nickname + ", 이메일 : " + email + ", 이름 : " + firstName + ", 성 : " + lastName
+				+ ", 연락처 : " + phone + ", 메모 : " + memo;
+	}
+
 }
