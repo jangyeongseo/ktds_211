@@ -34,7 +34,7 @@ WHERE
 	DEPARTMENT_ID IS NULL
 ;
 
---3. 직무가 없는 사원의 모든 정보를 조회한다. 조회 결과 : 107
+--3. 직무가 없는 사원의 모든 정보를 조회한다. 조회 결과 : 0
 SELECT                 
 	EMPLOYEE_ID,       
 	FIRST_NAME,        
@@ -50,10 +50,10 @@ SELECT
 FROM                   
 	EMPLOYEES
 WHERE
-	JOB_ID = ''
+	JOB_ID IS NULL
 ;
 
---4. 부서와 직무가 모두 있는 사원의 모든 정보를 조회한다. 조회 결과 : 107
+--4. 부서와 직무가 모두 있는 사원의 모든 정보를 조회한다. 조회 결과 : 106
 SELECT                 
 	EMPLOYEE_ID,       
 	FIRST_NAME,        
