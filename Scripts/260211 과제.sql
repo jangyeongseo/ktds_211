@@ -104,6 +104,7 @@ SELECT
 FROM                   
 	EMPLOYEES
 ;
+
 --8. 모든 지역의 모든 정보를 조회한다. 조회 결과 : 23
 SELECT
 	LOCATION_ID,
