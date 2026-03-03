@@ -1,6 +1,6 @@
--- 1. 지역별 부서의 수를 조회한다. (부서가 없으면 부서의 수는 0으로 조회한다.) - 23
+-- 1. 도시별 부서의 수를 조회한다. (부서가 없으면 부서의 수는 0으로 조회한다.) - 23
 SELECT
-	L.LOCATION_ID,
+	L.CITY,
 	COUNT(D.DEPARTMENT_ID)
 FROM
 	LOCATIONS L
@@ -8,12 +8,12 @@ LEFT JOIN DEPARTMENTS D
     ON
 	L.LOCATION_ID = D.LOCATION_ID
 GROUP BY
-	L.LOCATION_ID
+	L.CITY
 ;
 
--- 2. 지역별 사원의 평균월급을 조회한다. (사원이 없으면 평균월급은 0으로 조회한다.) - 23
+-- 2. 도시별 사원의 평균월급을 조회한다. (사원이 없으면 평균월급은 0으로 조회한다.) - 23
 SELECT
-	L.LOCATION_ID,
+	L.CITY,
 	NVL(AVG(E.SALARY), 0) AS AVG_SALARY
 FROM
 	LOCATIONS L
@@ -24,7 +24,7 @@ LEFT JOIN EMPLOYEES E
     ON
 	D.DEPARTMENT_ID = E.DEPARTMENT_ID
 GROUP BY
-	L.LOCATION_ID
+	L.CITY
 ;
 
 -- 3. 도시명 별 사원의 수를 도시명으로 오름차순 정렬하여 조회한다.(사원이 없으면 사원의 수는 0으로 조회한다.) - 23
@@ -65,5 +65,43 @@ LEFT OUTER JOIN JOBS J_HIS
 ORDER BY
 	E.EMPLOYEE_ID
 ;
+
+-- 성능을 따지면 인어조인을 하는 것이 좋다.
+SELECT
+	E.EMPLOYEE_ID,
+	J.JOB_TITLE || '(' || E.EMPLOYEE_ID || ')' AS TITLE_EMP,
+	PAST_J.JOB_TITLE || '(' || E.EMPLOYEE_ID || ')' AS PAST_TITLE_EMP
+FROM
+	EMPLOYEES E
+INNER JOIN JOB_HISTORY JH
+ON
+	E.EMPLOYEE_ID = JH.EMPLOYEE_ID
+INNER JOIN JOBS j
+ON
+	E.JOB_ID = j.JOB_ID
+INNER JOIN JOBS PAST_J
+ON
+	JH.JOB_ID = PAST_J.JOB_ID
+UNION ALL
+SELECT
+	E.EMPLOYEE_ID,
+	J.JOB_TITLE || '(' || E.EMPLOYEE_ID || ')' AS JOB_EMP,
+	'없음'
+FROM
+	EMPLOYEES E
+INNER JOIN JOBS J
+ON
+	E.JOB_ID = J.JOB_ID
+WHERE
+	E.EMPLOYEE_ID NOT IN (
+	SELECT
+								EMPLOYEE_ID
+	FROM
+								JOB_HISTORY)
+ORDER BY
+	EMPLOYEE_ID
+;
+
+
 
 
