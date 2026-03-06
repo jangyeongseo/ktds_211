@@ -1,0 +1,72 @@
+<!-- 
+    현재 HTML 문서가 HTML5 표준으로 생성됨을 알려줌,
+    아래 문서 타입이 정의되지 않았다면 HTML4 표준을 사용하는 것으로 판단
+-->
+<!DOCTYPE html>
+<!-- 
+    HTML을 자성하는 시점 : Tag
+    화면에 보여지는 시점 : Element
+    DOM Tree 기준 : Node
+
+    HTML 태그의 역할?
+        Window를 생성하는 역할.
+            Window의 아이콘(Favicon)을 지정.
+            Window의 내용을 작성.
+-->
+<html lang="ko">
+<!-- Window의 Tab과 관련된 정보를 작성 -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Window Tab의 이름. -->
+    <title>HTML 생성합니다.</title>
+    <link rel="shortcut icon" type="image/x-icon" href="https://naver.com/favicon.ico?1" />
+</head>
+
+<body>
+    <!-- html 문서에서 엔터는 스페이스 한개로 치급한다. -->
+
+    <head>
+        <h1>HTML 생성합니다.</h1>
+        <hr>
+        <p>HTML은 <b>HyperText Markup Language</b>의 약자로, <strong>웹 페이지</strong>를 작성</p>
+    </head>
+    <main>
+        <div>
+            <h2>HTML의 기본 구조</h2>
+            <p>HTML 문서는 <b>요소(Element)</b>로 구성되어 있습니다. 요소는 <b>태그(Tag)</b>로 시작하여, 콘텐츠를 포함하고, 다시 태그로 닫힙니다.</p>
+            <pre>
+                &lt;태그&gt;콘텐츠&lt;/태그&gt;
+            </pre>
+            <p>예시:</p>
+            <pre>
+                &lt;h1&gt;제목&lt;/h1&gt;
+                &lt;p&gt;문단 내용&lt;/p&gt;
+            </pre>
+        </div>
+
+        <div>
+            <form action="https://www.google.com/search" method="get">
+                <input type="text" name="q" placeholder="Google 검색">
+                <button type="submit">검색</button>
+            </form>
+            <br />
+        </div>
+        <dl>
+            <dt>HTML</dt>
+            <dd>HyperText Markup Language의 약자</dd>
+            <dt>CSS</dt>
+            <dd>Cascading Style Sheets의 약자</dd>
+            <dt>JavaScript</dt>
+            <dd>웹 페이지에 동적인 기능을 추가하는 프로그래밍 언어</dd>
+        </dl>
+
+    </main>
+    <footer>
+        <hr>
+        <p>&copy; 2024 HTML 생성합니다. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>
