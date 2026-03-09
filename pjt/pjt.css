@@ -74,8 +74,7 @@ body {
 
 .btn:hover {
   color: #fe0a0a;
-  text-decoration: underline;
-  text-decoration-color: #fed50a;
+  font-weight: 700;
 }
 
 /* 게시판 */
@@ -121,12 +120,12 @@ body {
   margin: 0;
   padding: 0 20px 15px;
   display: flex;
-  gap: 6px;
+  gap: 15px;
 }
 
 .bord-content li {
   font-size: 14px;
-  color: #666;
+  color: #999;
 }
 
 .bord-content a {
@@ -161,12 +160,12 @@ body {
   margin: 0;
   padding: 0 20px 15px;
   display: flex;
-  gap: 6px;
+  gap: 15px;
 }
 
 .bord-content-sub li {
   font-size: 14px;
-  color: #666;
+  color: #999;
 }
 
 .bord-content-sub a {
