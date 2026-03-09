@@ -1,0 +1,17 @@
+* {
+  /* Box model */
+  box-sizing: border-box;
+}
+
+div {
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: 50%;
+}
+
+.main {
+  /* 폰트 지정 */
+  font-family: Gulim, Dotum, Arial, Helvetica, sans-serif;
+  color: #333;
+  display: inline-block;
+}

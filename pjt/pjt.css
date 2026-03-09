@@ -1,0 +1,127 @@
+* {
+  font-family: notosanskr, sans-serif;
+  box-sizing: border-box;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #fed50a;
+  color: white;
+}
+
+.header .logo {
+  font-size: 32px;
+  font-weight: bold;
+  color: white;
+}
+
+.header nav {
+  display: flex;
+  gap: 20px;
+}
+
+.header nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 20px;
+}
+
+.header a {
+  text-decoration: none;
+  color: #333;
+  line-height: 1.5;
+}
+.header a:hover {
+  color: #007bff;
+}
+
+/* main */
+.main-btn {
+  display: flex;
+  gap: 20px;
+  background-color: #f4f4f4;
+  border: 1px solid #ccc;
+}
+
+.btn {
+  flex: 1;
+  padding: 10px 20px;
+  font-size: 20px;
+  border: none;
+  color: #333;
+  cursor: pointer;
+  border-radius: 4px;
+  text-decoration: none;
+  text-align: center;
+}
+
+.btn:hover {
+  color: #fed50a;
+  text-decoration: underline;
+  text-decoration-color: #fed50a;
+}
+
+/* 게시판 */
+.bord {
+  display: flex;
+  flex-direction: column; /* 추가: 세로로 배치 */
+  border-radius: 4px;
+  overflow: hidden;
+  border-bottom: 1px solid #ddd;
+}
+
+.bord-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+}
+
+.bord-header > div:first-child {
+  background-color: #fe0a0a;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 18px;
+}
+
+.bord-header h3 {
+  flex: 1;
+  margin: 0 20px;
+  font-size: 24px;
+  color: #fe0a0a;
+}
+
+.bord-header p {
+  font-size: 18px;
+  color: #ff5722;
+}
+
+.bord-content ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  padding: 15px 20px;
+}
+
+.bord-content li {
+  font-size: 14px;
+  color: #666;
+}
+
+.bord-content a {
+  text-decoration: none;
+  color: #c46a33;
+}

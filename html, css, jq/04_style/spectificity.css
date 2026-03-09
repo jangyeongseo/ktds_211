@@ -1,0 +1,27 @@
+/* 명시도에서 우선순위가 가장 낮은 태그 셀렉터 */
+div {
+  background-color: lightcoral;
+  border: 1px solid #ccc;
+  padding: 24px;
+  font-weight: bold;
+  font-size: 32px;
+}
+
+/* 명시도에서 우선순위가 태그 다음으로 높은 클래스 셀렉터 */
+.tag-class {
+  background-color: lightblue !important;
+  /*  !important : 암포턴드 */
+  border: 1px solid #ccc;
+  font-weight: bold;
+  font-size: 32px;
+  margin: 16px;
+}
+
+/* 명시도에서 우선순위가 클래스 다음올 높은 아이디 셀렉터 */
+#tag {
+  background-color: lightgreen;
+  border: 1px solid #ccc;
+  font-weight: bold;
+  font-size: 32px;
+  padding: 18px;
+}

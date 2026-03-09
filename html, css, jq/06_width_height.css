@@ -1,0 +1,51 @@
+* {
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+}
+
+header {
+  display: none;
+}
+
+.full {
+  flex-wrap: wrap;
+  padding: 10px;
+  margin: 10px;
+  background-color: rgba(255, 0, 0, 0.284);
+}
+
+.half {
+  flex: 0.5;
+  padding: 10px;
+  margin: 10px;
+  background-color: green;
+}
+
+.quarter {
+  flex: 0.5;
+  padding: 10px;
+  margin: 10px;
+  background-color: blue;
+}
+
+@media (max-width: 600px) {
+  header {
+    display: block;
+    text-align: center;
+    padding: 10px;
+  }
+
+  .full {
+    flex-direction: column;
+  }
+
+  .half {
+    flex: 1;
+    text-align: center;
+  }
+
+  .quarter {
+    flex: 1;
+    text-align: center;
+  }
+}

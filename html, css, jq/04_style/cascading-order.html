@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cascading Order</title>
+    <!-- Internal style : 우선순위 => 두 번째로 높음(2) - 순서가 이렇게 될 경우 이게 가장 낮음 -->
+    <style type="text/css">
+        /* Internal style */
+        #header {
+            background-color: rgb(173, 230, 218);
+            padding: 20px;
+        }
+    </style>
+
+    <!-- External(익스터널) CSS  : 우선순위 => 가장 낮음(3)-->
+    <link rel="stylesheet" type="text/css" href="./external.css" />
+
+    <!-- Internal(인터널) style : 우선순위 => 두 번째로 높음(2) -->
+    <!-- <style type="text/css">
+        /* Internal style */
+        #header {
+            background-color: rgb(173, 230, 218);
+            padding: 20px;
+        }
+    </style> -->
+</head>
+
+<body>
+    <!-- Inline(인라인) style : 우선순위 => 가장 높음(1) -->
+    <div id="header" style="background-color: rgb(173, 182, 230); padding: 20px;">
+        Header 영역
+        <p class="header--logo">Logo</p>
+    </div>
+    <div id="main-container">
+        Main Container 영역
+        <p class="main-container--content"></p>
+    </div>
+    <div id="footer">
+        Footer 영역
+        <ul class="footer-links">
+            <li class="footer-links--link">첫 번째 단락</li>
+            <li class="footer-links--link">두 번째 단락</li>
+            <li class="footer-links--link">세 번째 단락</li>
+        </ul>
+    </div>
+</body>
+
+</html>

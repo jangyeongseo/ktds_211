@@ -1,0 +1,189 @@
+* {
+  font-family: "Open Sans", Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 20px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  text-align: center;
+  max-width: 1200px;
+  background-color: #fff;
+  padding: 20px;
+}
+
+/* 언어 선택 */
+.languages {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.languages a {
+  text-decoration: underline;
+  color: #333;
+  line-height: 1.5;
+}
+
+.languages a:hover {
+  color: #007bff;
+}
+
+/* 헤더 스타일 */
+header h1 {
+  font-size: 80px;
+  margin: 20px;
+}
+
+header h4 {
+  font-style: italic;
+  font-weight: normal;
+  margin-bottom: 0;
+}
+header h5 {
+  font-weight: normal;
+  margin-top: 6px;
+}
+
+/* 그라데이션 */
+hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(to right, #ffffff, #808080, #ffffff);
+}
+
+.main {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+
+  padding: 0 20px;
+}
+
+/* main-right */
+.main-right {
+  flex: 0.5;
+  text-align: left;
+  font-weight: normal;
+}
+
+.one {
+  margin-bottom: 40px;
+}
+
+.content-block h2,
+.content-block p {
+  font-weight: normal;
+  margin: 10px;
+}
+
+.content-block p {
+  word-break: break-all;
+  /* 긴 단어가 있을 때 줄바꿈 처리 */
+}
+
+.content-block strong {
+  font-weight: 700;
+}
+
+.content-block br {
+  display: block;
+  margin-bottom: 10px;
+}
+
+/* main-left */
+.main-left {
+  flex: 0.5;
+  text-align: left;
+  font-weight: normal;
+}
+
+.main-left .content-block {
+  margin-bottom: 30px;
+}
+
+/* input line */
+.input-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.left {
+  flex: 0.5;
+  align-items: center;
+  gap: 15px;
+}
+
+.options {
+  gap: 10px;
+}
+
+.right {
+  flex: 0.5;
+  align-items: center;
+  gap: 10px;
+}
+
+.right label {
+  padding-bottom: 10px;
+}
+
+/* Donate */
+.donate p {
+  padding: 0 20px;
+}
+
+.donate strong {
+  font-weight: 800;
+}
+
+.donate a {
+  text-decoration: underline;
+  color: #ce0d0d;
+  line-height: 1.5;
+  font-weight: 700;
+}
+
+/* Translations */
+.translations strong {
+  font-weight: 800;
+}
+
+/* Mock Banners */
+.mock-banners a {
+  text-decoration: underline;
+  color: #ce0d0d;
+  line-height: 1.5;
+  font-weight: 700;
+}
+
+.mock-banners img {
+  width: 100%;
+  max-width: 260px;
+}
+
+/* External Resources */
+.footer {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+.footer a {
+  text-decoration: underline;
+  color: #333;
+  line-height: 1.5;
+}
+
+.footer a:hover {
+  color: #007bff;
+}
