@@ -5,7 +5,7 @@
 
 .container {
   width: 100%;
-  max-width: 1200px;
+  max-width: 800px;
   margin: 0 auto;
   padding: 20px;
 }
@@ -68,7 +68,7 @@
 }
 
 .btn:hover {
-  color: #fed50a;
+  color: #fe0a0a;
   text-decoration: underline;
   text-decoration-color: #fed50a;
 }
@@ -86,25 +86,25 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 20px;
+  padding: 0 20px;
 }
 
 .bord-header > div:first-child {
   background-color: #fe0a0a;
   color: white;
-  padding: 5px 10px;
+  padding: 0 5px;
   border-radius: 4px;
   font-size: 18px;
 }
 
 .bord-header h3 {
-  flex: 1;
-  margin: 0 20px;
-  font-size: 24px;
+  margin: 0 12px;
+  font-size: 18px;
   color: #fe0a0a;
 }
 
 .bord-header p {
+  flex: 1;
   font-size: 18px;
   color: #ff5722;
 }
@@ -113,7 +113,7 @@
   list-style: none;
   padding: 0;
   margin: 0;
-  padding: 15px 20px;
+  padding: 0 20px 15px;
 }
 
 .bord-content li {
@@ -122,6 +122,43 @@
 }
 
 .bord-content a {
+  text-decoration: none;
+  color: #c46a33;
+}
+
+/* 서브 게시판 */
+.bord-header-sub {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.bord-header-sub h3 {
+  margin-right: 12px;
+  font-size: 18px;
+  font-weight: normal;
+  color: #333;
+}
+
+.bord-header-sub p {
+  flex: 1;
+  font-size: 18px;
+  color: #ff5722;
+}
+
+.bord-content-sub ul {
+  list-style: none;
+  margin: 0;
+  padding: 0 20px 15px;
+}
+
+.bord-content-sub li {
+  font-size: 14px;
+  color: #666;
+}
+
+.bord-content-sub a {
   text-decoration: none;
   color: #c46a33;
 }
