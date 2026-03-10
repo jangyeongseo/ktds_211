@@ -1,0 +1,116 @@
+* {
+  box-sizing: border-box;
+}
+
+.section-title {
+  margin: 10px;
+  border-bottom: 2px solid #000;
+  color: darkslateblue !important;
+}
+
+/* 링크에 대한 스타일 */
+.anchor-link:link {
+  font-size: 18px;
+  color: #333;
+  text-decoration: none;
+  padding: 5px 10px;
+}
+
+/* 마우스를 올렸을 때의 스타일 */
+.anchor-link:hover {
+  color: #de8200;
+  text-decoration: underline;
+}
+
+/* 방문한 링크의 스타일 */
+.anchor-link:visited {
+  color: rgb(0, 0, 255);
+  text-decoration: none;
+}
+
+/* 클릭했을 때의 스타일 */
+.anchor-link:active {
+  color: rgb(212, 0, 0);
+  text-decoration: none;
+}
+
+.anchor-link:focus {
+  /* tab을 누르면 나옴 */
+  outline: 0;
+  color: #333;
+  background-color: #de8200;
+}
+
+/* ul / li 설명 */
+.vertical-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: darkblue;
+  font-size: 20px;
+}
+
+.vertical-item {
+  padding: 5px 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+/* 짝수 번째 항목에 대한 스타일 */
+.vertical-item:nth-child(even) {
+  background-color: #f0f0f0;
+}
+
+/* 마지막 항목에 대한 스타일 */
+.vertical-item:last-child {
+  border-bottom: none;
+}
+
+.horizontal-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: darkblue;
+  font-size: 0;
+}
+
+.horizontal-item {
+  display: inline-block;
+  align-items: center;
+  text-align: center;
+  padding: 5px 10px;
+  font-size: 20px;
+}
+
+.horizontal-item::before {
+  content: "㈜";
+  margin-right: 5px;
+}
+
+/* 태그들은 넣을 수 없다 */
+.horizontal-item::after {
+  content: "(❁´◡`❁)☆o(≧▽≦)o☆";
+}
+
+/* 클래스가 "horizontal-item" 인 태그의 왼쪽 경계선을 생성 */
+.horizontal-item {
+  border-left: 1px solid #ccc;
+}
+
+/* 클래스가 "horizontal-item" 인 태그의 첫 번째 태그만 왼쪽 경계선을 제거 */
+.horizontal-item:first-child {
+  border-left: none;
+}
+
+/* 클래스가 "horizontal-item" 인 태그의 마지막 번째 태그만 글자 색상을 임의로 지정 */
+.horizontal-item:last-child {
+  color: lightcoral;
+}
+
+/* 클래스가 "horizontal-item" 인 태그의 마우스를 올려두면 임의의 글자 색상을 지정 */
+.horizontal-item:hover {
+  color: lightseagreen;
+}
+/* 클래스가 "horizontal-item" 인 태그의 홀수 번째 아이템만 배경색을 임의로 지정 */
+.horizontal-item:nth-child(odd) {
+  background-color: rgb(254, 254, 201);
+}

@@ -25,7 +25,7 @@ body {
 }
 
 .header .logo {
-  font-size: 32px;
+  font-size: 24px;
   font-weight: bold;
   color: white;
 }
@@ -40,36 +40,68 @@ body {
   margin: 0;
   padding: 0;
   display: flex;
-  gap: 20px;
+  gap: 15px;
+}
+
+.header nav ul li {
+  border: 1.2px solid #e8af2b;
+  background-color: #fed000;
+  padding: 0 5px;
+  border-radius: 4px;
+  font-size: 18px;
 }
 
 .header a {
   text-decoration: none;
-  color: #333;
+  color: white;
   line-height: 1.5;
 }
 .header a:hover {
   color: #007bff;
 }
 
+.header nav ul li img {
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3px;
+}
+
 /* main */
 .main-btn {
   display: flex;
   gap: 20px;
-  background-color: #f4f4f4;
   border: 1px solid #ccc;
+  background-color: #f4f4f4;
+  padding: 0 20px;
 }
 
 .btn {
   flex: 1;
-  padding: 10px 20px;
+  padding: 10px 0;
   font-size: 20px;
-  border: none;
-  color: #333;
   cursor: pointer;
   border-radius: 4px;
-  text-decoration: none;
   text-align: center;
+  border: none;
+  background-color: #f4f4f4;
+}
+
+.btn a {
+  text-decoration: none;
+  color: #333;
+}
+
+.btn-hover {
+  font-weight: 700;
+  border-bottom: 4px solid #fe0a0a;
+  border-radius: 0;
+}
+
+.btn-hover a {
+  color: #fe0a0a;
+  text-decoration: none;
 }
 
 .btn:hover {
@@ -78,22 +110,22 @@ body {
 }
 
 /* 게시판 */
-.bord {
+.board {
   display: flex;
-  flex-direction: column; /* 추가: 세로로 배치 */
+  flex-direction: column;
   border-radius: 4px;
   overflow: hidden;
   border-bottom: 1px solid #ddd;
 }
 
-.bord-header {
+.board-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
 }
 
-.bord-header > div:first-child {
+.board-header > div:first-child {
   background-color: #fe0a0a;
   color: white;
   padding: 0 5px;
@@ -101,21 +133,21 @@ body {
   font-size: 18px;
 }
 
-.bord-header a {
+.board-header a {
   text-decoration: none;
   margin: 0 12px;
-  font-size: 18px;
+  font-size: 20px;
   color: #fe0a0a;
   font-weight: 700;
 }
 
-.bord-header p {
+.board-header p {
   flex: 1;
   font-size: 18px;
   color: #ff5722;
 }
 
-.bord-content ul {
+.board-content ul {
   list-style: none;
   margin: 0;
   padding: 0 20px 15px;
@@ -123,52 +155,34 @@ body {
   gap: 15px;
 }
 
-.bord-content li {
+.board-content li {
   font-size: 14px;
   color: #999;
 }
 
-.bord-content a {
+.board-content a {
   text-decoration: none;
   color: #c46a33;
 }
 
 /* 서브 게시판 */
-.bord-header-sub {
+.board-header-sub {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
 }
 
-.bord-header-sub a {
+.board-header-sub a {
   text-decoration: none;
   margin-right: 12px;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: normal;
   color: #333;
 }
 
-.bord-header-sub p {
+.board-header-sub p {
   flex: 1;
   font-size: 18px;
   color: #ff5722;
-}
-
-.bord-content-sub ul {
-  list-style: none;
-  margin: 0;
-  padding: 0 20px 15px;
-  display: flex;
-  gap: 15px;
-}
-
-.bord-content-sub li {
-  font-size: 14px;
-  color: #999;
-}
-
-.bord-content-sub a {
-  text-decoration: none;
-  color: #c46a33;
 }

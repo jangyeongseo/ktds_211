@@ -1,0 +1,63 @@
+.box {
+  position: absolute; /* 부모로 부터 */
+  bottom: 0;
+  right: 0;
+  background-color: rgb(73, 62, 83);
+  color: white;
+  font-size: 30px;
+
+  width: 100px;
+  height: 100px;
+}
+
+.relative {
+  position: relative; /* 원래 위치에서 */
+  background-color: cadetblue;
+  color: white;
+  font-size: 20px;
+
+  top: 50px;
+  right: 10px;
+}
+
+.fixed {
+  position: fixed; /* 스크롤해도 유지 */
+  width: 300px;
+  height: 80px;
+  background-color: brown;
+  bottom: 120px;
+  right: 10px;
+}
+
+.sticky {
+  position: sticky;
+  background-color: beige;
+
+  top: 0;
+  right: 0;
+  width: 100px;
+  height: 100px;
+}
+
+.background {
+  position: relative;
+}
+
+.background img {
+  vertical-align: bottom;
+}
+
+.subject {
+  position: absolute;
+  /* 
+offset 기준이 두 가지.
+1. position이 할당되지 않은 부모 태그 내부 ==> viewport
+2. position이 relative로 할당된 부모 태그 내부 ==> 부모태그
+*/
+
+  bottom: 0px;
+  font-size: 18px;
+  padding-left: 10px;
+  background-color: rgba(0, 0, 0, 0.271);
+  color: white;
+}
