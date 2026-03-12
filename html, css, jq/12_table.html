@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Table</title>
+    <link rel="stylesheet" type="text/css" href="./12_table.css">
+</head>
+
+<body>
+    <table>
+        <colgroup>
+            <!-- 각각의 대응하는 칸들의 크기(넓이)를 지정한다. -->
+            <col width="100" />
+            <col width="100" />
+            <col width="100" />
+            <col width="100" />
+            <col width="100" />
+        </colgroup>
+        <thead>
+            <tr>
+                <td>ID</td>
+                <td>과제 명</td>
+                <td>제출 마감일</td>
+                <td>등록일</td>
+                <td>수정일</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>HTML 테이블 만들기</td>
+                <td>2026-03-15</td>
+                <td>2026-03-10</td>
+                <td>2026-03-10</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>CSS 레이아웃 실습</td>
+                <td>2026-03-18</td>
+                <td>2026-03-11</td>
+                <td>2026-03-11</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>JavaScript 이벤트 처리</td>
+                <td>2026-03-20</td>
+                <td>2026-03-12</td>
+                <td>2026-03-12</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>React 컴포넌트 만들기</td>
+                <td>2026-03-22</td>
+                <td>2026-03-12</td>
+                <td>2026-03-12</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>REST API 연동</td>
+                <td>2026-03-25</td>
+                <td>2026-03-13</td>
+                <td>2026-03-13</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>데이터베이스 CRUD 실습</td>
+                <td>2026-03-28</td>
+                <td>2026-03-14</td>
+                <td>2026-03-14</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>프로젝트 기획서 작성</td>
+                <td>2026-03-30</td>
+                <td>2026-03-15</td>
+                <td>2026-03-15</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="grid">
+        <thead>
+            <tr>
+                <th rowspan="2">수강생</th>
+                <th colspan="2">확정</th>
+            </tr>
+            <tr>
+                <th>회사명</th>
+                <th>입사일</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>김</td>
+                <td>언제</td>
+                <td>어디</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>

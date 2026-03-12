@@ -1,0 +1,40 @@
+* {
+  box-sizing: border-box;
+}
+
+table {
+  width: 600px;
+  border-collapse: collapse; /* 테두리 합치기 */
+  margin: 50px auto; /* 가운데 정렬 */
+}
+
+thead {
+  background-color: #f2f2f2;
+}
+
+td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+tbody tr:hover {
+  background-color: #f9f9f9; /* 마우스 올리면 색 변화 */
+}
+
+/* 수강생 */
+.grid {
+  border-collapse: collapse;
+}
+
+.grid thead {
+  background-color: white;
+}
+
+.grid th {
+  border: 1px solid #ccc;
+}

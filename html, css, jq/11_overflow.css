@@ -1,0 +1,31 @@
+* {
+  box-sizing: border-box;
+}
+
+.inline-box {
+  display: inline-block;
+  padding: 10px;
+  background-color: antiquewhite;
+}
+
+.overflow {
+  width: 300px;
+  height: 200px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  width: 300px;
+  white-space: nowrap; /* 크기를 벗어나지 말아라 */
+}
+
+.list > li {
+  padding: 10px;
+  background-color: lightblue;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

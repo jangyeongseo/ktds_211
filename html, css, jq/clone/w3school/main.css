@@ -125,18 +125,26 @@ img {
 }
 
 /* 왼쪽 내용 */
+main {
+  margin-left: 80px;
+  margin-right: 80px;
+  background-color: white;
+}
+
 #main-title {
-  display: flex;
-  padding: 0 80px;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .nav-left {
-  height: calc(100vh - 100px);
+  position: fixed;
+  top: 100px; /* header + nav 높이 */
+  left: 80px;
+
   width: 250px;
-  justify-content: left;
-  position: relative;
+  height: calc(100vh - 100px);
+
   overflow-y: auto;
-  overflow-x: hidden;
   background-color: #e7e9eb;
 }
 
@@ -171,15 +179,9 @@ img {
 }
 
 /* main - 설명서 */
-main {
-  flex: 1;
-  background-color: white;
-}
 
 .main-title {
-  flex: 1;
   padding: 20px;
-  position: relative;
 }
 
 .main-title hr {
@@ -383,7 +385,15 @@ svg {
 
 /* 오른쪽 - 광고 */
 .main-rigth {
+  position: fixed;
+  top: 100px;
+
+  right: 80px;
   width: 250px;
+  height: calc(100vh - 100px);
+
   padding: 20px;
   background-color: #e7e9eb;
+
+  overflow-y: auto;
 }
