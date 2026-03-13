@@ -328,13 +328,24 @@ th {
   top: 100px;
 }
 
-.toc ul li {
-  margin: 8px 0;
+.toc ul {
   font-size: 14px;
+  border-left: 1px solid #edeef0;
+  margin-top: 20px;
+}
+
+.main-route-color {
+  border-left: 2px solid #0073ff;
+  background-color: #e9f3ff;
+}
+
+.toc ul li {
+  padding: 4px;
 }
 
 .toc a:hover {
   color: #0073ff;
+  text-decoration: underline;
 }
 
 /* footer */
