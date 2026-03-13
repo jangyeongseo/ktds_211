@@ -68,10 +68,9 @@
                                 <span class="material-symbols-outlined">expand_more</span>
                             </a>
                         </li>
-                        <li>
+                        <li class="blog">
                             <a href="#">
                                 Blog
-                                <span class="material-symbols-outlined">expand_more</span>
                             </a>
                         </li>
                     </ul>
@@ -93,24 +92,26 @@
             </div>
 
             <!-- 상단 나의 위치 -->
-            <nav class="breadcrumb">
-                <ul>
-                    <li><a href="#">개발자를 위한 웹 기술</a></li>
-                    <li><a href="#">HTML: Hypertext Markup Language</a></li>
-                    <li><a href="#">HTML 참고서</a></li>
-                    <li><a href="#">HTML 요소 참고서</a></li>
-                </ul>
-                <div class="header-options">
-                    <a href="#">
-                        <span class="material-symbols-outlined">sentiment_very_satisfied</span>
-                        Theme
-                    </a>
-                    <a href="#">
-                        <span class="material-symbols-outlined">g_translate</span>
-                        한국어
-                    </a>
-                </div>
-            </nav>
+            <div class="header-breadcrumb">
+                <nav class="breadcrumb">
+                    <ul>
+                        <li><a href="#">개발자를 위한 웹 기술</a></li>
+                        <li><a href="#">HTML: Hypertext Markup Language</a></li>
+                        <li><a href="#">HTML 참고서</a></li>
+                        <li><a href="#">HTML 요소 참고서</a></li>
+                    </ul>
+                    <div class="header-options">
+                        <a href="#">
+                            <span class="material-symbols-outlined">sentiment_very_satisfied</span>
+                            Theme
+                        </a>
+                        <a href="#">
+                            <span class="material-symbols-outlined">g_translate</span>
+                            한국어
+                        </a>
+                    </div>
+                </nav>
+            </div>
         </header>
         <div class="main-content">
             <nav>
@@ -127,17 +128,17 @@
                             </a>
                         </li>
 
-                        <li>
+                        <li class="details-hover">
                             <details>
                                 <summary><a href="#">안내서: <span>(영어)</span> </a></summary>
                                 <ul>
-                                    <li><a href="#">Cheatsheet</a></li>
-                                    <li><a href="#">Comments</a></li>
-                                    <li><a href="#">Constraint validation</a></li>
+                                    <li><a href="#">Cheatsheet <span>(영어)</span></a></li>
+                                    <li><a href="#">Comments <span>(영어)</span></a></li>
+                                    <li><a href="#">Constraint validation <span>(영어)</span></a></li>
                                     <li><a href="#">콘텐츠 카테고리</a></li>
                                     <li><a href="#">HTML의 날짜와 시간 형식</a></li>
-                                    <li><a href="#">Microdata</a></li>
-                                    <li><a href="#">Microformats</a></li>
+                                    <li><a href="#">Microdata <span>(영어)</span></a></li>
+                                    <li><a href="#">Microformats <span>(영어)</span></a></li>
                                     <li><a href="#">Quirks 모드</a></li>
                                     <li><a href="#">반응형 이미지</a></li>
                                 </ul>
@@ -147,11 +148,11 @@
                         <li><a href="#">Define terms with HTML<span>(영어)</span></a></li>
                         <li><a href="#">데이터 속성 사용하기</a></li>
                         <li><a href="#">교차 출처 이미지와 캔버스 허용하기</a></li>
-                        <li><a href="#">Add a hitmap on top of an image <span>(영어)</span></a></li>
+                        <li><a href="#">Add a hitmap on top of an image <br /><span>(영어)</span></a></li>
                         <li><a href="#">Tips for Authoring Fast-loading HTML Pages</a></li>
                         <li><a href="#">JavaScript 추가하기</a></li>
                         <li><strong><a href="#">참고서:</a></strong></li>
-                        <li class="element">
+                        <li class="details-hover active">
                             <details>
                                 <summary><a href="#">요소</a></summary>
                                 <ul>
@@ -159,7 +160,7 @@
                                     <li><a href="#">&lt;abbr&gt;</a></li>
                                     <li><a href="#">&lt;acronym&gt;</a></li>
                                     <li><a href="#">&lt;address&gt; <span>(영어)</span></a></li>
-                                    <li><a href="#">&lt;area&gt;<span>(영어)</span></a></li>
+                                    <li><a href="#">&lt;area&gt; <span>(영어)</span></a></li>
                                     <li><a href="#">&lt;article&gt;</a></li>
                                     <li><a href="#">&lt;aside&gt;</a></li>
                                     <li><a href="#">&lt;audio&gt;</a></li>
@@ -177,8 +178,8 @@
                                     <li><a href="#">&lt;center&gt; <span>(영어)</span></a></li>
                                     <li><a href="#">&lt;cite&gt;</a></li>
                                     <li><a href="#">&lt;code&gt;</a></li>
-                                    <li><a href="#">&lt;col&gt;<span>(영어)</span></a></li>
-                                    <li><a href="#">&lt;colgroup&gt;<span>(영어)</span></a></li>
+                                    <li><a href="#">&lt;col&gt; <span>(영어)</span></a></li>
+                                    <li><a href="#">&lt;colgroup&gt; <span>(영어)</span></a></li>
                                     <li><a href="#">&lt;data&gt;</a></li>
                                     <li><a href="#">&lt;datalist&gt;</a></li>
                                     <li><a href="#">&lt;dd&gt;</a></li>
@@ -186,22 +187,22 @@
                                     <li><a href="#">&lt;details&gt;</a></li>
                                     <li><a href="#">&lt;dfn&gt;</a></li>
                                     <li><a href="#">&lt;dialog&gt;</a></li>
-                                    <li><a href="#">&lt;dir&gt;<span>(영어)</span></a></li>
+                                    <li><a href="#">&lt;dir&gt; <span>(영어)</span></a></li>
                                     <li><a href="#">&lt;div&gt;</a></li>
                                     <li><a href="#">&lt;dl&gt;</a></li>
                                     <li><a href="#">&lt;dt&gt;</a></li>
                                     <li><a href="#">&lt;em&gt;</a></li>
                                     <li><a href="#">&lt;embed&gt;</a></li>
-                                    <li><a href="#">&lt;fencedframe&gt;<span>(영어)</span></a></li>
+                                    <li><a href="#">&lt;fencedframe&gt; <span>(영어)</span></a></li>
                                     <li><a href="#">&lt;fieldset&gt;</a></li>
                                     <li><a href="#">&lt;figcaption&gt;</a></li>
                                     <li><a href="#">&lt;figure&gt;</a></li>
-                                    <li><a href="#">&lt;font&gt;<span>(영어) 아이콘</span></a></li>
+                                    <li><a href="#">&lt;font&gt; <span>(영어) 아이콘</span></a></li>
                                     <li><a href="#">&lt;footer&gt;</a></li>
                                     <li><a href="#">&lt;form&gt;</a></li>
-                                    <li><a href="#">&lt;frame&gt;<span>(영어)</span></a></li>
-                                    <li><a href="#">&lt;frameset&gt;<span>이이콘</span></a></li>
-                                    <li><a href="#">&lt;geolocation&gt;<span>(영어)아이콘</span></a></li>
+                                    <li><a href="#">&lt;frame&gt; <span>(영어)</span></a></li>
+                                    <li><a href="#">&lt;frameset&gt; <span>이이콘</span></a></li>
+                                    <li><a href="#">&lt;geolocation&gt; <span>(영어)아이콘</span></a></li>
                                     <li><a href="#">&lt;h1&gt;</a></li>
                                     <li><a href="#">&lt;head&gt;</a></li>
                                     <li><a href="#">&lt;header&gt;</a></li>
@@ -210,53 +211,54 @@
                                     <li><a href="#">&lt;i&gt;</a></li>
                                     <li><a href="#">&lt;iframe&gt; <span>(영어)</span></a></li>
                                     <li><a href="#">&lt;img&gt;</a></li>
-                                    <li><a href="#">&lt;input&gt;<span>(영어)</span></a></li>
+                                    <li><a href="#">&lt;input&gt; <span>(영어)</span></a></li>
                                     <li><a href="#">&lt;label&gt;</a></li>
                                     <li><a href="#">&lt;li&gt;</a></li>
                                     <li><a href="#">&lt;link&gt;</a></li>
                                     <li><a href="#">&lt;main&gt;</a></li>
                                     <li><a href="#">&lt;map&gt;</a></li>
                                     <li><a href="#">&lt;mark&gt;</a></li>
-                                    <li><a href="#">&lt;marquee&gt;<span>(영어)아이콘</span></a></li>
+                                    <li><a href="#">&lt;marquee&gt; <span>(영어)아이콘</span></a></li>
                                     <li><a href="#">&lt;menu&gt;</a></li>
                                     <li><a href="#">&lt;meta&gt;</a></li>
                                     <li><a href="#">&lt;meter&gt;</a></li>
                                     <li><a href="#">&lt;nav&gt;</a></li>
-                                    <li><a href="#">&lt;nobr&gt;<span>(영어)아이콘</span></a></li>
-                                    <li><a href="#">&lt;noembed&gt;<span>(영어)아이콘</span></a></li>
-                                    <li><a href="#">&lt;noframes&gt;<span>(영어)아이콘</span></a></li>
+                                    <li><a href="#">&lt;nobr&gt; <span>(영어)아이콘</span></a></li>
+                                    <li><a href="#">&lt;noembed&gt; <span>(영어)아이콘</span></a></li>
+                                    <li><a href="#">&lt;noframes&gt; <span>(영어)아이콘</span></a></li>
                                     <li><a href="#">&lt;noscript&gt;</a></li>
                                     <li><a href="#">&lt;object&gt;</a></li>
                                     <li><a href="#">&lt;ol&gt;</a></li>
                                     <li><a href="#">&lt;option&gt;</a></li>
                                     <li><a href="#">&lt;p&gt;</a></li>
-                                    <li><a href="#">&lt;param&gt;<span>(영어)아이콘</span></a></li>
-                                    <li><a href="#">&lt;picture&gt;<span>(영어)아이콘</span></a></li>
-                                    <li><a href="#">&lt;plaintext&gt;<span>(영어)아이콘</span></a></li>
+
+                                    <li><a href="#">&lt;param&gt; <span>(영어)아이콘</span></a></li>
+                                    <li><a href="#">&lt;picture&gt; <span>(영어)아이콘</span></a></li>
+                                    <li><a href="#">&lt;plaintext&gt; <span>(영어)아이콘</span></a></li>
 
                                     <li><a href="#">&lt;pre&gt;</a></li>
                                     <li><a href="#">&lt;progress&gt;</a></li>
                                     <li><a href="#">&lt;q&gt;</a></li>
 
-                                    <li><a href="#">&lt;rb&gt;<span>아이콘</span></a></li>
+                                    <li><a href="#">&lt;rb&gt; <span>아이콘</span></a></li>
                                     <li><a href="#">&lt;rt&gt;</a></li>
-                                    <li><a href="#">&lt;rtc&gt;<span>아이콘</span></a></li>
+                                    <li><a href="#">&lt;rtc&gt; <span>아이콘</span></a></li>
 
                                     <li><a href="#">&lt;ruby&gt;</a></li>
                                     <li><a href="#">&lt;s&gt;</a></li>
                                     <li><a href="#">&lt;samp&gt;</a></li>
                                     <li><a href="#">&lt;script&gt;</a></li>
-                                    <li><a href="#">&lt;search&gt;<span>(영어)</span></a></li>
+                                    <li><a href="#">&lt;search&gt; <span>(영어)</span></a></li>
                                     <li><a href="#">&lt;section&gt;</a></li>
-                                    <li><a href="#">&lt;select&gt;<span>(영어)</span></a></li>
-                                    <li><a href="#">&lt;selectedcontent&gt;<span>(영어)아이콘</span></a></li>
+                                    <li><a href="#">&lt;select&gt; <span>(영어)</span></a></li>
+                                    <li><a href="#">&lt;selectedcontent&gt; <span>(영어)아이콘</span></a></li>
                                     <li><a href="#">&lt;slot&gt;</a></li>
                                     <li><a href="#">&lt;small&gt;</a></li>
 
-                                    <li><a href="#">&lt;source&gt;<span>(영어)</span></a></li>
+                                    <li><a href="#">&lt;source&gt; <span>(영어)</span></a></li>
                                     <li><a href="#">&lt;span&gt;</a></li>
 
-                                    <li><a href="#">&lt;strike&gt;<span>(영어)아이콘</span></a></li>
+                                    <li><a href="#">&lt;strike&gt; <span>(영어)아이콘</span></a></li>
                                     <li><a href="#">&lt;strong&gt;</a></li>
                                     <li><a href="#">&lt;style&gt;</a></li>
                                     <li><a href="#">&lt;sub&gt;</a></li>
@@ -267,24 +269,27 @@
                                     <li><a href="#">&lt;td&gt; <span>(영어)</span></a></li>
 
                                     <li><a href="#">&lt;template&gt;</a></li>
-                                    <li><a href="#">&lt;textarea&gt;<span>(영어)</span></a></li>
+                                    <li><a href="#">&lt;textarea&gt; <span>(영어)</span></a></li>
                                     <li><a href="#">&lt;tfoot&gt;</a></li>
-                                    <li><a href="#">&lt;th&gt;</a></li>
+                                    <li><a href="#">&lt;th&gt; <span>(영어)</span></a></li>
                                     <li><a href="#">&lt;thead&gt;</a></li>
                                     <li><a href="#">&lt;time&gt;</a></li>
                                     <li><a href="#">&lt;title&gt;</a></li>
-                                    <li><a href="#">&lt;tr&gt;</a></li>
+                                    <li><a href="#">&lt;tr&gt; <span>(영어)</span></a></li>
                                     <li><a href="#">&lt;track&gt;</a></li>
+
+                                    <li><a href="#">&lt;tt&gt; <span>(영어)아이콘</span></a></li>
                                     <li><a href="#">&lt;u&gt;</a></li>
                                     <li><a href="#">&lt;ul&gt;</a></li>
                                     <li><a href="#">&lt;var&gt;</a></li>
                                     <li><a href="#">&lt;video&gt;</a></li>
                                     <li><a href="#">&lt;wbr&gt;</a></li>
+                                    <li><a href="#">&lt;xmp&gt; <span>(영어)아이콘</span></a></li>
                                 </ul>
                             </details>
                         </li>
 
-                        <li>
+                        <li class="details-hover">
                             <details>
                                 <summary>
                                     <a href="#">속성</a>
@@ -315,7 +320,7 @@
                                 </ul>
                             </details>
                         </li>
-                        <li>
+                        <li class="details-hover">
                             <details>
                                 <summary>
                                     <a href="#">전역 속성</a>
@@ -358,7 +363,7 @@
                                 </ul>
                             </details>
                         </li>
-                        <li>
+                        <li class="details-hover">
                             <details>
                                 <summary>
                                     <a href="#">Attributes by element</a>
@@ -371,7 +376,7 @@
                                 </ul>
                             </details>
                         </li>
-                        <li>
+                        <li class="details-hover">
                             <details>
                                 <summary>
                                     <a href="#">Attribute values</a>

@@ -22,7 +22,6 @@ a {
 
 /* 상단바 */
 header {
-  flex: 1;
   align-items: center;
   justify-content: space-between;
   position: sticky;
@@ -33,7 +32,7 @@ header {
 
 /* 상단 메뉴 */
 .header-top {
-  max-width: 1440px;
+  max-width: 1400px;
   margin: 0 auto;
 
   display: flex;
@@ -67,6 +66,10 @@ header {
   background-color: #e9f3ff;
 }
 
+.blog a {
+  text-decoration: underline;
+}
+
 /* 돋보기 */
 .header-actions {
   display: flex;
@@ -88,13 +91,18 @@ header {
 }
 
 /* 상단 나의 위치 */
-.breadcrumb {
-  display: flex;
-  justify-content: space-between;
+.header-breadcrumb {
   background-color: #f7f7f8;
-  padding: 0 250px;
   border-top: 1px solid rgb(195, 199, 203);
   border-bottom: 1px solid rgb(195, 199, 203);
+}
+
+.breadcrumb {
+  max-width: 1400px;
+  margin: 0 auto;
+
+  display: flex;
+  justify-content: space-between;
 }
 
 .breadcrumb ul {
@@ -148,19 +156,19 @@ header {
 
 /* main - 내용 */
 .main-content {
-  max-width: 1440px;
+  max-width: 1400px;
   margin: 0 auto;
 
   display: flex;
 }
 
 .main-content > nav {
-  width: 280px;
-  height: calc(100vh-100px);
-  overflow: auto;
-  padding: 8px 20px;
-  font-size: 14px;
-  border: 1px solid #ccc;
+  width: 300px;
+  height: calc(100vh - 100px);
+  padding: 20px;
+  position: sticky;
+  top: 100px;
+  overflow-y: auto;
 }
 
 /* 왼쪽 사이드바 */
@@ -187,7 +195,7 @@ header {
 }
 
 .navdi-left ul li {
-  margin: 24px 0;
+  margin: 13px 0;
   font-size: 16px;
 }
 
@@ -221,13 +229,71 @@ header {
   margin: 5px 0;
 }
 
-.element {
+/* 드롭다운 있는 css */
+.details-hover {
+  list-style: none;
+  padding: 0;
+}
+
+.details-hover:hover {
+  background-color: #edeef0;
+}
+
+.details-hover summary {
+  padding: 4px 10px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.details-hover summary::before {
+  font-family: "Material Symbols Outlined"; /* 구글 아이콘 폰트 지정 */
+  content: "chevron_right";
+  font-size: 18px;
+  vertical-align: middle;
+  margin-right: 4px;
+  display: inline-block;
+}
+
+.details-hover details[open] > summary::before {
+  content: "expand_more";
+}
+
+.details-hover ul li a {
+  display: block;
+  padding: 4px 30px;
+  font-size: 16px;
+  color: #333;
+}
+
+.details-hover ul li a:hover {
+  color: #0a5dbd;
+  text-decoration: underline;
+}
+
+.details-hover.active > details > summary > a {
+  border-left: 2px solid #0073ff;
+  background-color: #e9f3ff;
+  padding: 8px;
 }
 
 /* 메인 내용 */
 main {
   flex: 1;
   padding: 40px;
+}
+
+tbody a {
+  text-decoration: underline;
+  color: #0073ff;
+  background-color: #edeef0;
+  padding: 4px;
+  border-radius: 6px;
+}
+
+section p a {
+  text-decoration: underline;
+  color: #0073ff;
+  background-color: white;
 }
 
 section {
