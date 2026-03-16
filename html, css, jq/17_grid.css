@@ -1,0 +1,47 @@
+* {
+  box-sizing: border-box;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 200px 200px 200px; /* 행: 가로 */
+  grid-template-rows: 200px 200px minmax(100px, auto); /* 열 : 세로 */
+
+  /* grid-template-columns: 1fr 1fr 2fr; /* 행: 가로 
+  grid-template-rows: 1fr 1fr 1fr; 열 : 세로 */
+  row-gap: 10px;
+  column-gap: 10px;
+}
+
+.item {
+  border: 1px solid #ddd;
+}
+
+.item:nth-child(2) {
+  display: grid;
+  /* 가로 */
+  grid-column-start: 1;
+  grid-column-end: 4;
+
+  /* 세로 */
+  grid-row-start: 1;
+  grid-row-end: 1;
+
+  grid-column: 2/-1;
+  /* 행(가로) 2부터 -1(4)r까지 */
+
+  background-color: lightgoldenrodyellow;
+}
+
+.item:nth-child(4) {
+  display: grid;
+  /* 가로 */
+  grid-column-start: 3;
+  grid-column-end: 4;
+
+  /* 세로 */
+  grid-row-start: 2;
+  grid-row-end: 5;
+
+  background-color: rgb(210, 250, 228);
+}

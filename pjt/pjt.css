@@ -1,18 +1,27 @@
 * {
-  font-family: notosanskr, sans-serif;
+  font-family: "Noto Sans KR", sans-serif;
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
   padding: 0;
+  background-color: #484646;
+
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .container {
   width: 100%;
-  max-width: 800px;
+  max-width: 50rem; /* 800px */
   margin: 0 auto;
-  padding: 20px;
+  padding: 1.25rem; /* 12px */
+
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 /* header */
@@ -20,14 +29,14 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
+  padding: 0.625rem 1.25rem; /* 10px 20px */
   background-color: #fed50a;
 }
 
 /* 로고 */
 .header .logo {
-  width: 100px;
-  height: 40px;
+  width: 6.25rem; /* 100px */
+  height: 2.5rem; /* 40px */
 }
 
 .header .logo a {
@@ -36,7 +45,7 @@ body {
   height: 100%;
   background-image: url("./img/humor.webp");
   background-repeat: no-repeat;
-  background-size: 150px 130px;
+  background-size: 9.375rem 8.125rem; /* 150px 130px */
   background-position: 0 0;
 }
 
@@ -46,18 +55,18 @@ body {
   margin: 0;
   padding: 0;
   display: flex;
-  gap: 10px;
+  gap: 0.625rem;
 }
 
 .header nav ul li:first-child {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #e8af2b;
+  border: 0.0625rem solid #e8af2b; /* 1px */
   background-color: #fed000;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 16px;
+  padding: 0.125rem 0.5rem; /* 2px 8px */
+  border-radius: 0.25rem; /* 4px */
+  font-size: 1rem; /* 16px */
 }
 
 .header a {
@@ -70,36 +79,42 @@ body {
 }
 
 .about {
-  width: 60px;
-  height: 40px;
+  width: 3.75rem; /* 60px */
+  height: 2.5rem; /* 40px */
 
   background-image: url("./img/humor.webp");
   background-repeat: no-repeat;
-  background-size: 198px 159px;
-  background-position: 0 -53px;
+  background-size: 12.375rem 9.9375rem; /* 198px 159px */
+  background-position: 0 -3.3125rem; /* -53px */
 }
 
 .contact {
-  width: 60px;
-  height: 40px;
+  width: 3.75rem; /* 60px */
+  height: 2.5rem; /* 40px */
 
   background-image: url("./img/humor.webp");
   background-repeat: no-repeat;
-  background-size: 210px 159px;
-  background-position: -63px -53px;
+  background-size: 13.125rem 9.9375rem; /* 210px 159px */
+  background-position: -3.9375rem -3.3125rem; /* -63px -53px */
 }
 
 /* main 버튼 */
+main {
+  flex: 1;
+  background-color: white;
+}
+
 .main-btn {
   display: flex;
-  border: 1px solid #ccc;
+  border: 0.0625rem solid #ccc; /* 1px */
   background-color: #f4f4f4;
 }
 
 .btn {
   flex: 1;
-  padding: 12px 0;
-  font-size: 20px;
+  padding: 0.75rem 0; /* 12px */
+  margin: 0rem 1.125rem; /* 18px */
+  font-size: 1.25rem; /* 20px */
   cursor: pointer;
   border: none;
   background-color: #f4f4f4;
@@ -113,7 +128,7 @@ body {
 /* 선택된 버튼 */
 .btn-hover {
   font-weight: 700;
-  border-bottom: 4px solid #fe0a0a;
+  border-bottom: 0.25rem solid #fe0a0a; /* 4px */
 }
 
 .btn-hover a {
@@ -121,15 +136,20 @@ body {
 }
 
 /* hover */
-.btn:hover a {
+.btn:hover {
   color: #fe0a0a;
   font-weight: 700;
 }
 
 /* 게시판 */
 .board {
-  border-bottom: 1px solid #ddd;
-  padding: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+
+  border-bottom: 0.0625rem solid #f1f1f1; /* 1px */
+  padding: 0.625rem 0; /* 10px */
+  margin: 0 1rem;
 }
 
 .board:hover {
@@ -138,45 +158,67 @@ body {
 
 /* 공지 */
 .board-header {
+  flex: 1;
   display: flex;
   align-items: center;
-  padding: 0 20px;
+  padding: 0 1.25rem; /* 20px */
 }
 
 .board-header > div:first-child {
   background-color: #fe0a0a;
   color: white;
-  padding: 0 6px;
-  border-radius: 4px;
-  font-size: 14px;
-  margin-right: 10px;
+  padding: 0 0.375rem; /* 6px */
+  border-radius: 0.25rem; /* 4px */
+  font-size: 0.875rem; /* 14px */
+  margin-right: 0.625rem; /* 10px */
 }
 
-.board-header a {
+.board-header > a {
   text-decoration: none;
-  font-size: 18px;
+  font-size: 1.125rem; /* 18px */
   color: #fe0a0a;
   font-weight: 700;
 }
 
-.board-header p {
-  margin-left: auto;
-  font-size: 16px;
+.board-header > p {
+  margin: 0;
+  margin-left: 0.5rem;
+  font-size: 1rem; /* 16px */
   color: #ff5722;
 }
 
+.board-header > p::after {
+  content: "]";
+}
+
+.board-header > p::before {
+  content: "[";
+}
+
 /* 게시판 정보 */
+.board-content {
+  flex: 1;
+}
+
 .board-content ul {
   list-style: none;
-  margin: 5px 0 0;
-  padding: 0 20px;
+  margin: 0.3125rem 0 0; /* 5px */
+  padding: 0 1.25rem; /* 20px */
+
   display: flex;
-  gap: 10px;
+  align-items: center;
+  gap: 0.625rem; /* 10px */
 }
 
 .board-content li {
-  font-size: 14px;
+  font-size: 0.875rem; /* 14px */
   color: #999;
+}
+
+.board-content li:not(:first-child)::before {
+  content: "|";
+  margin-right: 0.5rem; /* 8px */
+  color: #e8e8e8;
 }
 
 .board-content a {
@@ -188,17 +230,95 @@ body {
 .board-header-sub {
   display: flex;
   align-items: center;
-  padding: 0 20px;
+  padding: 0 1.25rem; /* 20px */
 }
 
-.board-header-sub a {
+.board-header-sub > a {
   text-decoration: none;
-  font-size: 18px;
+  font-size: 1.125rem; /* 18px */
   color: #333;
 }
 
-.board-header-sub p {
-  margin-left: auto;
-  font-size: 16px;
+.board-header-sub > p {
+  margin: 0;
+  margin-left: 0.5rem;
+  font-size: 1rem; /* 16px */
   color: #ff5722;
+}
+
+.board-header-sub > p::after {
+  content: "]";
+}
+
+.board-header-sub > p::before {
+  content: "[";
+}
+
+/* 페이지네비 */
+.pagination-container {
+  background-color: #f1f1f1;
+  padding: 1.125rem 0; /* 20px */
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem; /* 12px */
+}
+
+.pagination-container > a {
+  text-decoration: none;
+  color: #ccc;
+  border: 0.0625rem solid #ccc; /* 1px */
+}
+
+.number-button {
+  padding: 0.25rem 0.5rem; /* 4px 8px */
+  background-color: white;
+  border-radius: 4px;
+}
+
+.number-button.active {
+  color: #f94064;
+  border-color: #f94064;
+  border: 0.0625rem solid #f94064; /* 1px */
+  font-weight: bold;
+}
+
+/* footer */
+footer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  padding: 0.75rem 1.125rem 1.875rem; /* 12px 20px 30px */
+  gap: 24px;
+
+  background: #262626;
+  color: #5f5f5f;
+}
+
+.login {
+  display: flex;
+  align-items: center;
+}
+
+.login a {
+  text-decoration: none;
+  color: #aaa;
+  background-color: #404040;
+
+  padding: 0.5rem; /* 8px */
+  border-radius: 0.25rem; /* 4px */
+
+  font-size: 16px;
+}
+
+.footer-font {
+  display: flex;
+  align-items: center;
+}
+
+.footer-font p {
+  margin: 0;
+  padding: 0;
 }

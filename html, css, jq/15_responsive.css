@@ -8,20 +8,17 @@ body {
 }
 
 .wrapper {
-  width: 100%;
-  margin: 0;
-  max-width: 87.5rem; /* 1400px */
-  min-width: 56.25rem; /* 900px */
-
-  font-size: 0;
+  display: flex;
+  justify-content: space-between;
 }
 
 .wrapper > .aside,
 .wrapper > .help,
 .wrapper > .contents {
+  flex: 1;
   font-size: 1rem;
-  display: inline-block;
   padding: 0.625rem;
+  vertical-align: top;
 }
 
 .wrapper > .aside,
@@ -34,6 +31,14 @@ body {
   width: 76%;
 }
 
+.wrapper > .contents > .tip {
+  background-color: white;
+  font-size: 0.8rem /* 12px */;
+  border: 0.0625rem solid lightcoral;
+  border-radius: 30px;
+  text-align: center;
+}
+
 .v-list {
   margin: 0;
   padding: 0;
@@ -42,6 +47,17 @@ body {
 
 .v-list > li {
   padding: 0.625rem;
+}
+
+.v-list > li > a {
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  color: #333;
+}
+
+.v-list > li > a:hover {
+  color: darkred;
 }
 
 .box {
@@ -56,4 +72,67 @@ body {
   height: 18.75rem; /* 300px */
   background-color: lightcyan;
   margin-bottom: 0.625rem; /* 10px */
+}
+
+@media (max-width: 1280px) and (min-width: 769px) {
+  .wrapper > .help {
+    display: block;
+    width: 100%;
+    font-size: 0;
+  }
+
+  .wrapper > .help > .add {
+    display: inline-block;
+    width: 50%;
+    height: auto;
+    font-size: 1rem;
+    margin: 0;
+    text-align: center;
+  }
+}
+
+/* 핸드폰 기종 */
+@media (max-width: 768px) {
+  .wrapper > .aside,
+  .wrapper > .contents {
+    width: 100%;
+  }
+
+  .wrapper > .aside > .v-list {
+    text-align: center;
+  }
+
+  .wrapper > .aside > .v-list > li {
+    display: inline-block;
+    padding: 0.625rem;
+  }
+
+  .wrapper > .contents {
+    display: block;
+    text-align: center;
+  }
+
+  .wrapper > .contents > .tip {
+    display: none;
+  }
+
+  .box {
+    display: block;
+    margin: 10px auto;
+  }
+
+  .wrapper > .help {
+    display: block;
+    width: 100%;
+  }
+
+  .wrapper > .help > .add {
+    width: 100%;
+    padding: 20px;
+    margin-bottom: 0.625rem; /* 10px */
+  }
+
+  .wrapper > .help > .add:last-child {
+    margin-bottom: 0;
+  }
 }

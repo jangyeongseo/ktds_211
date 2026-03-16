@@ -1,0 +1,32 @@
+* {
+  box-sizing: border-box;
+}
+
+.flex {
+  height: 200px;
+  display: flex;
+  /* 넘쳐 흐르는 아이템들 줄바꿈 처리하기 */
+  flex-wrap: wrap;
+  flex-direction: row;
+  /* 메인축 */
+  justify-content: space-evenly;
+  /* 교차축 정렬 */
+  align-items: center;
+  /* center랑 stretch를 더 많이 사용한다. */
+
+  /* 줄바꿈을 할때 어떻게 할것인지 정하는것 */
+  align-content: center;
+
+  /* flex: grow(- 늘어나라) shrink(공간 부족하다 비율 조절) basis(기본 크기) */
+  flex: 0.5 0 200px;
+
+  padding: 0;
+  margin: 0;
+}
+
+.flex > li {
+  list-style: none;
+  list-style-type: none;
+  background-color: lightblue;
+  border: 1px solid #ddd;
+}
