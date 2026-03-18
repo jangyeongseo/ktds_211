@@ -1,0 +1,182 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+input {
+  border: none;
+  outline: none;
+}
+
+::placeholder {
+  color: #ccc;
+}
+
+span {
+  color: #bbb;
+}
+
+.container {
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+}
+
+/* 기본 박스 */
+.basic-info,
+.personal {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+}
+
+.box:not(:last-child) {
+  border-bottom: 1px solid #eee;
+}
+
+/* input + icon */
+
+.join-box {
+  position: relative;
+  flex: 1;
+}
+
+.join-box input {
+  width: 100%;
+  height: 42px;
+  padding-left: 40px;
+  font-size: 16px;
+}
+
+/* 아이콘 공통 */
+.join-box::before {
+  font-family: "Material Symbols Outlined";
+
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+
+  font-size: 26px;
+  color: #ccc;
+
+  font-variation-settings: "wght" 200;
+}
+
+/* 아이콘 종류 */
+.user::before {
+  content: "person";
+}
+
+.password::before {
+  content: "lock";
+}
+
+.email::before {
+  content: "mail";
+}
+
+.birthday::before {
+  content: "perm_contact_calendar";
+}
+
+.communication::before {
+  content: "cell_tower";
+}
+
+.phon::before {
+  content: "mobile";
+}
+
+/* 성별 */
+.gender-box {
+  display: flex;
+  align-items: center;
+}
+
+.gender {
+  display: flex;
+  gap: 24px;
+  width: 100%;
+}
+
+.gender div {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.gender input {
+  display: none;
+}
+
+.gender label {
+  flex: 1;
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #888;
+  cursor: pointer;
+  border: 1px solid #ccc;
+}
+
+.gender label:first-of-type {
+  border-radius: 8px 0 0 8px;
+}
+
+.gender label:last-of-type {
+  border-radius: 0 8px 8px 0;
+}
+
+.gender input:checked + label {
+  color: #03c75a;
+  font-weight: 600;
+  outline: 1px solid #03c75a;
+}
+
+/* 설명 */
+.description {
+  font-size: 14px;
+  padding-left: 6px;
+  margin-bottom: 15px;
+  color: #08a945;
+}
+
+/* 휴대폰 */
+.tel-info {
+  display: flex;
+  gap: 10px;
+
+  border: 1px solid #ccc;
+  border-radius: 10px;
+
+  padding: 10px;
+}
+
+.tel-info select {
+  width: 40%;
+  height: 42px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.tel-info input {
+  flex: 1;
+  height: 42px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding-left: 10px;
+}

@@ -1,0 +1,144 @@
+@import url("https://fonts.googleapis.com/css2?family=Song+Myung&display=swap");
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  width: 100%;
+  display: block;
+}
+
+button {
+  cursor: pointer; /* 마우스 모형 바뀌도록 */
+}
+
+/* 내용 */
+.container {
+  max-width: 87.5rem; /* 1400px */
+  width: 100%;
+  margin: 0 auto;
+
+  /* display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 3.125rem; 50px */
+
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+}
+
+/* 이미트 / 스타배송 */
+.emart,
+.star {
+  margin-bottom: 3.75rem; /* 60px */
+}
+
+.header-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1.25rem 0; /* 20px */
+}
+
+.header-title h1 {
+  font-family: "Song Myung", serif;
+}
+
+.header-title a {
+  text-decoration: none;
+  color: #ccc;
+}
+
+.image {
+  margin-bottom: 0.9375rem; /* 15px */
+}
+
+.image img {
+  border-radius: 1.25rem; /* 20px */
+  background-color: gray;
+  height: 15.625rem; /* 250px */
+  object-fit: cover;
+}
+
+/* 네비바 */
+nav ul {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+}
+
+nav li {
+  font-size: 1.25rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+nav li:not(:last-child)::after {
+  content: "|";
+  margin: 0 60px;
+  color: #ddd;
+}
+
+/* 상품 내용 */
+.main {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  /* 2개의 컬럼을 만든다라는 의미 */
+  gap: 1.25rem; /* 20px */
+}
+
+.main-goma {
+  /* border: 1px solid #ddd; */
+  padding: 0.9375rem; /* 15px */
+  background-color: white;
+
+  display: flex;
+  gap: 0.9375rem; /* 15px */
+}
+
+/* 상품 이미지 */
+.main-goma img {
+  border-radius: 1rem; /* 16px */
+  background-color: gray;
+  width: 7.5rem; /* 120px */
+  height: 7.5rem; /* 120px */
+  object-fit: cover;
+  /* 이미지를 박스 크기에 맞게 채우는 방식 */
+}
+
+.title h4 {
+  font-size: 1rem; /* 16px */
+  margin-bottom: 0.375rem; /* 6px */
+}
+
+.title p {
+  font-size: 0.875rem; /* 14px */
+  margin-bottom: 0.25rem; /* 4px */
+}
+
+/* 배송 안내 - 하단 */
+.shipping {
+  margin-top: 0.9375rem; /* 15px */
+  font-size: 1.25rem; /* 20px */
+  color: #979797;
+}
+
+/* 버튼 */
+.btn-see {
+  text-align: center;
+  margin-top: 1.25rem; /* 20px */
+}
+
+.btn {
+  width: 100%;
+  padding: 1.25rem; /* 20px */
+  border: 0.0625rem solid #ddd; /* 1px */
+  background-color: #eee;
+  border-radius: 1.875rem; /* 30px */
+  font-size: 1rem; /* 16px */
+}

@@ -1,0 +1,28 @@
+* {
+  box-sizing: border-box;
+}
+
+.clickable-button {
+  width: 80px;
+  height: 40px;
+  border-radius: 20px;
+  border: none;
+  background-color: darkblue;
+  color: white;
+
+  margin-bottom: 20px;
+}
+
+.clickable-button:hover {
+  background-color: rgb(2, 2, 109);
+  transform: scale(0.95);
+}
+
+.clickable-box {
+  cursor: pointer;
+  padding: 10px;
+}
+
+fieldset {
+  border-radius: 20px;
+}

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form</title>
+    <link rel="stylesheet" type="text/css" href="./18_forms.css">
+</head>
+
+<body>
+    <div class="grid">
+        <label for="email">이메일</label>
+        <input type="email" name="email" id="email" />
+
+        <label for="pw">비밀번호</label>
+        <input type="password" name="password" id="pw">
+
+        <fieldset>
+            <legend>성별 선택</legend>
+            <div>
+                <input type="radio" name="gender" id="boy" value="남" />
+                <label for="boy">남</label>
+
+                <input type="radio" name="gender" id="girl" value="여" />
+                <label for="girl">여</label>
+            </div>
+        </fieldset>
+
+
+        <label for="instagram">가입경로</label>
+        <div>
+            <input type="checkbox" name="channel" id="instagram" />
+            <label for="instagram"> 인스타그램</label>
+            <input type="checkbox" name="channel" id="x" />
+            <label for="x">트위터</label>
+            <input type="checkbox" name="channel" id="friends" />
+            <label for="friends">지인 소개</label>
+            <input type="checkbox" name="channel" id="youtube" />
+            <label for="youtube">유튜브</label>
+        </div>
+
+        <label for="jobs">직업</label>
+        <select name="jobs" id="jobs">
+            <option value="">(선택)</option>
+            <option value="">관련상업 종사자</option>
+            <option value="">일반인</option>
+            <option value="">학생</option>
+            <option value="">기타</option>
+        </select>
+
+        <label for="other">하고 싶은 말</label>
+        <textarea name="other" id="other"></textarea>
+
+        <label for="file">파일입력</label>
+
+        <input type="file" name="file" id="file">
+    </div>
+</body>
+
+</html>
