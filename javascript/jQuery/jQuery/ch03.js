@@ -3,7 +3,8 @@ $().ready(function () {
     // var destinations = document.querySelectorAll("#destinations");
     // console.log(destinations);
     // var listItem = destinations.children;
-    $("#destinations").children("li").on("click", function () {
+    // $("#destinations").children("li").on("click", function () {
+    $("#destinations").on("click", "li", function () {
         console.log("클릭한 태그의 내용", $(this).text());
         // function을 호출한 엘리먼트 : 클릭이벤트가 일어난 엘리면트
         // console.log("클릭한 태그의 내용", event.target.innerText);
