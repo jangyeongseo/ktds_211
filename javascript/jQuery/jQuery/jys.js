@@ -26,8 +26,12 @@ $().ready(function () {
                     });
 
                     // "html_url"의 값을 5에서 만든 div를 클릭했을 때 이동
-                    div.on("click", function () {
-                        window.location.href = user.html_url;
+                    // data(Key, value)
+                    div.data("url", user.html_url).on("click", function () {
+                        // window.location.href = user.html_url;
+                        // window를 생략 할 수 있다.
+                        var url = $(this).date("url");
+                        location.href = url;
                     })
 
                     // ".posts"의 li로 추가
