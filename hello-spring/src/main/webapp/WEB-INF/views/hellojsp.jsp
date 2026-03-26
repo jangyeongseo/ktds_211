@@ -12,6 +12,7 @@
 
 	<body>
 		<h1>JSP를 만들었어요.</h1>
+		<p>반갑습니다. ${myname}이며 나이는 ${age}입니다.</p>
 	</body>
 
 	</html>

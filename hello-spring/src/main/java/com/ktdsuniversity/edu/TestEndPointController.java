@@ -3,13 +3,13 @@ package com.ktdsuniversity.edu;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-// end point를 생성하는 역할
+// end point를 생성하는 역할 // 20260325 - 설명
 @Controller // 해당 클래스가 endpoint (엔드포인트)를 만들 수 있도록 지원
 public class TestEndPointController {
-
+	// 20260325 - 설명
 	// Spring APplication이 시작이 될때
 	// @Controller가 적용된 모든 클래스를 찾아
 	// 해당 클래스들을 인스턴스로 생성한다.
@@ -21,8 +21,18 @@ public class TestEndPointController {
 
 	// "/jsp" 엔드포인트
 	// -hellojsp.jsp 파일을 일어서 html로 반환시킨 후 결과를 반환.
-	@GetMapping("/")
-	public String viewsHellpJspPage() {
+	@GetMapping("/root")
+	public String viewsHellpJspPage(Model model) {
+		// 20260326
+		// Model model parameter
+		// => Template Engine(JSP)에게 데이터를 전송시키는 객체
+		System.out.println(model);
+		// myname이라는 키(변수명)로 "장민창" 할당해서 템플릿에게 전달.
+		model.addAttribute("myname", "장");
+		model.addAttribute("age", "26");
+		System.out.println(model); // 데이터를 보낸 후의 상태
+
+		// 20260325 - 설명
 		// spring.mvc.view.prefix + hellojsp + spring
 		// /WEB-INF/views/ + hellojsp + .jsp
 		// /WEB-INF/views/hellojsp.jsp
@@ -34,6 +44,7 @@ public class TestEndPointController {
 		return "hellojsp";
 	}
 
+	// 20260325 - 설명
 	// 사용자가 "/" 엔드포인트에 접근하면
 	// "첫 페이지입니다. 환영합니다."를 브라우저에 보내주는 코드 작성.
 //	@GetMapping("/")

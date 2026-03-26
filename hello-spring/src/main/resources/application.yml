@@ -1,5 +1,9 @@
-#spring.application.name=hello-spring
+# 콘솔 로그 레벨 변경
+logging:
+  level:
+    root: debug
 
+#spring.application.name=hello-spring
 spring:
   mvc:
     view:
@@ -14,3 +18,8 @@ spring:
     name: hello-spring
 # 뒤에 뛰어져 있는 개수가 맞아야 에러가 안남
 
+#mybatis 연동 설정
+mybatis:
+  config-location: classpath:mybatis-config.xml
+  mapper-locations: classpath:com/ktdsuniversity/edu/**/mapper/*.xml
+# mapper 파일들의 위치 지정 - 동시에 지정해주는 작
