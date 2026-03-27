@@ -16,31 +16,8 @@ public class MovieVO {
 	private long budget;
 	private long profit;
 
-	public MovieVO() {
-	}
-
-	public MovieVO(String movieId, String posterUrl, String title, String movieRating, String openDate,
-			String openCountry, int runningTime, String introduce, String synopsis, String originalTitle, String state,
-			String language, long budget, long profit) {
-		super();
-		this.movieId = movieId;
-		this.posterUrl = posterUrl;
-		this.title = title;
-		this.movieRating = movieRating;
-		this.openDate = openDate;
-		this.openCountry = openCountry;
-		this.runningTime = runningTime;
-		this.introduce = introduce;
-		this.synopsis = synopsis;
-		this.originalTitle = originalTitle;
-		this.state = state;
-		this.language = language;
-		this.budget = budget;
-		this.profit = profit;
-	}
-
 	public String getMovieId() {
-		return movieId;
+		return this.movieId;
 	}
 
 	public void setMovieId(String movieId) {
@@ -48,7 +25,7 @@ public class MovieVO {
 	}
 
 	public String getPosterUrl() {
-		return posterUrl;
+		return this.posterUrl;
 	}
 
 	public void setPosterUrl(String posterUrl) {
@@ -56,7 +33,7 @@ public class MovieVO {
 	}
 
 	public String getTitle() {
-		return title;
+		return this.title;
 	}
 
 	public void setTitle(String title) {
@@ -64,7 +41,7 @@ public class MovieVO {
 	}
 
 	public String getMovieRating() {
-		return movieRating;
+		return this.movieRating;
 	}
 
 	public void setMovieRating(String movieRating) {
@@ -72,7 +49,7 @@ public class MovieVO {
 	}
 
 	public String getOpenDate() {
-		return openDate;
+		return this.openDate;
 	}
 
 	public void setOpenDate(String openDate) {
@@ -80,7 +57,7 @@ public class MovieVO {
 	}
 
 	public String getOpenCountry() {
-		return openCountry;
+		return this.openCountry;
 	}
 
 	public void setOpenCountry(String openCountry) {
@@ -88,7 +65,7 @@ public class MovieVO {
 	}
 
 	public int getRunningTime() {
-		return runningTime;
+		return this.runningTime;
 	}
 
 	public void setRunningTime(int runningTime) {
@@ -96,7 +73,7 @@ public class MovieVO {
 	}
 
 	public String getIntroduce() {
-		return introduce;
+		return this.introduce;
 	}
 
 	public void setIntroduce(String introduce) {
@@ -104,7 +81,7 @@ public class MovieVO {
 	}
 
 	public String getSynopsis() {
-		return synopsis;
+		return this.synopsis;
 	}
 
 	public void setSynopsis(String synopsis) {
@@ -112,7 +89,7 @@ public class MovieVO {
 	}
 
 	public String getOriginalTitle() {
-		return originalTitle;
+		return this.originalTitle;
 	}
 
 	public void setOriginalTitle(String originalTitle) {
@@ -120,7 +97,7 @@ public class MovieVO {
 	}
 
 	public String getState() {
-		return state;
+		return this.state;
 	}
 
 	public void setState(String state) {
@@ -128,7 +105,7 @@ public class MovieVO {
 	}
 
 	public String getLanguage() {
-		return language;
+		return this.language;
 	}
 
 	public void setLanguage(String language) {
@@ -136,7 +113,7 @@ public class MovieVO {
 	}
 
 	public long getBudget() {
-		return budget;
+		return this.budget;
 	}
 
 	public void setBudget(long budget) {
@@ -144,7 +121,7 @@ public class MovieVO {
 	}
 
 	public long getProfit() {
-		return profit;
+		return this.profit;
 	}
 
 	public void setProfit(long profit) {

@@ -7,7 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ktdsuniversity.edu.HelloSpringApplication;
 import com.ktdsuniversity.edu.board.service.BoardService;
@@ -37,6 +39,7 @@ public class BoardController {
 		List<BoardVO> list = searchResult.getResult();
 		// 게시글의 개수를 조회
 		int searchCount = searchResult.getCount();
+		
 		model.addAttribute("searchResult", list);
 		model.addAttribute("searchCount", searchCount);
 		return "board/list";
@@ -63,6 +66,30 @@ public class BoardController {
 
 		// redirect: 브라우저에게 다음 End Point를 요청하도록 지시.
 		// redirect:/ => 브라우저에게 "/" endpoint 로 이동하도록 지시
+		return "redirect:/";
+	}
+
+	// 게시글 내용 조회
+	// endpoint => /view/게시글 아이디 => /view/BO-20260327-000001
+	// 해야 하는 역할
+	// 1. 게시글 내용을 조회해서 브라우저에게 노출.
+	// 2. 조회수 1증가.
+	// PathVariable 이 게시글 아이디의 값이다.
+	@GetMapping("/view/{articleId}")
+	public String viewDetailPage(Model model, @PathVariable String articleId) {
+		// articleID로 데이터ㅓ베이스에서 게시글을 조회한다.
+		// 조회할 때 조회수가 하나 증가해야 한다.
+		BoardVO findResult = this.boardService.findBoardArticleId(articleId);
+		model.addAttribute("articleId", findResult);
+		return "board/view";
+	}
+
+	// 삭제 Query Stinrg 파라미터 @RequestParam
+	@GetMapping("/delete")
+	public String doDeleteAction(@RequestParam String id) {
+		boolean deleteBoardById = this.boardService.findBoarDelectArticleId(id);
+		 System.out.println("삭제 id = " + id);
+		
 		return "redirect:/";
 	}
 

@@ -4,11 +4,30 @@
 
 <mapper namespace="com.ktdsuniversity.edu.movie.dao.MovieDao">
 	<!-- 전제 조회 -->
-	<select id="selectMovieList"
-		resultType="com.ktdsuniversity.edu.movie.vo.MovieVO">
+	<select id="selectMovieList" resultType="com.ktdsuniversity.edu.movie.vo.MovieVO">
 		SELECT
-		*
-		FROM MOVIE
+		    MOVIE_ID,
+		    POSTER_URL,
+		    TITLE,
+		    MOVIE_RATING,
+		    TO_CHAR(OPEN_DATE, 'YYYY-MM-DD') AS OPEN_DATE,
+		    OPEN_COUNTRY,
+		    RUNNING_TIME,
+		    INTRODUCE,
+		    SYNOPSIS,
+		    ORIGINAL_TITLE,
+		    STATE,
+		    "LANGUAGE",
+		    BUDGET,
+		    PROFIT
+		FROM
+		    MOVIE
 	</select>
+	
+	<insert id="insertNewMovie" parameterType="com.ktdsuniversity.edu.movie.vo.MovieVO">
+	   INSERT INTO TMDB.MOVIE
+		  (MOVIE_ID, POSTER_URL, TITLE, MOVIE_RATING, OPEN_DATE, OPEN_COUNTRY, RUNNING_TIME, INTRODUCE, SYNOPSIS, ORIGINAL_TITLE, STATE, "LANGUAGE", BUDGET, PROFIT)
+		VALUES(('MV-' || TO_CHAR(SYSDATE, 'YYYYMMDD-') || LPAD(SEQ_MOVIE_PK.NEXTVAL, 6, '0')), #{posterUrl}, #{title}, #{movieRating}, TO_DATE(#{openDate}, 'YYYY-MM-DD'), #{openCountry}, 0, #{introduce}, #{synopsis}, #{originalTitle}, #{state}, #{language}, 0, 0)
+	</insert>
 
 </mapper>

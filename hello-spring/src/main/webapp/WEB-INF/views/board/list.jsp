@@ -5,7 +5,7 @@
 
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>게시판 리스트</title>
 </head>
 
 <body>

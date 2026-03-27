@@ -1,42 +1,119 @@
 @charset "UTF-8";
 
 * {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-/* 	margin: 0;
-	padding: 0; */
-	color: #333;
+  margin: 0;
+  padding: 0;
+  color: #333;
+  background-color: #f9f7f0;
+}
+
+form,
+.container {
+  max-width: 700px;
+  margin: 3.125rem auto; /* 50px */
+  background-color: #fff;
+  padding: 1.25rem; /* 20px */
+  background-color: #fff;
+  border-radius: 1rem; /* 16px */
+  box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.1); /* 4px 10px */
+}
+
+/* 제목 */
+h1 {
+  text-align: center;
+  margin-bottom: 1.875rem; /* 30px */
 }
 
 /* grid style 시작 */
 div.grid {
-	display: grid;
+  display: grid;
 }
 
-div.grid>div.btn-group {
-	grid-column: 1/-1;
+/* 버튼 영역 */
+div.grid > div.btn-group {
+  grid-column: 1 / -1;
+  margin-top: 1.25rem; /* 20px */
 }
 
-div.grid>div.btn-group>div.right-align {
-	text-align: right;
+div.grid > div.btn-group > div.right-align {
+  text-align: right;
 }
 
-div.grid>label {
-	padding-left: 0.625rem; /* 10px */
+/* label */
+div.grid > label {
+  padding-left: 0.625rem;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
 }
 
-div.grid>input, div.grid>button, div.grid>textarea {
-	padding: 0.625rem;
+/* input, textarea */
+div.grid > input,
+div.grid > textarea {
+  padding: 0.625rem;
+  border: 0.0625rem solid #ccc;
+  border-radius: 5px;
 }
 /* grid style 끝 */
 
 /* 글쓰기 style 시작 */
-div.write {
-	grid-template-columns: 5rem 1fr;
-	grid-template-rows: 1.75rem 1.75rem 20rem 1fr;
-	row-gap: 0.625rem;
+div.grid > input:focus,
+div.grid > textarea:focus {
+  outline: none;
+  border-color: #ff9100;
 }
 
+textarea {
+  resize: none;
+}
+
+input[type="submit"] {
+  padding: 0.625rem 1.25rem; /* 10px 20px */
+  border: none;
+  background-color: #ff9100;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+}
+
+input[type="submit"]:hover {
+  background-color: #aa6102;
+}
+
+div.write {
+  grid-template-columns: 6rem 1fr;
+  grid-template-rows: 2rem 2rem 250px auto;
+  row-gap: 15px;
+}
 /* 글쓰기 style 끝 */
+
+/* 게시글 내용 조회 style 시작 */
+div.view {
+  grid-template-columns: 7.5rem 1fr;
+  grid-template-rows: repeat(9, minmax(1.75rem, auto));
+  row-gap: 0.625rem;
+}
+
+div.view > div.btn-group > div.right-align {
+  grid-column: 1 / -1;
+}
+
+a {
+  padding: 0.625rem 1.25rem; /* 10px 20px */
+  border: none;
+  background-color: #ff9100;
+  color: #fff;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+a:hover {
+  background-color: #aa6102;
+}
+
+/* 게시글 내용 조회 style 끝 */

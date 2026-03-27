@@ -1,6 +1,8 @@
-package com.ktdsuniversity.edu.movie.vo;
+package com.ktdsuniversity.edu.movie.vo.response;
 
 import java.util.List;
+
+import com.ktdsuniversity.edu.movie.vo.MovieVO;
 
 public class MovieSearchResultVO {
 	private List<MovieVO> list;
@@ -14,3 +16,4 @@ public class MovieSearchResultVO {
 	}
 
 }
+

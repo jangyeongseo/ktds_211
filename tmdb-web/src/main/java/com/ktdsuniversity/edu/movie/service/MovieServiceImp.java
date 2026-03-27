@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ktdsuniversity.edu.movie.dao.MovieDao;
-import com.ktdsuniversity.edu.movie.vo.MovieSearchResultVO;
 import com.ktdsuniversity.edu.movie.vo.MovieVO;
+import com.ktdsuniversity.edu.movie.vo.response.MovieSearchResultVO;
 
 @Service
 public class MovieServiceImp implements MovieService {
@@ -24,6 +24,13 @@ public class MovieServiceImp implements MovieService {
 		result.setList(list);
 
 		return result;
+	}
+
+	@Override
+	public boolean insertMovie(MovieVO movieVO) {
+		int insert = movieDao.insertNewMovie(movieVO);
+
+		return insert > 0;
 	}
 
 }

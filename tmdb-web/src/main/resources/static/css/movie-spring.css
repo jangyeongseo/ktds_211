@@ -1,0 +1,93 @@
+@charset "UTF-8";
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	color: #333;
+	background-color: #f9f7f0;
+}
+
+form {
+	max-width: 700px;
+	margin: 50px auto;
+	background-color: #fff;
+	padding: 25px;
+	border-radius: 10px;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 제목 */
+h1 {
+	text-align: center;
+}
+
+div.grid {
+	display: grid;
+	grid-template-columns: 100px 1fr;
+	row-gap: 15px;
+	column-gap: 10px;
+}
+
+div.grid > label {
+	display: flex;
+	align-items: center;
+	font-weight: bold;
+}
+
+/* label - 소개, 줄거리 */
+div.grid > label.introduction,
+div.grid > label.plot{
+    align-items: flex-start;
+}
+
+div.grid>input, div.grid>textarea {
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+}
+
+textarea {
+	height: 120px;
+	resize: none;
+}
+
+div.grid>input:focus, div.grid>textarea:focus {
+	outline: none;
+	border-color: #ff9100;
+}
+
+/* input - 제작비, 수익 */
+.money {
+	font-weight: bold;
+	color: #333;
+}
+
+.money::before {
+	content: "₩ ";
+}
+
+/* 버튼 영역 */
+div.btn-group {
+	grid-column: 1/-1;
+	text-align: right;
+	margin-top: 20px;
+}
+
+/* 버튼 */
+input[type="submit"] {
+	padding: 10px 20px;
+	border: none;
+	background-color: #ff9100;
+	color: #fff;
+	border-radius: 5px;
+	cursor: pointer;
+	width: 100%;
+}
+
+input[type="submit"]:hover {
+	background-color: #aa6102;
+}
