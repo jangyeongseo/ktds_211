@@ -3,10 +3,46 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.ktdsuniversity.edu.member.dao.MemberDao">
-    <insert id="insertNewMember" parameterType="com.ktdsuniversity.edu.member.vo.MemberVO">
-        INSERT INTO MEMBERS
-		  (EMAIL, NAME, PASSWORD)
+	<insert id="insertNewMember"
+		parameterType="com.ktdsuniversity.edu.member.vo.MemberVO">
+		INSERT INTO MEMBERS
+		(EMAIL, NAME, PASSWORD)
 		VALUES(#{email}, #{name}, #{password})
-    </insert>
+	</insert>
+
+	<!-- 회원 정보 조회 -->
+	<select id="selectMemberArticleId"
+		resultType="com.ktdsuniversity.edu.member.vo.MemberVO"
+		parameterType="string">
+		SELECT
+			EMAIL,
+			NAME,
+			PASSWORD
+		FROM
+		  MEMBERS
+		WHERE
+		  EMAIL = #{_parameter}
+	</select>
+
+	<!-- 수정 -->
+	<update id="updateMemberById"
+		parameterType="com.ktdsuniversity.edu.member.vo.MemberVO">
+		UPDATE
+		  MEMBERS
+		SET
+			NAME = #{name},
+			PASSWORD = #{password}
+		WHERE
+		  EMAIL = #{email}
+	</update>
+	
+	<!-- 삭제 -->
+	<delete id="deleteMemberbyId" parameterType="com.ktdsuniversity.edu.member.vo.MemberVO">
+	   DELETE
+		FROM
+		    MEMBERS
+		WHERE
+		    EMAIL = #{_parameter}
+	</delete>
 
 </mapper>

@@ -19,4 +19,29 @@ public class MemberServiceImp implements MemberService {
 		return insertMember > 0;
 	}
 
+	// 회원 정보 조회
+	@Override
+	public MemberVO findMemberArticleId(String articleEmail) {
+		MemberVO member = this.memberDao.selectMemberArticleId(articleEmail);
+		return member;
+	}
+
+	// 수정
+	@Override
+	public boolean updateMemberArticleById(MemberVO memberVO) {
+		int update = this.memberDao.updateMemberById(memberVO);
+		System.out.println(update);
+
+		return update > 0;
+	}
+
+	// 삭제
+	@Override
+	public boolean deleteMemberById(String email) {
+		int delete = this.memberDao.deleteMemberbyId(email);
+		System.out.println(delete);
+
+		return false;
+	}
+
 }

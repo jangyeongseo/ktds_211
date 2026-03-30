@@ -1,5 +1,6 @@
 package com.ktdsuniversity.edu.board.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,7 +104,7 @@ public class BoardController {
 		boolean updateResult = this.boardService.updateBoardArticleId(updateVO);
 		System.out.println("성공?" + updateResult);
 
-		return "redirect:/view/"+articleId;
+		return "redirect:/view/" + articleId;
 	}
 
 	// 삭제 Query Stinrg 파라미터 @RequestParam

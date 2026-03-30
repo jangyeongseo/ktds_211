@@ -8,4 +8,10 @@ import com.ktdsuniversity.edu.member.vo.MemberVO;
 public interface MemberDao {
 	int insertNewMember(MemberVO memberVO);
 
+	MemberVO selectMemberArticleId(String articleEmail);
+
+	int updateMemberById(MemberVO memberVO);
+
+	int deleteMemberbyId(String email);
+
 }

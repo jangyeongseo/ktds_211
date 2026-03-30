@@ -27,7 +27,7 @@ public class BoardServiceImpl implements BoardService {
 		result.setCount(count);
 
 		if (count == 0) {
-			return null;
+			return result;
 		}
 
 		// 게시글 목록 조회
