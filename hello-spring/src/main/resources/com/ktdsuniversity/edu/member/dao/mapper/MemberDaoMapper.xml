@@ -4,7 +4,7 @@
 
 <mapper namespace="com.ktdsuniversity.edu.member.dao.MemberDao">
 	<insert id="insertNewMember"
-		parameterType="com.ktdsuniversity.edu.member.vo.MemberVO">
+		parameterType="com.ktdsuniversity.edu.member.vo.request.WriteVO">
 		INSERT INTO MEMBERS
 		(EMAIL, NAME, PASSWORD)
 		VALUES(#{email}, #{name}, #{password})
@@ -23,6 +23,22 @@
 		WHERE
 		  EMAIL = #{_parameter}
 	</select>
+
+	<!-- 회원 정보 -->
+	<select id="selectMemberList"
+        resultType="com.ktdsuniversity.edu.member.vo.MemberVO">
+        SELECT
+            EMAIL,
+            NAME,
+            PASSWORD
+        FROM
+          MEMBERS
+    </select>
+
+    <!-- 회원의 수 -->
+    <select id="selectMemberCount" resultType="_int">
+        SELECT COUNT(*) FROM MEMBERS
+    </select>
 
 	<!-- 수정 -->
 	<update id="updateMemberById"

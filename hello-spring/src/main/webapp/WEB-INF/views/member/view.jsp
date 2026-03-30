@@ -5,7 +5,7 @@
 
     <head>
         <meta charset="UTF-8">
-        <title>회원 정보</title>
+        <title>마이페이지</title>
         <link rel="stylesheet" type="text/css" href="/css/member-spring.css">
     </head>
 
@@ -14,7 +14,7 @@
             <h1>회원정보</h1>
                 <main class="main-text">
                     <label for="email">이메일</label>
-                    <div>${articleEmail.email}</div>=
+                    <div>${articleEmail.email}</div>
 
                     <label for="name">이름</label>
                     <div>${articleEmail.name}</div>
@@ -24,8 +24,8 @@
                     
                     <div class="btn-group">
 		                <div class="right-align">
-		                    <a href="/member/update/${articleEmail.id}">수정</a> 
-		                    <a href="/member/delete?id=${articleEmail.id}">삭제</a>
+		                    <a href="/member/update/${articleEmail.email}">수정</a> 
+		                    <a href="/member/delete?email=${articleEmail.email}">삭제</a>
 		                </div>
 		            </div>
                 </main>

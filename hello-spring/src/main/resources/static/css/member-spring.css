@@ -1,65 +1,169 @@
 @charset "UTF-8";
 
 * {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  color: #333;
-  background-color: #f9f7f0;
+	margin: 0;
+	padding: 0;
+	color: #333;
+	background-color: #f9f7f0;
 }
 
 .container {
-  margin: 3.125rem auto; /* 50px */
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  max-width: 25rem; /* 200px */
-  padding: 1.875rem; /* 30px */
-  background-color: #fff;
-  border-radius: 1rem; /* 16px */
-  box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.1); /* 4px 10px */
+	margin: 3.125rem auto;
+	/* 50px */
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	max-width: 25rem;
+	/* 200px */
+	padding: 1.875rem;
+	/* 30px */
+	background-color: #fff;
+	border-radius: 1rem;
+	/* 16px */
+	box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.1);
+	/* 4px 10px */
+}
+
+.member-list-container {
+	max-width: 40rem;
+	/* 640px */
 }
 
 .container h1 {
-  text-align: center;
-  margin-bottom: 1.875rem; /* 30px */
+	text-align: center;
+	margin-bottom: 1.875rem;
+	/* 30px */
 }
 
 .main-text {
-  display: flex;
-  flex-direction: column;
+	display: flex;
+	flex-direction: column;
 }
 
 .main-text label {
-  margin-bottom: 0.3125rem; /* 5px */
-  font-weight: bold;
+	margin-bottom: 0.3125rem;
+	/* 5px */
+	font-weight: bold;
 }
 
 .main-text input {
-  margin-bottom: 1.25rem; /* 20px */
-  padding: 0.625rem; /* 10px */
-  border: 0.0625rem solid #ccc; /* 1px */
-  border-radius: 1rem; /* 16px */
+	margin-bottom: 1.25rem;
+	/* 20px */
+	padding: 0.625rem;
+	/* 10px */
+	border: 0.0625rem solid #ccc;
+	/* 1px */
+	border-radius: 1rem;
+	/* 16px */
 }
 
 .main-text input:focus {
-  outline: none;
-  border-color: #ff9100;
+	outline: none;
+	border-color: #ff9100;
 }
 
 button {
-  padding: 0.75rem; /* 12px */
-  border: none;
-  border-radius: 1rem; /* 16px */
-  background-color: #ff9100;
-  color: white;
-  font-size: 1rem; /* 16px */
-  cursor: pointer;
+	padding: 0.75rem;
+	/* 12px */
+	border: none;
+	border-radius: 1rem;
+	/* 16px */
+	background-color: #ff9100;
+	color: white;
+	font-size: 1rem;
+	/* 16px */
+	cursor: pointer;
 }
 
 button:hover {
-  background-color: #aa6102;
+	background-color: #aa6102;
 }
+
+/* 회원 목록 style 시작 */
+table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 1.25rem;
+	/* 20px */
+}
+
+thead {
+	background-color: #ff9100;
+	color: #fff;
+}
+
+thead th {
+	padding: 0.625rem;
+	text-align: center;
+}
+
+tbody td {
+	padding: 0.625rem;
+	text-align: center;
+	border-bottom: 0.0625rem solid #ddd;
+}
+
+/* hover 효과 */
+tbody tr:hover {
+	background-color: #fff3e0;
+}
+
+/* 이메일은 왼쪽 정렬 */
+tbody td:first-child {
+	text-align: left;
+}
+
+/* 링크 스타일 */
+tbody td a {
+	color: #333;
+	text-decoration: none;
+	font-weight: bold;
+	background-color: #fff;
+}
+
+tbody td a:hover {
+	color: #ff9100;
+	text-decoration: underline;
+	background-color: #fff3e0;
+}
+
+/* 회원 수 텍스트 */
+p {
+	margin-top: 1rem;
+	font-weight: bold;
+	text-align: right;
+}
+
+/* 회원가입 버튼 (하단 링크) */
+a {
+	display: inline-block;
+	margin-top: 1rem;
+	padding: 0.625rem 1.25rem;
+	background-color: #ff9100;
+	color: #fff;
+	border-radius: 1rem;
+	text-decoration: none;
+	text-align: center;
+}
+
+a:hover {
+	background-color: #aa6102;
+}
+/* 회원 목록 style 끝 */
+.main-text>div {
+	margin-bottom: 1.25rem;
+	padding: 0.625rem 0.625rem 0;
+}
+
+.btn-group {
+	margin-top: 20px;
+}
+
+.right-align {
+	text-align: right;
+}
+/* 회원 정보 */

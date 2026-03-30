@@ -1,5 +1,7 @@
 package com.ktdsuniversity.edu.member.web;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ktdsuniversity.edu.member.service.MemberService;
 import com.ktdsuniversity.edu.member.vo.MemberVO;
+import com.ktdsuniversity.edu.member.vo.request.WriteVO;
+import com.ktdsuniversity.edu.member.vo.response.MembershipResultVO;
 
 @Controller
 public class MemberController {
@@ -20,15 +24,15 @@ public class MemberController {
 	// 회원가입 등록 화면 보여주기
 	@GetMapping("/sign")
 	public String viewMemberPage() {
-		return "member/member";
+		return "member/sign";
 	}
 
 	// 회원이 입력한 정보
 	@PostMapping("/regist")
-	public String doMemberPage(MemberVO memberVO) {
+	public String doMemberPage(WriteVO writeVO) {
 		// 성공 여부
-		boolean createResult = this.memberService.createNewMember(memberVO);
-		System.out.println(memberVO);
+		boolean createResult = this.memberService.createNewMember(writeVO);
+		System.out.println(writeVO);
 
 		return "redirect:/login";
 	}
@@ -41,14 +45,25 @@ public class MemberController {
 
 	// /member => 회원들의 목록이 조회되도록 코드를 작성
 	// => 회원 목록 조회
-	// => member/list.jsp 
-	//      => 회원 목록 반복, 회원의 수 출력, 회원의 수가 없을 때, "등록된 회원이 없습니다.", 목록
-	// 			아래에는 새로운 회원 등록" 링크 추가
+	// => member/list.jsp
+	// => 회원 목록 반복, 회원의 수 출력, 회원의 수가 없을 때, "등록된 회원이 없습니다.", 목록
+	// 아래에는 새로운 회원 등록" 링크 추가
+	@GetMapping("/member")
+	public String viewMemberListPage(Model model) {
+		MembershipResultVO memberResult = this.memberService.findAllMember();
+		List<MemberVO> memberlist = memberResult.getResult();
+		int memberCount = memberResult.getCount();
+
+		model.addAttribute("memberResult", memberlist);
+		model.addAttribute("memberCount", memberCount);
+
+		return "member/list";
+	}
 
 	// member/view/사용자아이디 ⇒ 회원정보 조회 하기
 	@GetMapping("/member/view/{articleEmail}")
-	public String viewDetailPage(Model model, @PathVariable String articleId) {
-		MemberVO findeResult = this.memberService.findMemberArticleId(articleId);
+	public String viewDetailPage(Model model, @PathVariable String articleEmail) {
+		MemberVO findeResult = this.memberService.findMemberArticleId(articleEmail);
 		model.addAttribute("articleEmail", findeResult);
 
 		return "member/view";
