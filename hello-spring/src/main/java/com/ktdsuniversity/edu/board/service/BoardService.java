@@ -1,6 +1,8 @@
 package com.ktdsuniversity.edu.board.service;
 
+import com.ktdsuniversity.edu.board.enums.ReadType;
 import com.ktdsuniversity.edu.board.vo.BoardVO;
+import com.ktdsuniversity.edu.board.vo.request.UpdateVO;
 import com.ktdsuniversity.edu.board.vo.request.WriteVO;
 import com.ktdsuniversity.edu.board.vo.response.SearchResultVO;
 
@@ -13,8 +15,10 @@ public interface BoardService {
 
 	boolean createNewBoard(WriteVO writeVO);
 
-	BoardVO findBoardArticleId(String articleId);
+	BoardVO findBoardArticleId(String articleId, ReadType readType);
 
 	boolean findBoarDelectArticleId(String articleId);
+
+	boolean updateBoardArticleId(UpdateVO updateVO);
 
 }

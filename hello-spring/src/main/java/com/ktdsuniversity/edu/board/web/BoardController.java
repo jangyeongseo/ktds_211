@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ktdsuniversity.edu.HelloSpringApplication;
+import com.ktdsuniversity.edu.board.enums.ReadType;
 import com.ktdsuniversity.edu.board.service.BoardService;
 import com.ktdsuniversity.edu.board.vo.BoardVO;
+import com.ktdsuniversity.edu.board.vo.request.UpdateVO;
 import com.ktdsuniversity.edu.board.vo.request.WriteVO;
 import com.ktdsuniversity.edu.board.vo.response.SearchResultVO;
 
@@ -39,7 +41,7 @@ public class BoardController {
 		List<BoardVO> list = searchResult.getResult();
 		// 게시글의 개수를 조회
 		int searchCount = searchResult.getCount();
-		
+
 		model.addAttribute("searchResult", list);
 		model.addAttribute("searchCount", searchCount);
 		return "board/list";
@@ -74,22 +76,42 @@ public class BoardController {
 	// 해야 하는 역할
 	// 1. 게시글 내용을 조회해서 브라우저에게 노출.
 	// 2. 조회수 1증가.
-	// PathVariable 이 게시글 아이디의 값이다.
+	// PathVariable 이 게시글 아이디의 값이다. - ?가 없고
 	@GetMapping("/view/{articleId}")
 	public String viewDetailPage(Model model, @PathVariable String articleId) {
 		// articleID로 데이터ㅓ베이스에서 게시글을 조회한다.
 		// 조회할 때 조회수가 하나 증가해야 한다.
-		BoardVO findResult = this.boardService.findBoardArticleId(articleId);
+		BoardVO findResult = this.boardService.findBoardArticleId(articleId, ReadType.VIEW);
 		model.addAttribute("articleId", findResult);
 		return "board/view";
+	}
+
+	// 수정 - PathVariable
+	@GetMapping("/update/{articleId}")
+	public String viewUpdatePage(Model model, @PathVariable String articleId) {
+		BoardVO data = this.boardService.findBoardArticleId(articleId, ReadType.UPDATE);
+		model.addAttribute("article", data);
+
+		return "board/update";
+	}
+
+	@PostMapping("/update/{articleId}")
+	public String doUpdatePage(@PathVariable String articleId, UpdateVO updateVO) {
+		// 폼 데이터랑, 모델 데이터만 패스베리어블은 들어가 있지 않은 상황
+		// setter 에 아이디의 값을 넣어줘야 한다.
+		updateVO.setId(articleId);
+		boolean updateResult = this.boardService.updateBoardArticleId(updateVO);
+		System.out.println("성공?" + updateResult);
+
+		return "redirect:/view/"+articleId;
 	}
 
 	// 삭제 Query Stinrg 파라미터 @RequestParam
 	@GetMapping("/delete")
 	public String doDeleteAction(@RequestParam String id) {
-		boolean deleteBoardById = this.boardService.findBoarDelectArticleId(id);
-		 System.out.println("삭제 id = " + id);
-		
+		this.boardService.findBoarDelectArticleId(id);
+		System.out.println("삭제 id = " + id);
+
 		return "redirect:/";
 	}
 

@@ -66,6 +66,19 @@
 		WHERE ID = #{_parameter}
     </update>
     
+    <!-- 수정 -->
+    <update id="updateViewById" parameterType="com.ktdsuniversity.edu.board.vo.request.UpdateVO">
+        UPDATE
+		    BOARD
+		SET
+		    SUBJECT = #{subject},
+		    CONTENT = #{content},
+		    EMAIL =  #{email},
+		    MDFY_DT = SYSDATE
+		WHERE
+		    ID = #{id}
+    </update>
+    
     
     <!-- 삭제 -->
     <delete id="deleteViewById" parameterType="string">

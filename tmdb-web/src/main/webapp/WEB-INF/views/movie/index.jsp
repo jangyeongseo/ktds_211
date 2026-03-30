@@ -21,13 +21,15 @@
 		<!-- 영화 리스트 -->
 		<div class="grid">
 			<c:forEach items="${movieList}" var="movie">
-				<div class="card">
-					<img src="${movie.posterUrl}" alt="poster">
-					<div class="card-body">
-						<h3>${movie.title}</h3>
-						<p class="info">${movie.openDate}</p>
+				<form action="/delete" method="get">
+					<div class="card">
+						<img src="${movie.posterUrl}" alt="poster">
+						<div class="card-body">
+							<h3>${movie.title}</h3>
+							<p class="info">${movie.openDate}</p>
+						</div>
 					</div>
-				</div>
+				</form>
 			</c:forEach>
 
 			<!-- 데이터 없을 때 -->

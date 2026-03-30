@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ktdsuniversity.edu.board.dao.BoardDao;
+import com.ktdsuniversity.edu.board.enums.ReadType;
 import com.ktdsuniversity.edu.board.vo.BoardVO;
+import com.ktdsuniversity.edu.board.vo.request.UpdateVO;
 import com.ktdsuniversity.edu.board.vo.request.WriteVO;
 import com.ktdsuniversity.edu.board.vo.response.SearchResultVO;
 
@@ -51,15 +53,18 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public BoardVO findBoardArticleId(String articleId) {
-		// 조회수 증가
-		int updateCount = this.boardDao.updateViewCntIncreaseById(articleId);
-		System.out.println("조회수가 증가된 게시글의 수 : " + updateCount);
+	public BoardVO findBoardArticleId(String articleId, ReadType readType) {
+		if (readType == ReadType.VIEW) {
+			// 조회수 증가
+			int updateCount = this.boardDao.updateViewCntIncreaseById(articleId);
+			System.out.println("조회수가 증가된 게시글의 수 : " + updateCount);
 
-		if (updateCount == 0) {
-			// 존재하지 않는 게시글을 조회하려 했다.
-			return null;
-//			throw new RuntimeException("존재하지 않는 게시글입니다."); - 존재하지 않는 화면으로나옴 오류 메세지가.
+			if (updateCount == 0) {
+				// 존재하지 않는 게시글을 조회하려 했다.
+				return null;
+				// throw new RuntimeException("존재하지 않는 게시글입니다."); - 존재하지 않는 화면으로나옴 오류 메세지가.
+			}
+
 		}
 
 		// 게시글 조회.
@@ -69,13 +74,21 @@ public class BoardServiceImpl implements BoardService {
 		return board;
 	}
 
-	
-//	삭제
+	// 수정
+	@Override
+	public boolean updateBoardArticleId(UpdateVO updateVO) {
+		int updateId = this.boardDao.updateViewById(updateVO);
+		System.out.println(updateId);
+
+		return false;
+	}
+
+	// 삭제
 	@Override
 	public boolean findBoarDelectArticleId(String id) {
-		int deleteId =  this.boardDao.deleteViewById(id);
+		int deleteId = this.boardDao.deleteViewById(id);
 		System.out.println(deleteId);
-		
+
 		return deleteId > 0;
 	}
 
