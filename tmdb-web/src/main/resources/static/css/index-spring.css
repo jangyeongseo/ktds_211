@@ -63,6 +63,7 @@ h1 {
 }
 
 .card:hover {
+	background-color: #ff9100;
 	transform: translateY(-5px);
 }
 
@@ -97,4 +98,10 @@ h1 {
 	text-align: center;
 	color: #999;
 	font-size: 18px;
+}
+
+/* a style */
+a{
+	text-decoration: none;
+	color: #333;
 }

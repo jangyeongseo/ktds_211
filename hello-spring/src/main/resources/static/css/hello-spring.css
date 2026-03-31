@@ -9,8 +9,7 @@ body {
 	/* 	background-color: #f9f7f0; */
 }
 
-form,
-.container {
+form, .container {
 	max-width: 700px;
 	margin: 3.125rem auto;
 	/* 50px */
@@ -56,18 +55,16 @@ div.grid>label {
 }
 
 /* input, textarea */
-div.grid>input,
-div.grid>textarea {
-	padding: 0.625rem;
-	border: 0.0625rem solid #ccc;
-	border-radius: 5px;
+div.grid>input, div.grid>textarea {
+	padding: 0.6rem;
+	border: 1px solid #ddd;
+	border-radius: 6px;
+	font-size: 14px;
 }
-
 /* grid style 끝 */
 
 /* 글쓰기 style 시작 */
-div.grid>input:focus,
-div.grid>textarea:focus {
+div.grid>input:focus, div.grid>textarea:focus {
 	outline: none;
 	border-color: #ff9100;
 }
@@ -93,7 +90,6 @@ input[type="submit"]:hover {
 
 div.write {
 	grid-template-columns: 6rem 1fr;
-	grid-template-rows: 2rem 2rem 250px auto;
 	row-gap: 15px;
 }
 
@@ -103,10 +99,18 @@ div.write {
 div.view {
 	grid-template-columns: 7.5rem 1fr;
 	grid-template-rows: repeat(9, minmax(1.75rem, auto));
-	row-gap: 0.625rem;
+	row-gap: 1.25rem;
 }
 
-div.view>div.btn-group>div.right-align {
+.vertical-list {
+	margin: 0;
+	padding: 10px 0;
+	list-style-type: none;
+	display: flex;
+	flex-direction: column;
+}
+
+div.view > div.btn-group > div.right-align {
 	grid-column: 1/-1;
 }
 
@@ -188,4 +192,44 @@ a:hover {
 	display: flex;
 	justify-content: flex-end;
 	display: flex;
+}
+
+/* files style  */
+div.attach-files {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+div.attach-files>label {
+	padding-left: 0.625rem;
+	display: flex;
+	align-items: center;
+	font-weight: bold;
+}
+
+div.attach-files .file-row {
+	display: flex;
+	gap: 0.5rem;
+}
+
+div.attach-files input[type="file"] {
+	flex: 1;
+	padding: 0.4rem;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+}
+
+div.attach-files button {
+	padding: 0.4rem 0.8rem;
+	border: none;
+	background-color: #ff9100;
+	color: white;
+	border-radius: 5px;
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+div.attach-files button:hover {
+	background-color: #aa6102;
 }

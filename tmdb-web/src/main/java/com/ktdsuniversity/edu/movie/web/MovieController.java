@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.ktdsuniversity.edu.movie.service.MovieService;
@@ -18,8 +19,8 @@ public class MovieController {
 	@Autowired
 	private MovieService movieService;
 
-	// 영화 목록
-	@GetMapping("/")
+	// 영화 목록 조회
+	@GetMapping("/list")
 	public String viewMovieList(Model model) {
 		MovieSearchResultVO movieSearchResult = this.movieService.selectMovieList();
 
@@ -41,7 +42,16 @@ public class MovieController {
 		boolean createMovie = this.movieService.insertMovie(movieVO);
 		System.out.println("결과 : " + createMovie);
 
-		return "redirect:/";
+		return "redirect:/list";
+	}
+
+	// 영화 view
+	@GetMapping("/view/{articleMovieID}")
+	public String viewMovieIdPage(Model model, @PathVariable String articleMovieID) {
+		MovieVO findResult = this.movieService.findMovieById(articleMovieID);
+		model.addAttribute("articleMovieID", findResult);
+
+		return "movie/view";
 	}
 
 	// 영화 삭제

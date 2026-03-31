@@ -11,7 +11,7 @@
 
     <body>
         <div class="container">
-            <h1>회원정보</h1>
+            <h1>마이페이지</h1>
                 <main class="main-text">
                     <label for="email">이메일</label>
                     <div>${articleEmail.email}</div>

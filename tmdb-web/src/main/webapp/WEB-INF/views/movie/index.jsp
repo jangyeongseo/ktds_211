@@ -23,11 +23,13 @@
 			<c:forEach items="${movieList}" var="movie">
 				<form action="/delete" method="get">
 					<div class="card">
-						<img src="${movie.posterUrl}" alt="poster">
+					  <a href="/view/${movie.movieId}">
+						<img src="${movie.posterUrl}" alt="poster" />
 						<div class="card-body">
 							<h3>${movie.title}</h3>
 							<p class="info">${movie.openDate}</p>
 						</div>
+				      </a>
 					</div>
 				</form>
 			</c:forEach>

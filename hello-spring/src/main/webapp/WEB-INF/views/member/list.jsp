@@ -28,8 +28,7 @@
 					<tbody>
 						<c:forEach items="${memberResult}" var="member">
 							<tr>
-								<td>
-								   <a href="/member/view/${member.email}">${member.email}</a>
+								<td><a href="/member/view/${member.email}">${member.email}</a>
 								</td>
 								<td>${member.name}</td>
 								<td>${member.password}</td>

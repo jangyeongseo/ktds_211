@@ -15,9 +15,9 @@ public class MovieServiceImp implements MovieService {
 	@Autowired
 	private MovieDao movieDao;
 
+	// 영화 목록 조회
 	@Override
 	public MovieSearchResultVO selectMovieList() {
-//		영화 목록 조회
 		List<MovieVO> list = movieDao.selectMovieList();
 
 		MovieSearchResultVO result = new MovieSearchResultVO();
@@ -26,11 +26,20 @@ public class MovieServiceImp implements MovieService {
 		return result;
 	}
 
+	// 영화 등록
 	@Override
 	public boolean insertMovie(MovieVO movieVO) {
 		int insert = movieDao.insertNewMovie(movieVO);
 
 		return insert > 0;
+	}
+
+	// 영화 디테일 화면
+	@Override
+	public MovieVO findMovieById(String articleMovieID) {
+		MovieVO result = movieDao.selectMovieById(articleMovieID);
+
+		return result;
 	}
 
 }

@@ -8,4 +8,6 @@ public interface MovieService {
 
 	boolean insertMovie(MovieVO movieVO);
 
+	MovieVO findMovieById(String articleMovieID);
+
 }

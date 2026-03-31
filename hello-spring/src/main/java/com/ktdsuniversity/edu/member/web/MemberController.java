@@ -32,7 +32,7 @@ public class MemberController {
 	public String doMemberPage(WriteVO writeVO) {
 		// 성공 여부
 		boolean createResult = this.memberService.createNewMember(writeVO);
-		System.out.println(writeVO);
+		System.out.println("결과 : " + createResult + writeVO);
 
 		return "redirect:/login";
 	}

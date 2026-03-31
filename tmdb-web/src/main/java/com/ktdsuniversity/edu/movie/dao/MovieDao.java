@@ -10,5 +10,6 @@ import com.ktdsuniversity.edu.movie.vo.MovieVO;
 public interface MovieDao {
 	List<MovieVO> selectMovieList();
 	int insertNewMovie(MovieVO movieVO);
+	MovieVO selectMovieById(String articleMovieID);
 
 }

@@ -1,6 +1,5 @@
 package com.ktdsuniversity.edu.board.web;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.ktdsuniversity.edu.HelloSpringApplication;
 import com.ktdsuniversity.edu.board.enums.ReadType;
 import com.ktdsuniversity.edu.board.service.BoardService;
 import com.ktdsuniversity.edu.board.vo.BoardVO;
@@ -23,16 +21,16 @@ import com.ktdsuniversity.edu.board.vo.response.SearchResultVO;
 @Controller
 public class BoardController {
 
-	private final HelloSpringApplication helloSpringApplication;
+//	private final HelloSpringApplication helloSpringApplication;
 	/**
 	 * 빈 컨테이너에 들어있는 객체 중 탕비이 일치하는 객체를 할당 받는다.
 	 */
 	@Autowired
 	private BoardService boardService;
 
-	BoardController(HelloSpringApplication helloSpringApplication) {
-		this.helloSpringApplication = helloSpringApplication;
-	}
+//	BoardController(HelloSpringApplication helloSpringApplication) {
+//		this.helloSpringApplication = helloSpringApplication;
+//	}
 
 	@GetMapping("/")
 	public String viewListPage(Model model) {
