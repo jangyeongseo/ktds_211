@@ -33,7 +33,7 @@
 				    <ul class="vertical-list">
 				        <c:forEach items="${articleId.files}" var="file">
 				            <li>
-				                <a href="/file/{file.fileGroupId}/${file.fileNum}">
+				                <a href="/file/${file.fileGroupId}/${file.fileNum}">
 				                    ${file.displayName}
 				                </a>
 				            </li>

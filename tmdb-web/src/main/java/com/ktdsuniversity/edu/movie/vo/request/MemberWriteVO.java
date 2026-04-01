@@ -1,11 +1,10 @@
-package com.ktdsuniversity.edu.movie.vo;
+package com.ktdsuniversity.edu.movie.vo.request;
 
 import java.util.List;
 
-import com.ktdsuniversity.edu.files.vo.FilesVO;
+import org.springframework.web.multipart.MultipartFile;
 
-public class MovieVO {
-	private String movieId;
+public class MemberWriteVO {
 	private String posterUrl;
 	private String title;
 	private String movieRating;
@@ -20,23 +19,15 @@ public class MovieVO {
 	private long budget;
 	private long profit;
 
-	// filesVO 연결
-	private List<FilesVO> files;
+	// js 값 받아오기
+	private List<MultipartFile> attachFiles;
 
-	public List<FilesVO> getFiles() {
-		return this.files;
+	public List<MultipartFile> getAttachFiles() {
+		return this.attachFiles;
 	}
 
-	public void setFiles(List<FilesVO> files) {
-		this.files = files;
-	}
-
-	public String getMovieId() {
-		return this.movieId;
-	}
-
-	public void setMovieId(String movieId) {
-		this.movieId = movieId;
+	public void setAttachFiles(List<MultipartFile> attachFiles) {
+		this.attachFiles = attachFiles;
 	}
 
 	public String getPosterUrl() {

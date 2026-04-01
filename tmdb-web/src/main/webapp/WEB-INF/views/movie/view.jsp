@@ -13,6 +13,7 @@
 			<h1>영화 디테일</h1>
 			<div class="grid">
 				<label>포스터 URL</label>
+				<!-- 영화 내용 조회할 때 업로드 한 포스터가 이미지로 노출될 수 있도록 개선 -->
 				<div>${articleMovieID.posterUrl}</div>
 
 				<label>제목</label>

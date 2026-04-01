@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.ktdsuniversity.edu.movie.service.MovieService;
 import com.ktdsuniversity.edu.movie.vo.MovieVO;
+import com.ktdsuniversity.edu.movie.vo.request.MemberWriteVO;
 import com.ktdsuniversity.edu.movie.vo.response.MovieSearchResultVO;
 
 @Controller
@@ -38,8 +39,8 @@ public class MovieController {
 
 	// 영화 등록
 	@PostMapping("/write")
-	public String doMoviePage(MovieVO movieVO) {
-		boolean createMovie = this.movieService.insertMovie(movieVO);
+	public String doMoviePage(MemberWriteVO memberWriteVO) {
+		boolean createMovie = this.movieService.insertMovie(memberWriteVO);
 		System.out.println("결과 : " + createMovie);
 
 		return "redirect:/list";
