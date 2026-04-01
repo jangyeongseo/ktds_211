@@ -8,10 +8,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ktdsuniversity.edu.movie.service.MovieService;
 import com.ktdsuniversity.edu.movie.vo.MovieVO;
-import com.ktdsuniversity.edu.movie.vo.request.MemberWriteVO;
+import com.ktdsuniversity.edu.movie.vo.request.MovieWriteVO;
 import com.ktdsuniversity.edu.movie.vo.response.MovieSearchResultVO;
 
 @Controller
@@ -39,9 +41,16 @@ public class MovieController {
 
 	// 영화 등록
 	@PostMapping("/write")
-	public String doMoviePage(MemberWriteVO memberWriteVO) {
-		boolean createMovie = this.movieService.insertMovie(memberWriteVO);
-		System.out.println("결과 : " + createMovie);
+	public String doMoviePage(MovieWriteVO movieWriteVO, @RequestParam MultipartFile attachFile) {
+		if (!attachFile.isEmpty()) {
+			String fileName = attachFile.getOriginalFilename();
+			// 실제로는 서버에 저장해야 함
+			// 예: /upload/파일명
+			String savedPath = "/upload/" + fileName;
+			movieWriteVO.setPosterUrl(savedPath);
+		}
+
+		boolean createMovie = this.movieService.insertMovie(movieWriteVO);
 
 		return "redirect:/list";
 	}

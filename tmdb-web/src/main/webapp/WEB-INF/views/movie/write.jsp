@@ -9,13 +9,12 @@
 </head>
 <body>
     <div class="container">
-        <form action="/write" method="post">
+        <form action="/write" method="post" enctype="multipart/form-data">
             <h1>영화 등록</h1>
             <div class="grid">
                 <!-- tmdb 프로젝트에서 영화를 등록할 때, 포스터 한 장을 업로드 할 수 있도록 개선. -->
                 <label>포스터 URL</label>
-                <input type="file" name="attachFiles" placeholder="영화 포스터 이미지 파일을 등록하세요." required />
-                <!-- <input type="text" name="attachFiles" placeholder="영화 포스터 링크를 등록하세요." required /> -->
+			    <input type="file" name="attachFile" multiple />
 
                 <label>제목</label>
                 <input type="text" name="title" placeholder="영화 제목을 등록하세요." required />

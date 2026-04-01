@@ -1,7 +1,6 @@
 package com.ktdsuniversity.edu.board.service;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +14,17 @@ import com.ktdsuniversity.edu.board.vo.request.UpdateVO;
 import com.ktdsuniversity.edu.board.vo.request.WriteVO;
 import com.ktdsuniversity.edu.board.vo.response.SearchResultVO;
 import com.ktdsuniversity.edu.files.dao.FilesDao;
-import com.ktdsuniversity.edu.files.vo.response.UploadVO;
+import com.ktdsuniversity.edu.files.helpers.MultipartFileHandler;
 
 @Service
 public class BoardServiceImpl implements BoardService {
 
 	@Autowired // Dependency Injection (의존성 주입)
 	private BoardDao boardDao;
+
+	@Autowired
+	private MultipartFileHandler multipartFileHandler;
+	// 업로드는 이걸로 처리할 것이다.
 
 	@Autowired
 	private FilesDao filesDao;
@@ -60,38 +63,9 @@ public class BoardServiceImpl implements BoardService {
 
 		// 첨부파일 업로드
 		List<MultipartFile> attachFiles = writeVO.getAttachFiles();
-		if (attachFiles != null && attachFiles.size() > 0) {
-			for (int i = 0; i < attachFiles.size(); i++) {
-				// 업로드한 파일이 서버컴퓨터의 파일 시스템에 저장되도록 한다.
-				File storeFiles = new File("C:\\uploadFiles", attachFiles.get(i).getOriginalFilename());
-				// "C:\\uploadFiles" 폴더가 없으면 생성하라!
-				if (!storeFiles.getParentFile().exists()) {
-					storeFiles.getParentFile().mkdirs();
-				}
-				try {
-					attachFiles.get(i).transferTo(storeFiles);
-					// FILES 테이블에 첨부파일 데이터를 insert
-					UploadVO uploadVO = new UploadVO();
-					String filename = attachFiles.get(i).getOriginalFilename();
-					String ext = filename.substring(filename.lastIndexOf(".") + 1); // 확장자
+		this.multipartFileHandler.upload(attachFiles, writeVO.getId());
 
-					uploadVO.setFileNum(i + 1);
-					uploadVO.setFileGroupId(writeVO.getId());
-					uploadVO.setObfuscateName(filename);
-					uploadVO.setDisplayName(filename);
-					uploadVO.setExtendName(ext);
-					uploadVO.setFileLength(storeFiles.length()); // 파일의 크기를 구해라
-					uploadVO.setFilePath(storeFiles.getAbsolutePath()); // 실제 경로
-
-					int result = this.filesDao.insertAttachFile(uploadVO);
-					System.out.println("파일 insert 결과: " + result);
-
-				} catch (IllegalStateException | IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return insertCount > 0;
+		return insertCount == 1;
 	}
 
 	@Override
@@ -122,7 +96,24 @@ public class BoardServiceImpl implements BoardService {
 		int updateId = this.boardDao.updateViewById(updateVO);
 		System.out.println(updateId);
 
-		return false;
+		// 첨부파일 업로드
+		List<MultipartFile> attachFiles = updateVO.getAttachFiles();
+		this.multipartFileHandler.upload(attachFiles, updateVO.getId());
+
+		// 선택한 파일들만 삭제
+		if(updateVO.getDeleteFileNum() != null && updateVO.getDeleteFileNum().size() > 0) {
+			// 선택한 파일들의 정보를 조회 -> 파일의 경로 -> 실제 파일을 제거
+			List<String> deleteTargets = this.filesDao.selectFilesPathByFilesGroupIdAndFileNums(updateVO);
+			for (String target : deleteTargets) {
+				new File(target).delete();
+			}
+	
+			// 선택한 파일들을 FILES 테이블에서 제거
+			int deleteCount = this.filesDao.deleteFilesByFileGroupIdAndFileNums(updateVO);
+			System.out.println("삭제한 파일 데이터의 수 : " + deleteCount);
+		}
+
+		return updateId == 1;
 	}
 
 	// 삭제
@@ -131,7 +122,7 @@ public class BoardServiceImpl implements BoardService {
 		int deleteId = this.boardDao.deleteViewById(id);
 		System.out.println(deleteId);
 
-		return deleteId > 0;
+		return deleteId == 1;
 	}
 
 }

@@ -1,15 +1,17 @@
 package com.ktdsuniversity.edu.board.vo.request;
 
+import java.util.List;
+
 // 상속을 하여 WriteVO에 있는것을 모두 사용할 수 있다.
 public class UpdateVO extends WriteVO {
-	private String id; // update ~ where에 사용할 변수
+	private List<Integer> deleteFileNum;
 
-	public String getId() {
-		return this.id;
+	public List<Integer> getDeleteFileNum() {
+		return this.deleteFileNum;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setDeleteFileNum(List<Integer> deleteFileNum) {
+		this.deleteFileNum = deleteFileNum;
 	}
 
 }

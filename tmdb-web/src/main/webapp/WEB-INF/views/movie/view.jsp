@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,12 +10,21 @@
 </head>
 <body>
 	<div class="container">
-		<form action="/write" method="post">
 			<h1>영화 디테일</h1>
 			<div class="grid">
 				<label>포스터 URL</label>
 				<!-- 영화 내용 조회할 때 업로드 한 포스터가 이미지로 노출될 수 있도록 개선 -->
-				<div>${articleMovieID.posterUrl}</div>
+				<div>
+                    <ul class="vertical-list">
+                        <c:forEach items="${articleMovieID.files}" var="file">
+                            <li>
+                                <a href="/file/${file.fileGroupId}/${file.fileNum}">
+                                    ${file.displayName}
+                                </a>
+                            </li>
+                        </c:forEach>
+                    </ul>
+                </div>
 
 				<label>제목</label>
 				<div>${articleMovieID.title}</div>
@@ -52,7 +62,11 @@
 				<label>수익</label>
 				<div>${articleMovieID.profit}</div>
 			</div>
-		</form>
+			
+			<div class="btnList">
+				<a href="/update/${articleMovieID.movieId}" class="btn">수정</a>
+				<a href="/delect?articleMovieID=${articleMovieID}" class="btn">삭제</a>
+			</div>
 	</div>
 </body>
 </html>

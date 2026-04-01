@@ -233,3 +233,9 @@ div.attach-files button {
 div.attach-files button:hover {
 	background-color: #aa6102;
 }
+
+
+vertical-list > li > input[type = "checkbox"]:checked + a{
+	color: red;
+	text-decoration: line-through;
+}

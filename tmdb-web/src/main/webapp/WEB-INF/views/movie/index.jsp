@@ -21,18 +21,19 @@
 		<!-- 영화 리스트 -->
 		<div class="grid">
 			<c:forEach items="${movieList}" var="movie">
-				<form action="/delete" method="get">
-					<div class="card">
-					  <a href="/view/${movie.movieId}">
-					   <!-- 영화 내용 조회할 때 업로드 한 포스터가 이미지로 노출될 수 있도록 개선 -->
-						<img src="${movie.posterUrl}" alt="poster" />
-						<div class="card-body">
-							<h3>${movie.title}</h3>
-							<p class="info">${movie.openDate}</p>
-						</div>
-				      </a>
-					</div>
-				</form>
+			    <div class="card">
+			        <a href="/view/${movie.movieId}">
+			            
+			            <c:if test="${not empty movie.files}">
+			                <img src="/file/${movie.files[0].fileGroupId}/${movie.files[0].fileNum}" />
+			            </c:if>
+			
+			            <div class="card-body">
+			                <h3>${movie.title}</h3>
+			                <p class="info">${movie.openDate}</p>
+			            </div>
+			        </a>
+			    </div>
 			</c:forEach>
 
 			<!-- 데이터 없을 때 -->

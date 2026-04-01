@@ -4,7 +4,8 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class MemberWriteVO {
+public class MovieWriteVO {
+	private String movieId;
 	private String posterUrl;
 	private String title;
 	private String movieRating;
@@ -20,14 +21,22 @@ public class MemberWriteVO {
 	private long profit;
 
 	// js 값 받아오기
-	private List<MultipartFile> attachFiles;
+	private List<MultipartFile> attachFile;
 
-	public List<MultipartFile> getAttachFiles() {
-		return this.attachFiles;
+	public List<MultipartFile> getAttachFile() {
+		return this.attachFile;
 	}
 
-	public void setAttachFiles(List<MultipartFile> attachFiles) {
-		this.attachFiles = attachFiles;
+	public void setAttachFile(List<MultipartFile> attachFile) {
+		this.attachFile = attachFile;
+	}
+
+	public String getMovieId() {
+		return this.movieId;
+	}
+
+	public void setMovieId(String movieId) {
+		this.movieId = movieId;
 	}
 
 	public String getPosterUrl() {

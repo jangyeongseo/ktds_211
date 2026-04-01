@@ -7,9 +7,9 @@ $().ready(function () {
         // 새로운 파일이 추가될 때 마다 기존의 "add-file" 버튼을 "del-files" 로 변경하고
         // 텍스트는 "-"로 변경한다.
         $(this).closest(".attach-files").children(".add-files")
-            .removeClass(".add-files")
-            .text("-")
+            .removeClass("add-files")
             .addClass("del-files")
+            .text("-")
             .off("click")
             .on("click", function () {
                 // 버튼 왼쪽에 있는 인풋 태그 삭제
