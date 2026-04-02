@@ -30,5 +30,36 @@ $().ready(function () {
 
     });
 
+    // 유효성 검사
+    $("#writeVO").on("submit", function (event) {
+        event.preventDefault();
+        $(this).find(".validation-error").remove();
+
+        var subject = $("#subject").val();
+        if (!subject || subject.length < 3) {
+            var subjectErrorMessage = $("<div>").addClass("validation-error").text("제목을 입력하세요");
+            $("#subject").after(subjectErrorMessage);
+            return false;
+
+        }
+
+        var email = $("#email").val();
+        if (!email || !email.includes("@")) {
+            var emailErrorMessage = $("<div>").addClass("validation-error").text("올바른 이메일을 입력하세요");
+            $("#email").after(emailErrorMessage);
+            return false;
+        }
+
+        var content = $("#content").val();
+        if (!content) {
+            var contentErrorMessage = $("<div>").addClass("validation-error").text("내용을 입력하세요");
+            $("#content").after(contentErrorMessage);
+            return false;
+        }
+
+        if ($(".validation-error").length === 0) {
+            this.submit();
+        }
+    });
 
 });

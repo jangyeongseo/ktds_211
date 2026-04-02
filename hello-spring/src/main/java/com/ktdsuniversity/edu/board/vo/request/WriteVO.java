@@ -4,6 +4,11 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
+
 /**
  * 게시글 등록을 위해 브라우저에서 컨트롤러(엔드포인트)로 전송되는 파라미터를
  * 
@@ -12,7 +17,12 @@ import org.springframework.web.multipart.MultipartFile;
 public class WriteVO {
 	private String id;
 
+	@NotBlank(message = "제목은 반드시 입력해주세요.")
+	@Size(min = 3, message = "3글자 이상 작성해주세요.")
 	private String subject;
+
+	@NotEmpty(message = "이메일 형태가 아닙니다.")
+	@Email(message = "이메일 형태가 아닙니다.")
 	private String email;
 	private String content;
 

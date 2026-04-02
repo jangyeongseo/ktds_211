@@ -20,4 +20,8 @@ public interface FilesDao {
 
 	int deleteFilesByFileGroupIdAndFileNums(UpdateVO updateVO);
 
+	List<String> selectFilePathByFileGroupId(String id);
+
+	int deleteFileByFileGroupId(String id);
+
 }

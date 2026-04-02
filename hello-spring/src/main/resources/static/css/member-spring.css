@@ -51,8 +51,8 @@ body {
 }
 
 .main-text input {
-	margin-bottom: 1.25rem;
-	/* 20px */
+    margin-bottom: 1.25rem;
+    /* 20px */
 	padding: 0.625rem;
 	/* 10px */
 	border: 0.0625rem solid #ccc;
@@ -82,6 +82,15 @@ button {
 button:hover {
 	background-color: #aa6102;
 }
+
+.signerror{
+	margin-top: -1.25rem;
+	color: red;
+	width: 100%;
+	padding: 0;
+	font-size: 12px;
+}
+
 
 /* 회원 목록 style 시작 */
 table {

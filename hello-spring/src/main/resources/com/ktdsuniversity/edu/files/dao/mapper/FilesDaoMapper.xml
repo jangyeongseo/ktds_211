@@ -61,5 +61,27 @@
 	            </foreach>
     </delete>
 
+    <select id="selectFilePathByFileGroupId" parameterType="com.ktdsuniversity.edu.files.vo.response.UploadVO" resultType="string">
+        SELECT
+            FILE_PATH
+        FROM
+            FILES
+        WHERE
+            FILE_GROUP_ID = #{id}
+            AND FILE_NUM IN 
+            <foreach collection="deleteFileNum" item="fileNum" open="(" close=")" separator=", " >
+              #{fileNum}
+            </foreach>
+    </select>
+
+    <delete id="deleteFileByFileGroupId" parameterType="com.ktdsuniversity.edu.files.vo.response.UploadVO">
+            DELETE FROM FILES
+            WHERE
+                FILE_GROUP_ID = #{id}
+                AND FILE_NUM IN 
+                <foreach collection="deleteFileNum" item="fileNum" open="(" close=")" separator=", " >
+                  #{fileNum}
+                </foreach>
+    </delete>
 
 </mapper>

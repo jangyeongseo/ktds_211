@@ -17,6 +17,7 @@
 		FILE_NAME,
 		ORIGIN_FILE_NAME
 		FROM BOARD
+		ORDER BY ID DESC
 	</select>
 
 	<!-- 개수 조회 -->

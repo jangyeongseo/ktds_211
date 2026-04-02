@@ -1,114 +1,173 @@
 @charset "UTF-8";
 
+/* 기본 세팅 */
 * {
-	box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-	margin: 0;
-	padding: 0;
-	color: #333;
-	background-color: #f9f7f0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    line-height: 1.5;
 }
 
-form {
-	max-width: 700px;
-	margin: 50px auto;
-	background-color: #fff;
-	padding: 25px;
-	border-radius: 10px;
-	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+ul{
+	list-style-type: none;
 }
 
-/* 제목 */
-h1 {
-	text-align: center;
+/* 전체 컨테이너 */
+.container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-div.grid {
-	display: grid;
-	grid-template-columns: 100px 1fr;
-	row-gap: 15px;
-	column-gap: 10px;
-}
-
-div.grid > label {
+/* 헤더 */
+.header{
 	display: flex;
+	justify-content: space-between;
 	align-items: center;
-	font-weight: bold;
+	
+    margin-bottom: 25px;
 }
 
-/* label - 소개, 줄거리 */
-div.grid > label.introduction, 
-div.grid > label.plot {
-	align-items: flex-start;
+.header h1 {
+    color: #ff9100;
+    font-size: 28px;
 }
 
-div.grid > input, 
-div.grid > textarea {
-	padding: 10px;
-	border: 1px solid #ccc;
-	border-radius: 5px;
+/* 폼 그리드 */
+.grid {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 20px;
+    align-items: start;
 }
 
-textarea {
-	height: 120px;
-	resize: none;
+/* 레이블 */
+.grid > label {
+    font-weight: bold;
+    color: #555;
+    align-self: center;
 }
 
-div.grid > input:focus, 
-div.grid > textarea:focus {
-	outline: none;
-	border-color: #ff9100;
+/* 소개/줄거리 */
+.grid > label.introduction,
+.grid > label.plot {
+    align-self: start;
 }
 
-/* input - 제작비, 수익 */
+/* 금액 강조 */
 .money {
-	font-weight: bold;
-	color: #333;
+    font-weight: bold;
+    color: #ff6f61;
 }
 
 .money::before {
-	content: "₩ ";
+    content: "₩";
+    padding-right: 5px
 }
 
-/* 버튼 영역 */
-div.btn-group {
-	grid-column: 1/-1;
-	text-align: right;
-	margin-top: 20px;
+/* 버튼 그룹 */
+.btnList {
+    margin-top: 25px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
 }
 
 /* 버튼 */
-input[type="submit"] {
-	padding: 10px 20px;
-	border: none;
-	background-color: #ff9100;
-	color: #fff;
-	border-radius: 5px;
-	cursor: pointer;
-	width: 100%;
+.btn {
+    padding: 10px 20px;
+    background-color: #ff9100;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
 }
 
-input[type="submit"]:hover {
-	background-color: #aa6102;
+.btn:hover {
+    background-color: #aa6102;
 }
 
-/* 영화 디테일 style */
-div.grid > div {
-	padding: 10px;
-	border-radius: 5px;
-	display: flex;
-	align-items: center;
-	min-height: 40px;
+/* write */
+/* 입력 필드 스타일 */
+input[type=text],
+input[type=number],
+input[type=date],
+textarea,
+input[type=file] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.2s ease;
 }
 
-div.grid > div:nth-of-type(7),
-div.grid > div:nth-of-type(8) {
-    align-items: flex-start;
-    white-space: pre-line;
+input[type=text]:focus,
+input[type=number]:focus,
+input[type=date]:focus,
+textarea:focus {
+    border-color: #ff9100;
 }
 
-div.money::before {
-    content: "₩ ";
+textarea {
+    height: 120px;
+    resize: none;
+}
+
+/* 포스터 업로드 미리보기 */
+.preview-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.preview-container img {
+    width: 180px;
+    height: 270px;
+    object-fit: cover;
+    border-radius: 10px;
+    background-color: #ddd; /* 기본 색상 */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 긴 텍스트 div */
+.grid > div {
+    padding: 12px;
+    border-radius: 10px;
+    min-height: 40px;
+    display: flex;
+    flex-direction: row;
+    word-break: break-word;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+}
+
+.btn-group {
+    display: flex;
+    justify-content: flex-end; /* 오른쪽 정렬 */
+    margin-top: 15px;
+}
+
+.btn-group > input[type=submit] {
+    padding: 12px 20px;
+    background-color: #ff9100;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-group > input[type=submit]:hover {
+    background-color: #aa6102;
 }

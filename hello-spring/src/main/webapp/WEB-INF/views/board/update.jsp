@@ -29,7 +29,7 @@
                     <ul class="vertical-list">
                         <c:forEach items="${article.files}" var="file">
                             <li>
-                            <input type="checkbox" name="deleteFileNum" value="${file.fileNum}" />
+                            <input type="checkbox" name="deleteFileNum" />
                                 <a href="/file/${file.fileGroupId}/${file.fileNum}">
                                     ${file.displayName}
                                 </a>

@@ -11,7 +11,10 @@
 
 	<body>
 		<div class="container">
-			<h1>게시글 내용 조회</h1>
+			<div>
+				<h1>게시글 내용 조회</h1>
+				<a href="/">뒤로가기</a>
+			</div>
 			<div class="grid view">
 				<span>아이디</span>
 				<div>${articleId.id}</div>

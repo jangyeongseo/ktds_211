@@ -80,7 +80,6 @@ public class BoardServiceImpl implements BoardService {
 				return null;
 				// throw new RuntimeException("존재하지 않는 게시글입니다."); - 존재하지 않는 화면으로나옴 오류 메세지가.
 			}
-
 		}
 
 		// 게시글 조회.
@@ -101,13 +100,13 @@ public class BoardServiceImpl implements BoardService {
 		this.multipartFileHandler.upload(attachFiles, updateVO.getId());
 
 		// 선택한 파일들만 삭제
-		if(updateVO.getDeleteFileNum() != null && updateVO.getDeleteFileNum().size() > 0) {
+		if (updateVO.getDeleteFileNum() != null && updateVO.getDeleteFileNum().size() > 0) {
 			// 선택한 파일들의 정보를 조회 -> 파일의 경로 -> 실제 파일을 제거
 			List<String> deleteTargets = this.filesDao.selectFilesPathByFilesGroupIdAndFileNums(updateVO);
 			for (String target : deleteTargets) {
 				new File(target).delete();
 			}
-	
+
 			// 선택한 파일들을 FILES 테이블에서 제거
 			int deleteCount = this.filesDao.deleteFilesByFileGroupIdAndFileNums(updateVO);
 			System.out.println("삭제한 파일 데이터의 수 : " + deleteCount);
@@ -121,6 +120,19 @@ public class BoardServiceImpl implements BoardService {
 	public boolean findBoarDelectArticleId(String id) {
 		int deleteId = this.boardDao.deleteViewById(id);
 		System.out.println(deleteId);
+
+		// 삭제하려는 게시글에 첨부된 파일 목록을 가져온다.
+		List<String> filePaths = this.filesDao.selectFilePathByFileGroupId(id);
+		if (filePaths != null && filePaths.size() > 0) {
+			// 파일 목록이 존재하면, 모든 파일들을 제거한다.
+			for (String path : filePaths) {
+				new File(path).delete();
+			}
+		}
+
+		// 파일 목록을 제거한 이후에 "FILES" 테이블에서 해당 파일 전보를 모두 삭제한다.
+		int deleteFileCount = this.filesDao.deleteFileByFileGroupId(id);
+		System.out.println("삭제한 파일 데이터의 수 : " + deleteFileCount);
 
 		return deleteId == 1;
 	}

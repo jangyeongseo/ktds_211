@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,8 @@ import com.ktdsuniversity.edu.board.vo.BoardVO;
 import com.ktdsuniversity.edu.board.vo.request.UpdateVO;
 import com.ktdsuniversity.edu.board.vo.request.WriteVO;
 import com.ktdsuniversity.edu.board.vo.response.SearchResultVO;
+
+import jakarta.validation.Valid;
 
 @Controller
 public class BoardController {
@@ -48,15 +51,28 @@ public class BoardController {
 
 	// 게시글 등록 화면 보여주는 EndPoint
 	@GetMapping("/write")
-	public String viewWritePage() {
+	public String viewWritePage(Model model) {
 		return "board/write";
 	}
 
 	// public String doWritePage(@ModelAttribute WriteVO writeVO) 이렇게도 괜찮고
 	// public String doWritePage(WriteVO writeVO) { 이렇게도 괜찮다
 	// @ModelAttribute - 생략이 가능하다.
+	// @Valid : 유효성 검사를 한 결과를 가져온다. - writeVO에 작성한 notEm~ 에 있는것을
 	@PostMapping("/write")
-	public String doWritePage(@ModelAttribute WriteVO writeVO) {
+	public String doWritePage(@Valid @ModelAttribute WriteVO writeVO,
+			// BindingResult bindingResult - @Valid의 결과를 받아오는 파라미터. / 반드시 @Valid 파라미터 이후에
+			// 작성. 순서를 잘 지켜야함.
+			BindingResult bindingResult, Model model) {
+		// 사용자의 입력값을 검증 했을 때, 에러가 있다면
+		if (bindingResult.hasErrors()) {
+			// 브라우저에게 "board/write" 페이지를 보여주도록 하고
+			// 해당 페이지에 사용자가 입력한 값을 전달한다.
+			model.addAttribute("inputData", writeVO);
+			return "board/write";
+
+		}
+
 		System.out.println(writeVO.getSubject());
 		System.out.println(writeVO.getContent());
 		System.out.println(writeVO.getEmail());

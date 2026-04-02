@@ -22,7 +22,9 @@
 		    PROFIT
 		FROM
 		    MOVIE
-	</select>
+		ORDER BY
+            MOVIE_ID DESC
+    </select>
 	
 	<insert id="insertNewMovie" parameterType="com.ktdsuniversity.edu.movie.vo.MovieVO">
 	<selectKey order="BEFORE" resultType="string" keyProperty="movieId">

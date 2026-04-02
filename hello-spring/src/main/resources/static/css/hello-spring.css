@@ -55,7 +55,8 @@ div.grid>label {
 }
 
 /* input, textarea */
-div.grid>input, div.grid>textarea {
+div.grid > input, 
+div.grid>textarea {
 	padding: 0.6rem;
 	border: 1px solid #ddd;
 	border-radius: 6px;
@@ -64,7 +65,9 @@ div.grid>input, div.grid>textarea {
 /* grid style 끝 */
 
 /* 글쓰기 style 시작 */
-div.grid>input:focus, div.grid>textarea:focus {
+
+div.grid > input:focus,
+div.grid>textarea:focus {
 	outline: none;
 	border-color: #ff9100;
 }
@@ -91,6 +94,21 @@ input[type="submit"]:hover {
 div.write {
 	grid-template-columns: 6rem 1fr;
 	row-gap: 15px;
+}
+
+input.error{
+	border-color: red;
+}
+
+div.write .validation-error {
+    color: red;
+}
+
+.validation-error {
+    grid-column: 2 / 3;
+    color: red;
+    font-size: 12px;
+    margin-top: 2px;
 }
 
 /* 글쓰기 style 끝 */
@@ -235,7 +253,7 @@ div.attach-files button:hover {
 }
 
 
-vertical-list > li > input[type = "checkbox"]:checked + a{
+.vertical-list > li > input[type = "checkbox"]:checked + a{
 	color: red;
 	text-decoration: line-through;
 }

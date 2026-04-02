@@ -10,20 +10,23 @@
 </head>
 <body>
 	<div class="container">
-			<h1>영화 디테일</h1>
+            <div class="header">
+                <h1>영화 디테일</h1>
+                <a href="/list" class="btn">&lt</a>
+            </div>
 			<div class="grid">
 				<label>포스터 URL</label>
 				<!-- 영화 내용 조회할 때 업로드 한 포스터가 이미지로 노출될 수 있도록 개선 -->
 				<div>
                     <ul class="vertical-list">
-                        <c:forEach items="${articleMovieID.files}" var="file">
-                            <li>
-                                <a href="/file/${file.fileGroupId}/${file.fileNum}">
-                                    ${file.displayName}
-                                </a>
-                            </li>
-                        </c:forEach>
-                    </ul>
+					   <c:forEach items="${articleMovieID.files}" var="file">
+						    <li>
+							    <a href="/file/${file.fileGroupId}/${file.fileNum}">
+							        <img src="/file/${file.fileGroupId}/${file.fileNum}" alt="${file.displayName}" width="200"/>
+							    </a>
+						    </li>
+						</c:forEach>
+					</ul>
                 </div>
 
 				<label>제목</label>
@@ -57,10 +60,10 @@
 				<div>${articleMovieID.language}</div>
 
 				<label>제작비</label>
-				<div>${articleMovieID.budget}</div>
+				<div class="money">${articleMovieID.budget}</div>
 
 				<label>수익</label>
-				<div>${articleMovieID.profit}</div>
+				<div class="money">${articleMovieID.profit}</div>
 			</div>
 			
 			<div class="btnList">

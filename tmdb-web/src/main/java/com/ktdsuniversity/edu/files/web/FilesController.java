@@ -57,6 +57,7 @@ public class FilesController {
 		System.out.println(downloadVO);
 		
 		HttpHeaders headers = new HttpHeaders();
+		// inline : 부라우저에서 바로 볼수 있음, attachment : 파일을 무조건 다운로드 받고 싶을 때
 		headers.set(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=" + downloadVO.getDisplayName());
 		headers.set(HttpHeaders.CONTENT_LANGUAGE, downloadVO.getFileLength() + "");
 		headers.set(HttpHeaders.CONTENT_TYPE, this.mimeTypeMap.getOrDefault(downloadVO.getDisplayName().toLowerCase(), "application/octet-stream"));

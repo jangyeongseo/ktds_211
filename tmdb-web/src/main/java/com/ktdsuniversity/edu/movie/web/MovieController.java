@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +17,8 @@ import com.ktdsuniversity.edu.movie.service.MovieService;
 import com.ktdsuniversity.edu.movie.vo.MovieVO;
 import com.ktdsuniversity.edu.movie.vo.request.MovieWriteVO;
 import com.ktdsuniversity.edu.movie.vo.response.MovieSearchResultVO;
+
+import jakarta.validation.Valid;
 
 @Controller
 public class MovieController {
@@ -41,7 +45,8 @@ public class MovieController {
 
 	// 영화 등록
 	@PostMapping("/write")
-	public String doMoviePage(MovieWriteVO movieWriteVO, @RequestParam MultipartFile attachFile) {
+	public String doMoviePage(@Valid @ModelAttribute MovieWriteVO movieWriteVO, 
+			BindingResult bindingResult, @RequestParam MultipartFile attachFile, Model model) {
 		if (!attachFile.isEmpty()) {
 			String fileName = attachFile.getOriginalFilename();
 			// 실제로는 서버에 저장해야 함
