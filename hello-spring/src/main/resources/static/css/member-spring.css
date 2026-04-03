@@ -83,12 +83,20 @@ button:hover {
 	background-color: #aa6102;
 }
 
-.signerror{
+.signerror,
+.signsuccess{
 	margin-top: -1.25rem;
-	color: red;
 	width: 100%;
 	padding: 0;
 	font-size: 12px;
+}
+.signerror{
+	color: red;
+}
+
+.signsuccess{
+	color: #ff9100;
+	font-weight: bold;
 }
 
 

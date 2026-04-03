@@ -45,7 +45,7 @@
 			</c:otherwise>
 		</c:choose>
 
-		<a href="/sign">회원가입</a>
+		<a href="/regist">회원가입</a>
 	</div>
 </body>
 

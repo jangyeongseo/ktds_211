@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ktdsuniversity.edu.member.service.MemberService;
 import com.ktdsuniversity.edu.member.vo.MemberVO;
 import com.ktdsuniversity.edu.member.vo.request.WriteVO;
+import com.ktdsuniversity.edu.member.vo.response.DuplicateResultVO;
 import com.ktdsuniversity.edu.member.vo.response.MembershipResultVO;
 
 import jakarta.validation.Valid;
@@ -24,9 +26,25 @@ public class MemberController {
 
 	@Autowired
 	private MemberService memberService;
+	
+	@ResponseBody // JSON 형식으로 반환
+	@GetMapping("/regist/check/duplicate/{email}")
+	public DuplicateResultVO doCheckDuplicateEmailAction(@PathVariable String email) {
+		// email이 이미 사용 중인지 확인한다.
+		MemberVO memberVO = this.memberService.findMemberArticleId(email);
+		
+		// 확인된 결과를 JSON으로 전송한다.
+		// 이미 사용중 => {email: "test@gmail", duplicate: true}
+		// 사용중이지 않다 => {email: "test@gmail", duplicate: false}
+		DuplicateResultVO result = new DuplicateResultVO();
+		result.setEmail(email);
+		result.setDuplicate(memberVO != null);
+		return result;
+
+	}
 
 	// 회원가입 등록 화면 보여주기
-	@GetMapping("/sign")
+	@GetMapping("/regist")
 	public String viewMemberPage() {
 		return "member/sign";
 	}

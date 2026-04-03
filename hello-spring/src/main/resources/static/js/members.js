@@ -49,6 +49,78 @@ $().ready(function () {
     });
 
 
+    // 이메일 입력폼에 keyup 이벤트가 발생할 때마다 입력값이 이메일 형식에 맞는지 체크
+    // 이메일 포커스가 해제되면. 0.15초 이후에 이메일 재검사.
+    $("#email").on("blur", function () {
+        setTimeout(function () {
+            $("#email").trigger("keyup");
+        }, 150);
+    });
+
+    // email 키 입력을 시작한 시간.
+    var keyUpStartTime = new Date().getTime();
+
+    $("#email").on("keyup", function () {
+        var emailValue = $(this).val();
+
+        // 이메일 키 입력이 발생한 시간
+        var nowTime = new Date().getTime();
+        // 시간의 차가 0.1초 이내라면 이벤트 반응하지 않음
+        if (nowTime - keyUpStartTime < 100) {
+            return; // 0.1초가 지나지 않았다면 함수를 종료
+        }
+        keyUpStartTime = nowTime; // 키 입력이 발생한 시간을 업데이트
+
+
+        var emailPattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+
+        // $(this).closest(".main-text").children(".signsuccess, .signerror").remove();
+
+        // 이메일을 입룍 했을 때
+        if (emailPattern.test(emailValue)) {
+            // 비동기로 중복 여부를 검사해 온다.
+            // '/'로 시작한다 하면 앞에 도메인 주소가 붙는다. 
+            //  => http://localhost:8080/regist/check/duplicate/입력한이메일
+            // 앞에 있는 주소를 브라우저가 자동으로 넣어주는 것이다.
+            // '/' 로 시작하지 않으면 현재 페이지의 주소 뒤에 붙는다.
+            fetch("/regist/check/duplicate/" + emailValue)
+                // 비동기 결과를 이용해서 메시지를 노출하거나 숨긴다.
+                .then(function (fetchResult) {
+                    return fetchResult.json(); // 응답 결과를 JSON으로 파싱한다.
+                })
+                .then(function (json) {
+                    // console.log(json); // {duplicate: true} 또는 {duplicate: false}
+                    var duplicateResult = $("#email").closest(".main-text").children(".signerror");
+
+                    if (duplicateResult.length === 0) {
+                        duplicateResult = $("#email").closest(".main-text").children(".signsuccess");
+                    }
+
+                    if (duplicateResult.length === 0) {
+                        var duplicateResult = $("<div>");
+                        $("#email").after(duplicateResult);
+                    }
+
+
+                    if (!json.duplicate) {
+                        // 사용 가능한 이메일
+                        duplicateResult.removeClass("signerror");
+                        duplicateResult.addClass("signsuccess").text("사용 가능한 이메일입니다.");
+
+                    } else {
+                        // 사용 불가능한 이메일
+                        duplicateResult.removeClass("signsuccess");
+                        duplicateResult.addClass("signerror").text("이미 사용 중인 이메일입니다.");
+                    }
+
+                })
+        } else {
+            // 이메일 형식이 올바르지 않을 때
+            $(this).closest(".main-text").children(".signsuccess, .signerror").remove();
+        }
+    });
+
+
     $("#confirmPassword, #password").on("keyup", function () {
         console.log("keyup 이벤트 발생");
         var confirmPasswordValue = $("#confirmPassword").val();
