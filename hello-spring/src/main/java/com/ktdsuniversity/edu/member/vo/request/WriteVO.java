@@ -21,6 +21,8 @@ public class WriteVO {
 	@Pattern(message = "특수문자로 시작해서 영어소문자 혹은 대문자, 숫자 최소 1개 이상의 8자리를 입력해주세요.", 
 	regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$")
 	private String password;
+	
+	private String salt;
 
 	public String getEmail() {
 		return this.email;
@@ -44,6 +46,14 @@ public class WriteVO {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public String getSalt() {
+		return this.salt;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
 	}
 
 }

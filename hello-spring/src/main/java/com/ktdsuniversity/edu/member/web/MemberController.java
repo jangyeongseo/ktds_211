@@ -20,7 +20,10 @@ import com.ktdsuniversity.edu.member.vo.response.DuplicateResultVO;
 import com.ktdsuniversity.edu.member.vo.response.MembershipResultVO;
 
 import jakarta.validation.Valid;
-
+/**
+ * EndPoint 생성/관리
+ *  + Validation Check
+ * */
 @Controller
 public class MemberController {
 
