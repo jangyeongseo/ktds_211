@@ -37,7 +37,7 @@ $().ready(function () {
 
         var subject = $("#subject").val();
         if (!subject || subject.length < 3) {
-            var subjectErrorMessage = $("<div>").addClass("validation-error").text("제목을 입력하세요");
+            var subjectErrorMessage = $("<div>").addClass("validation-error").text("제목을 3글자 이상 입력하세요");
             $("#subject").after(subjectErrorMessage);
             return false;
 

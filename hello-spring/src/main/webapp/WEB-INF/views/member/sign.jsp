@@ -30,6 +30,18 @@
                         <input type="password" name="password" id="password" placeholder="비밀번호를 입력하세요" />
                         <form:errors path="password" cssClass="signerror" element="div" />
 
+                        <!-- 비밀번호 두번 입력하기 => 두 비밀번호가 일치할 때만 회원가입 가능 -->
+                        <label for="confirmPassword">비밀번호 확인</label>
+                        <input type="password" name="confirmPassword" id="confirmPassword"
+                            placeholder="비밀번호를 다시 입력하세요" />
+                        <form:errors path="confirmPassword" cssClass="signerror" element="div" />
+
+
+                        <!-- 비밀번호 한번 입력하기 => 비밀번호를 확인하는 기능 -->
+                        <input type="checkbox" id="show-password" />
+                        <label for="show-password">비밀번호를 보여주기</label>
+                        <!-- name이 없다는 것은 서버로 전송을 하지 않겠다라는 의미. -->
+
                         <button type="submit">회원가입</button>
                     </main>
                 </form:form>

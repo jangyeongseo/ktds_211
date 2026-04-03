@@ -17,21 +17,19 @@ $().ready(function () {
         // form 내부에 존재하는 ".signerror" 클래스를 가진 요소를 제거한다.
         $(this).find(".signerror").remove();
 
+        $("#password").trigger("keyup"); // password 입력폼에 keyup 이벤트를 강제로 발생시킨다.
+
         // 이름, 이메일, 비밀번호를 제대로 입력하지 않았다 => 에러 메세지를 화면에 보여준다. 폼 전송 x
         var email = $("#email").val();
         if (!email || !email.includes("@")) {
             var emaillErrorMessage = $("<div>").addClass("signerror").text("올바른 이메일을 입력하세요");
             $("#email").after(emaillErrorMessage);
-
-            return false;
         }
 
         var name = $("#name").val();
         if (!name || name.length < 2) {
             var nameErrorMessage = $("<div>").addClass("signerror").text("이름을 입력하세요");
             $("#name").after(nameErrorMessage);
-
-            return false;
         }
 
         var passwordPath = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
@@ -40,8 +38,6 @@ $().ready(function () {
             var passwordErrorMessage = $("<div>").addClass("signerror")
                 .text("비밀번호는 영소문자, 영대문자, 숫자 최소 1개를 포함하여 8글자 이상이어야 합니다.");
             $("#password").after(passwordErrorMessage);
-
-            return false;
         }
 
         // 이름, 이메일, 비밀번호를 제대로 입력했다 => 폼 전송
@@ -50,6 +46,33 @@ $().ready(function () {
             // => 15번 라인(preventDefault)에서 전송 이벤트가 사라진 이유 때문에 동작되지 않는다.
             this.submit(); // => Javascript Event
         }
+    });
 
+
+    $("#confirmPassword, #password").on("keyup", function () {
+        console.log("keyup 이벤트 발생");
+        var confirmPasswordValue = $("#confirmPassword").val();
+        var passwordValue = $("#password").val();
+
+        $("#confirmPassword").closest(".main-text").children(".signerror").remove();
+
+        if (confirmPasswordValue !== passwordValue) {
+            var passwordErrorMessage = $("<div>").addClass("signerror").text("비밀번호가 일치하지 않습니다.");
+
+            $("#password").after(passwordErrorMessage);
+            $("#confirmPassword").after(passwordErrorMessage);
+
+        }
+    });
+
+    $("#show-password").on("change", function () {
+        var checked = $(this).prop("checked"); // 체크박스의 체크 여부를 가져온다.
+
+        // checked가 true면 비밀번호를 보여주고, false면 비밀번호를 숨긴다.
+        if (this.checked) {
+            $("#password").attr("type", "text");
+        } else {
+            $("#password").attr("type", "password");
+        }
     });
 });

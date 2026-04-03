@@ -21,7 +21,7 @@ ul{
 /* 전체 컨테이너 */
 .container {
     max-width: 1000px;
-    margin: 40px auto;
+    margin: 20px auto;
     padding: 20px;
     background-color: #fff;
     border-radius: 10px;
@@ -46,7 +46,7 @@ ul{
 .grid {
     display: grid;
     grid-template-columns: 100px 1fr;
-    gap: 20px;
+    gap: 16px;
     align-items: start;
 }
 
@@ -125,9 +125,9 @@ textarea {
 }
 
 /* 포스터 업로드 미리보기 */
-.preview-container {
+.grid > div.preview-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 10px;
 }
 
@@ -140,20 +140,18 @@ textarea {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* 긴 텍스트 div */
 .grid > div {
-    padding: 12px;
-    border-radius: 10px;
-    min-height: 40px;
     display: flex;
     flex-direction: row;
+    gap: 5px;
+    border-radius: 10px;
+    min-height: 40px;
     word-break: break-word;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
 }
 
 .btn-group {
     display: flex;
-    justify-content: flex-end; /* 오른쪽 정렬 */
+    justify-content: flex-end;
     margin-top: 15px;
 }
 
@@ -170,4 +168,45 @@ textarea {
 
 .btn-group > input[type=submit]:hover {
     background-color: #aa6102;
+}
+
+/* 에러 */
+.grid > div.write{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/* .grid > div.write > input[type=text],
+.grid > div.write > input[type=number],
+.grid > div.write > input[type=date],
+.grid > div.write > textarea,
+.grid > div.write > tinput[type=file] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid red;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.2s ease;
+} */
+
+/* .error {
+    border: 1px solid red;
+} */
+
+.movieError {
+    color: red;
+    font-size: 12px;
+}
+
+.movieError.dynamic {
+    color: #ff3b3b;
+}
+
+.preview-container img {
+    width: 180px;
+    height: 270px;
+    object-fit: cover;
+    border-radius: 10px;
+    background-color: #ddd;
 }

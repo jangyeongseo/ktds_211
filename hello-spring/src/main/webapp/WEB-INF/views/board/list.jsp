@@ -15,48 +15,48 @@
 </head>
 
 <body>
-	<h1>게시글 목록</h1>
-	<!-- HTML 주석 : 브라우저 개발자 도구에서 노출되는 주석. -->
-	<%-- JSP 주석 : 브라우저 개발자 도구에서 노풀되지 않는 주석 --%>
-	<table>
-		<thead>
-			<tr>
-				<th>번호</th>
-				<th>제목</th>
-				<th>이메일</th>
-				<th>조회수</th>
-				<th>등록일</th>
-				<th>수정일</th>
-			</tr>
-		</thead>
-		<tbody>
-			<c:choose>
-				<c:when test="${not empty searchResult}">
-					<%-- "${not empty searchResult}" : searchResult가 비어있지 않으면 --%>
-					<!-- searchResult가 존재하면, 반복하여 데이터를 보여준다. -->
-					<c:forEach items="${searchResult}" var="board">
+		<h1>게시글 목록</h1>
+		<!-- HTML 주석 : 브라우저 개발자 도구에서 노출되는 주석. -->
+		<%-- JSP 주석 : 브라우저 개발자 도구에서 노풀되지 않는 주석 --%>
+		<table>
+			<thead>
+				<tr>
+					<th>번호</th>
+					<th>제목</th>
+					<th>이메일</th>
+					<th>조회수</th>
+					<th>등록일</th>
+					<th>수정일</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:choose>
+					<c:when test="${not empty searchResult}">
+						<%-- "${not empty searchResult}" : searchResult가 비어있지 않으면 --%>
+						<!-- searchResult가 존재하면, 반복하여 데이터를 보여준다. -->
+						<c:forEach items="${searchResult}" var="board">
+							<tr>
+								<td><a href="/view/${board.id}">${board.id}</a></td>
+								<td>${board.subject}</td>
+								<td>${board.email}</td>
+								<td>${board.viewCnt}</td>
+								<td>${board.crtDt}</td>
+								<td>${board.mdfyDt}</td>
+							</tr>
+						</c:forEach>
+					</c:when>
+					<c:otherwise>
 						<tr>
-							<td><a href="/view/${board.id}">${board.id}</a></td>
-							<td>${board.subject}</td>
-							<td>${board.email}</td>
-							<td>${board.viewCnt}</td>
-							<td>${board.crtDt}</td>
-							<td>${board.mdfyDt}</td>
+							<!-- searchResult가 존재하지 않으면, "검색된 데이터가 없습니다."를 보여주고  -->
+							<td colspan="6">검색된 데이터가 없습니다.</td>
 						</tr>
-					</c:forEach>
-				</c:when>
-				<c:otherwise>
-					<tr>
-						<!-- searchResult가 존재하지 않으면, "검색된 데이터가 없습니다."를 보여주고  -->
-						<td colspan="6">검색된 데이터가 없습니다.</td>
-					</tr>
-				</c:otherwise>
-			</c:choose>
-		</tbody>
-	</table>
-	<div class="astyle">
-		<a href="/write">글 작성</a>
-	</div>
+					</c:otherwise>
+				</c:choose>
+			</tbody>
+		</table>
+		<div class="astyle">
+			<a href="/write">글 작성</a>
+		</div>
 </body>
 
 </html>

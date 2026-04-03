@@ -5,9 +5,8 @@
 <mapper namespace="com.ktdsuniversity.edu.member.dao.MemberDao">
 	<insert id="insertNewMember"
 		parameterType="com.ktdsuniversity.edu.member.vo.request.WriteVO">
-		INSERT INTO MEMBERS
-		(EMAIL, NAME, PASSWORD)
-		VALUES(#{email}, #{name}, #{password})
+		INSERT INTO MEMBERS (EMAIL, NAME, PASSWORD, SALT)
+		VALUES (#{email}, #{name}, #{password}, #{salt})
 	</insert>
 
 	<!-- 회원 정보 조회 -->

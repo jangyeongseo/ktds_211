@@ -40,13 +40,31 @@ public class MovieController {
 	// 영화 등록 화면
 	@GetMapping("/write")
 	public String viewMoviePage() {
-		return "movie/write";
+	    return "movie/write";
 	}
 
 	// 영화 등록
 	@PostMapping("/write")
 	public String doMoviePage(@Valid @ModelAttribute MovieWriteVO movieWriteVO, 
 			BindingResult bindingResult, @RequestParam MultipartFile attachFile, Model model) {
+		if(bindingResult.hasErrors()) {
+			model.addAttribute("movieWriteVO", movieWriteVO);
+			return "movie/write";
+		}
+		
+		// 이런식으로 xss 를 처리하는 것이 있다.
+		// 디비에 인설트와 업데이트를 할 때 문제가 생길 수 있다.
+		// 에러가 나는 상황을 어떻게 할 수 없다.
+		// 가장 안전하지만 문제가 null 포인트와 에러 발생이 생긴다.
+		/*
+		 * String posterUrl = movieWriteVO.getPosterUrl(); posterUrl =
+		 * posterUrl.replace("<", "&lt;").replace(">", "&gt;");
+		 * movieWriteVO.setPosterUrl(posterUrl);
+		 * 
+		 * String title = movieWriteVO.getTitle(); title = title.replace("<",
+		 * "&lt;").replace(">", "&gt;"); movieWriteVO.setTitle(title);
+		 */
+		
 		if (!attachFile.isEmpty()) {
 			String fileName = attachFile.getOriginalFilename();
 			// 실제로는 서버에 저장해야 함
