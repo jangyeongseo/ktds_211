@@ -27,7 +27,7 @@ public class MovieController {
 	private MovieService movieService;
 
 	// 영화 목록 조회
-	@GetMapping("/list")
+	@GetMapping("/")
 	public String viewMovieList(Model model) {
 		MovieSearchResultVO movieSearchResult = this.movieService.selectMovieList();
 
@@ -75,7 +75,7 @@ public class MovieController {
 
 		boolean createMovie = this.movieService.insertMovie(movieWriteVO);
 
-		return "redirect:/list";
+		return "redirect:/";
 	}
 
 	// 영화 view
@@ -94,4 +94,5 @@ public class MovieController {
 	}
 
 	// 영화 수정
+	
 }

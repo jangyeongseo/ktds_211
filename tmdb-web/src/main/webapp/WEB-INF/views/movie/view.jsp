@@ -1,75 +1,129 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="jakarta.tags.core" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>영화 디테일</title>
-<link rel="stylesheet" type="text/css" href="/css/movie-spring.css">
-</head>
-<body>
-	<div class="container">
-            <div class="header">
-                <h1>영화 디테일</h1>
-                <a href="/list" class="btn">&lt</a>
-            </div>
-			<div class="grid">
-				<label>포스터 URL</label>
-				<!-- 영화 내용 조회할 때 업로드 한 포스터가 이미지로 노출될 수 있도록 개선 -->
-				<div>
-                    <ul class="vertical-list">
-					   <c:forEach items="${articleMovieID.files}" var="file">
-						    <li>
-							    <a href="/file/${file.fileGroupId}/${file.fileNum}">
-							        <img src="/file/${file.fileGroupId}/${file.fileNum}" alt="${file.displayName}" width="200"/>
-							    </a>
-						    </li>
-						</c:forEach>
-					</ul>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+    <%@taglib prefix="c" uri="jakarta.tags.core" %>
+        <!DOCTYPE html>
+        <html>
+
+        <head>
+            <meta charset="UTF-8">
+            <title>영화 디테일</title>
+            <link rel="stylesheet" type="text/css" href="/css/movie-view.css">
+            <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+        </head>
+
+        <body>
+            <!-- 상단 -->
+            <header class="header">
+                <div class="header-inner">
+                    <!-- 로고 -->
+                    <div class="logo">
+                        <a href="/">
+                            <img src="/imgs/log.png">
+                        </a>
+                    </div>
+
+                    <!-- 메뉴 -->
+                    <nav class="nav">
+                        <a href="/">영화</a>
+                        <a href="#">TV 프로그램</a>
+                        <a href="#">인물</a>
+                        <a href="#">Awards</a>
+                        <a href="#">More</a>
+                    </nav>
+
+                    <!-- 오른쪽 -->
+                    <div class="header-right">
+                        <button class="icon-btn">
+                            <span class="material-symbols-outlined">add</span>
+                        </button>
+
+                        <button class="lang-btn">KO</button>
+
+                        <a href="/login" class="login-btn">로그인</a>
+                        <a href="/sign" class="signup-btn">회원가입</a>
+
+                        <button class="icon-btn">
+                            <span class="material-symbols-outlined">search</span>
+                        </button>
+                    </div>
                 </div>
 
-				<label>제목</label>
-				<div>${articleMovieID.title}</div>
+                <!-- 검색창 -->
+                <div class="header-search">
+                    <div class="search-wrapper">
+                        <span class="material-symbols-outlined search-icon">search</span>
+                        <input type="text" placeholder="영화, TV 프로그램, 인물 검색">
+                    </div>
+                </div>
+            </header>
 
-				<label>등급</label>
-				<div>${articleMovieID.movieRating}</div>
+            <main class="movie-detail">
+                <!-- 배경 -->
+                <div class="backdrop">
+                    <div class="overlay">
+                        <div class="detail-inner">
 
-				<label>개봉일</label>
-				<div>${articleMovieID.openDate}</div>
+                            <!-- 포스터 -->
+                            <div class="poster">
+                                <c:forEach items="${articleMovieID.files}" var="file" begin="0" end="0">
+                                    <img src="/file/${file.fileGroupId}/${file.fileNum}" />
+                                </c:forEach>
+                            </div>
 
-				<label>개봉 국가</label>
-				<div>${articleMovieID.openCountry}</div>
+                            <!-- 정보 -->
+                            <div class="info">
+                                <h1>${articleMovieID.title}</h1>
 
-				<label>상영 시간</label>
-				<div>${articleMovieID.runningTime}분</div>
+                                <p class="meta">
+                                    ${articleMovieID.openDate} ·
+                                    ${articleMovieID.openCountry} ·
+                                    ${articleMovieID.runningTime}분
+                                </p>
 
-				<label class="introduction">소개</label>
-				<div>${articleMovieID.introduce}</div>
+                                <p class="tag">${articleMovieID.movieRating}</p>
 
-				<label class="plot">줄거리</label>
-				<div>${articleMovieID.synopsis}</div>
+                                <h3>개요</h3>
+                                <p class="overview">${articleMovieID.introduce}</p>
 
-				<label>원제</label>
-				<div>${articleMovieID.originalTitle}</div>
+                                <h3>줄거리</h3>
+                                <p class="overview">${articleMovieID.synopsis}</p>
 
-				<label>상태</label>
-				<div>${articleMovieID.state}</div>
+                                <div class="extra">
+                                    <p><b>원제:</b> ${articleMovieID.originalTitle}</p>
+                                    <p><b>언어:</b> ${articleMovieID.language}</p>
+                                    <p><b>상태:</b> ${articleMovieID.state}</p>
+                                    <p><b>제작비:</b> ₩${articleMovieID.budget}</p>
+                                    <p><b>수익:</b> ₩${articleMovieID.profit}</p>
+                                </div>
 
-				<label>언어</label>
-				<div>${articleMovieID.language}</div>
+                                <div class="btnList">
+                                    <a href="/update/${articleMovieID.movieId}" class="btn">수정</a>
+                                    <a href="/delete?movieId=${articleMovieID.movieId}" class="btn">삭제</a>
+                                </div>
+                            </div>
 
-				<label>제작비</label>
-				<div class="money">${articleMovieID.budget}</div>
+                        </div>
+                    </div>
+                </div>
+            </main>
 
-				<label>수익</label>
-				<div class="money">${articleMovieID.profit}</div>
-			</div>
-			
-			<div class="btnList">
-				<a href="/update/${articleMovieID.movieId}" class="btn">수정</a>
-				<a href="/delect?articleMovieID=${articleMovieID}" class="btn">삭제</a>
-			</div>
-	</div>
-</body>
-</html>
+            <!-- 하단 -->
+            <footer class="footer">
+                <div class="footer-container">
+                    <div class="footer-logo">TMDB Clone</div>
+
+                    <div class="footer-links">
+                        <a href="#">About</a>
+                        <a href="#">Contact</a>
+                        <a href="#">API</a>
+                        <a href="#">Privacy Policy</a>
+                    </div>
+
+                    <p class="copyright">
+                        © 2026 TMDB Clone. All rights reserved.
+                    </p>
+                </div>
+            </footer>
+
+        </body>
+
+        </html>

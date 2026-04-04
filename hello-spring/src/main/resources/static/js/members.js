@@ -55,7 +55,7 @@ $().ready(function () {
         setTimeout(function () {
             $("#email").trigger("keyup");
         }, 150);
-    });
+    }); // -> 이거 과제할때 안해도 괜찮다.
 
     // email 키 입력을 시작한 시간.
     var keyUpStartTime = new Date().getTime();
