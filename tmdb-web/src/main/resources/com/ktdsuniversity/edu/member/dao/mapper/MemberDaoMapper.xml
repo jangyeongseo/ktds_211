@@ -1,0 +1,38 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ktdsuniversity.edu.member.dao.MemberDao">
+
+    <!-- 회원가입 -->
+    <insert id="insertNewMember"
+        parameterType="com.ktdsuniversity.edu.member.vo.request.MemberWriteVO">
+        INSERT INTO MEMBERS (
+            EMAIL, PASSWORD, SALT,
+            REGIST_DATE, LATEST_PASSWORD_CHANGE_DATE,
+            LOGIN_FAIL_COUNT, FILE_GROUP_ID
+        )
+        VALUES (
+            #{email}, #{password}, #{salt},
+            SYSDATE, SYSDATE, 0,
+            'NO_FILE'
+        )
+    </insert>
+
+    <!-- 회원 조회 -->
+    <select id="selectMemberByEmail"
+        resultType="com.ktdsuniversity.edu.member.vo.MemberVO"
+        parameterType="string">
+        SELECT EMAIL, PASSWORD
+        FROM MEMBERS
+        WHERE EMAIL = #{_parameter}
+    </select>
+
+    <!-- 삭제 -->
+    <delete id="deleteMemberByEmail"
+        parameterType="string">
+        DELETE FROM MEMBERS
+        WHERE EMAIL = #{_parameter}
+    </delete>
+    
+</mapper>

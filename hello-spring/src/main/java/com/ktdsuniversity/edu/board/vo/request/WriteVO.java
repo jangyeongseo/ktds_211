@@ -26,6 +26,16 @@ public class WriteVO {
 	private String email;
 	private String content;
 
+	private String fileGroupId;
+
+	public String getFileGroupId() {
+		return this.fileGroupId;
+	}
+
+	public void setFileGroupId(String fileGroupId) {
+		this.fileGroupId = fileGroupId;
+	}
+
 	public String getId() {
 		return this.id;
 	}

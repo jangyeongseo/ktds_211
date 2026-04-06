@@ -6,6 +6,8 @@
     <head>
         <meta charset="UTF-8">
         <title>로그인</title>
+        <script type="text/javascript" src="/js/jquery-4.0.0.slim.min.js"></script>
+        <script type="text/javascript" src="/js/member.js"></script>
         <link rel="stylesheet" type="text/css" href="/css/movie-login.css">
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
     </head>
