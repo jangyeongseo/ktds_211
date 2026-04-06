@@ -17,6 +17,8 @@
         <!-- url 혹은 링크 일경우 get으로 연결한다 -->
         <form method="post" action="/update/${article.id}" enctype="multipart/form-data">
             <h1>게시글 수정</h1>
+            <input type="hidden" name="fileGroupId" value="${article.fileGroupId" /> <!-- 파일 그룹 아이디를 보내줘야 한다.-->
+            
             <div class="grid write">
                 <label for="subject">제목</label>
                 <input type="text" id="subject" name="subject" placeholder="제목을 입력하세요" value="${article.subject}" />

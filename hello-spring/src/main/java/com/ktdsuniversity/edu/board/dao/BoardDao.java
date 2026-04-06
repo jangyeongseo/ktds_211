@@ -10,14 +10,19 @@ import com.ktdsuniversity.edu.board.vo.request.WriteVO;
 
 @Mapper
 public interface BoardDao {
-	List<BoardVO> selectBoardList();
 	int selectBoardCount();
+
+	List<BoardVO> selectBoardList();
+
 	int insertNewBoard(WriteVO writeVO);
 
-	int updateViewCntIncreaseById(String articleId);
 	BoardVO selectBoardById(String articleId);
-	int deleteViewById();
-	int deleteViewById(String id);
-	int updateViewById(UpdateVO updateVO);
+
+	int updateViewCntIncreaseById(String articleId);
+
+	int deleteBoardById(String id);
+
+	int updateBoardById(UpdateVO updateVO);
+
 
 }

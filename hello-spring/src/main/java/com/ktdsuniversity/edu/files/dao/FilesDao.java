@@ -6,8 +6,8 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.ktdsuniversity.edu.board.vo.request.UpdateVO;
 import com.ktdsuniversity.edu.files.vo.request.SearchFileVO;
+import com.ktdsuniversity.edu.files.vo.request.UploadVO;
 import com.ktdsuniversity.edu.files.vo.response.DownloadVO;
-import com.ktdsuniversity.edu.files.vo.response.UploadVO;
 
 @Mapper
 public interface FilesDao {
@@ -16,12 +16,16 @@ public interface FilesDao {
 
 	DownloadVO selectFilesByFileGroupIdAndFileNum(SearchFileVO searchFileVO);
 
-	List<String> selectFilesPathByFilesGroupIdAndFileNums(UpdateVO updateVO);
+	List<String> selectFilePathByFileGroupIdAndFileNums(UpdateVO updateVO);
 
 	int deleteFilesByFileGroupIdAndFileNums(UpdateVO updateVO);
 
 	List<String> selectFilePathByFileGroupId(String id);
 
 	int deleteFileByFileGroupId(String id);
+
+	String selectNewFileGroupId();
+
+	int insertFileGroupId(String fileGroupId);
 
 }

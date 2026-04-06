@@ -1,6 +1,7 @@
 package com.ktdsuniversity.edu.member.service;
 
 import java.util.List;
+import java.util.logging.SocketHandler;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,7 +10,10 @@ import com.ktdsuniversity.edu.member.dao.MemberDao;
 import com.ktdsuniversity.edu.member.helpers.SHA256Util;
 import com.ktdsuniversity.edu.member.vo.MemberVO;
 import com.ktdsuniversity.edu.member.vo.request.WriteVO;
+import com.ktdsuniversity.edu.member.vo.response.LoginVO;
 import com.ktdsuniversity.edu.member.vo.response.MembershipResultVO;
+
+import jakarta.validation.Valid;
 
 @Service
 public class MemberServiceImp implements MemberService {
@@ -39,7 +43,7 @@ public class MemberServiceImp implements MemberService {
 
 		int insertMember = this.memberDao.insertNewMember(writeVO);
 
-		return insertMember > 0;
+		return insertMember == 1;
 	}
 
 	// 회원 수와 회원들의 목록 조회
@@ -78,6 +82,34 @@ public class MemberServiceImp implements MemberService {
 		System.out.println(delete);
 
 		return delete == 1;
+	}
+
+	@Override
+	public MemberVO findMemberByEmailAndPassword(LoginVO loginVO) {
+		// 1. Email 을 이용해 회원 정보 조회하기(selectMemberByEmail)
+		MemberVO memberEmail = this.memberDao.selectMemberByEmail(loginVO);
+		// 2 조회한 결과가 없다면 "이메일 또는 비밀번호가 잘못되었습니다" 예외 던지기
+		// IllegalArgumentsException
+		if (memberEmail != null) {
+			throw new IllegalArgumentException("이메일 또는 비밀번호가 잘못되었습니다");
+		}
+		// 3. 조회된 결과가 있다면 사용자가 전송한 비밀번호와 조회된 회원의 salt 를 이용해 SHA 암호화 하기
+		String newSalt = SHA256Util.generateSalt();
+		String userPassword = loginVO.getPassword();
+
+		userPassword = SHA256Util.getEncrypt(userPassword, newSalt);
+
+		loginVO.setPassword(userPassword);
+
+		// 4. 3에서 암호화 한 비밀번호와 1에서 조회한 비밀번호가 일치하는지 확인하기
+		if (userPassword != null) {
+			// 5. 비밀번호가 일치하지 않는다면 "이메일 또는 비밀번호가 잘못되었습니다" 예외 던지기
+			// IllegalArgumentsException
+			throw new IllegalArgumentException("이메일 또는 비밀번호가 잘못되었습니다");
+		}
+
+		// 6. 비밀번호가 일치하면 1에서 조회한 결과를 반환.
+		return memberEmail;
 	}
 
 }

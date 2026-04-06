@@ -17,25 +17,28 @@ import com.ktdsuniversity.edu.member.service.MemberService;
 import com.ktdsuniversity.edu.member.vo.MemberVO;
 import com.ktdsuniversity.edu.member.vo.request.WriteVO;
 import com.ktdsuniversity.edu.member.vo.response.DuplicateResultVO;
+import com.ktdsuniversity.edu.member.vo.response.LoginVO;
 import com.ktdsuniversity.edu.member.vo.response.MembershipResultVO;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+
 /**
- * EndPoint 생성/관리
- *  + Validation Check
- * */
+ * EndPoint 생성/관리 + Validation Check
+ */
 @Controller
 public class MemberController {
 
 	@Autowired
 	private MemberService memberService;
-	
+
 	@ResponseBody // JSON 형식으로 반환
 	@GetMapping("/regist/check/duplicate/{email}")
 	public DuplicateResultVO doCheckDuplicateEmailAction(@PathVariable String email) {
 		// email이 이미 사용 중인지 확인한다.
 		MemberVO memberVO = this.memberService.findMemberArticleId(email);
-		
+
 		// 확인된 결과를 JSON으로 전송한다.
 		// 이미 사용중 => {email: "test@gmail", duplicate: true}
 		// 사용중이지 않다 => {email: "test@gmail", duplicate: false}
@@ -71,6 +74,25 @@ public class MemberController {
 	@GetMapping("/login")
 	public String viewMemberLoginPage() {
 		return "member/login";
+	}
+
+	@PostMapping("/login")
+	public String doLoginAction(@Valid @ModelAttribute LoginVO loginVO, BindingResult bindingResult, Model model,
+			HttpServletRequest request) {
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("inputModel", loginVO);
+			return "member/sign";
+		}
+		
+		String userIp = request.getRemoteAddr();
+		loginVO.setIp(userIp);
+		
+		MemberVO member = this.memberService.findMemberByEmailAndPassword(loginVO);
+		
+		HttpSession session = request.getSession();
+		session.setAttribute("__LOGIN_DATA__", member);
+
+		return "redirect:/";
 	}
 
 	// /member => 회원들의 목록이 조회되도록 코드를 작성

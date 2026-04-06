@@ -21,5 +21,5 @@ spring:
 #mybatis 연동 설정
 mybatis:
   config-location: classpath:mybatis-config.xml
-  mapper-locations: classpath:com/ktdsuniversity/edu/**/mapper/*.xml
+  mapper-locations: classpath:com/ktdsuniversity/edu/**/mapper/*Mapper.xml
 # mapper 파일들의 위치 지정 - 동시에 지정해주는 작

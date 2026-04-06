@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.0.4</version>
+        <version>4.0.5</version>
         <relativePath /> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.ktdsuniversity.edu</groupId>
@@ -33,16 +33,16 @@
     </properties>
     <dependencies>
 
+        <!-- 파라미터 유효성 검사(@Valid)를 사용하기 위한 라이브러리 추가. -->
         <!-- Source:
-        https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-jasper -->
-        <!-- 톰켓 -->
+        https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-validation -->
         <dependency>
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-jasper</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
             <scope>compile</scope>
         </dependency>
 
-        <!-- JSTL -->
+        <!-- JSTL 사용을 위한 라이브러리 추가 -->
         <!-- Source:
         https://mvnrepository.com/artifact/jakarta.servlet.jsp.jstl/jakarta.servlet.jsp.jstl-api -->
         <dependency>
@@ -50,6 +50,7 @@
             <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
             <scope>compile</scope>
         </dependency>
+
         <!-- Source:
         https://mvnrepository.com/artifact/org.glassfish.web/jakarta.servlet.jsp.jstl -->
         <dependency>
@@ -58,12 +59,12 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- Source: https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-validation -->
-        <!-- spring-boot-starter-validation -->
-        <!-- 파라미터 휴요성 검사(@valid)를 사용하기 위한 라이브러리 추가. -->
+        <!-- JSP 호환을 위한 라이브러리 추가 -->
+        <!-- Source:
+        https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-jasper -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-jasper</artifactId>
             <scope>compile</scope>
         </dependency>
 

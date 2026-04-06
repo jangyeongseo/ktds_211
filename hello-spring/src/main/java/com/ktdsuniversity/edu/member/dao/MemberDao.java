@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.ktdsuniversity.edu.member.vo.MemberVO;
 import com.ktdsuniversity.edu.member.vo.request.WriteVO;
+import com.ktdsuniversity.edu.member.vo.response.LoginVO;
 
 @Mapper
 public interface MemberDao {
@@ -20,5 +21,7 @@ public interface MemberDao {
 	List<MemberVO> selectMemberList();
 
 	int selectMemberCount();
+
+	MemberVO selectMemberByEmail(LoginVO loginVO);
 
 }

@@ -14,6 +14,7 @@ public class BoardVO {
 	private String mdfyDt;
 	private String fileName;
 	private String originFileName;
+	private String fileGroupId;
 
 	private List<FilesVO> files;
 	// 하나의 게시글은 여러개의 게시글을 가지고 있다 - DB join 을 한경우 java 에서 has a 로 표현해 줘야한다.
@@ -96,6 +97,14 @@ public class BoardVO {
 
 	public void setOriginFileName(String originFileName) {
 		this.originFileName = originFileName;
+	}
+
+	public String getFileGroupId() {
+		return this.fileGroupId;
+	}
+
+	public void setFileGroupId(String fileGroupId) {
+		this.fileGroupId = fileGroupId;
 	}
 
 }

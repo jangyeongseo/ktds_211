@@ -24,45 +24,40 @@ import jakarta.validation.Valid;
 @Controller
 public class BoardController {
 
-//	private final HelloSpringApplication helloSpringApplication;
 	/**
-	 * 빈 컨테이너에 들어있는 객체 중 탕비이 일치하는 객체를 할당 받는다.
+	 * 빈 컨테이너에 들어있는 객체 중 타입이 일치하는 객체를 할당 받는다.
 	 */
 	@Autowired
 	private BoardService boardService;
 
-//	BoardController(HelloSpringApplication helloSpringApplication) {
-//		this.helloSpringApplication = helloSpringApplication;
-//	}
-
 	@GetMapping("/")
 	public String viewListPage(Model model) {
+
 		SearchResultVO searchResult = this.boardService.findAllBoard();
 
-		// 게시글의 목록을 조회
+		// 게시글의 목록을 조회.
 		List<BoardVO> list = searchResult.getResult();
-		// 게시글의 개수를 조회
+
+		// 게시글의 개수 조회.
 		int searchCount = searchResult.getCount();
 
 		model.addAttribute("searchResult", list);
 		model.addAttribute("searchCount", searchCount);
+
 		return "board/list";
 	}
 
 	// 게시글 등록 화면 보여주는 EndPoint
 	@GetMapping("/write")
-	public String viewWritePage(Model model) {
+	public String viewWritePage() {
 		return "board/write";
 	}
 
-	// public String doWritePage(@ModelAttribute WriteVO writeVO) 이렇게도 괜찮고
-	// public String doWritePage(WriteVO writeVO) { 이렇게도 괜찮다
-	// @ModelAttribute - 생략이 가능하다.
-	// @Valid : 유효성 검사를 한 결과를 가져온다. - writeVO에 작성한 notEm~ 에 있는것을
+	// 게시글을 등록하는 EndPoint
 	@PostMapping("/write")
-	public String doWritePage(@Valid @ModelAttribute WriteVO writeVO,
-			// BindingResult bindingResult - @Valid의 결과를 받아오는 파라미터. / 반드시 @Valid 파라미터 이후에
-			// 작성. 순서를 잘 지켜야함.
+	public String doWriteAction(@Valid @ModelAttribute WriteVO writeVO,
+			// @Valid의 결과를 받아오는 파라미터.
+			// 반드시 @Valid 파라미터 이후에 작성!
 			BindingResult bindingResult, Model model) {
 		// 사용자의 입력값을 검증 했을 때, 에러가 있다면
 		if (bindingResult.hasErrors()) {
@@ -70,64 +65,61 @@ public class BoardController {
 			// 해당 페이지에 사용자가 입력한 값을 전달한다.
 			model.addAttribute("inputData", writeVO);
 			return "board/write";
-
 		}
 
 		System.out.println(writeVO.getSubject());
-		System.out.println(writeVO.getContent());
 		System.out.println(writeVO.getEmail());
-
-		// create, update, delete => 성공/실패 여부 반환
+		System.out.println(writeVO.getContent());
+		// create, update, delete => 성공/실패 여부 반환.
 		boolean createResult = this.boardService.createNewBoard(writeVO);
-		System.out.println("게시글 생성 성골?" + createResult);
+
+		System.out.println("게시글 생성 성공? " + createResult);
 
 		// redirect: 브라우저에게 다음 End Point를 요청하도록 지시.
-		// redirect:/ => 브라우저에게 "/" endpoint 로 이동하도록 지시
+		// redirect:/ ==> 브라우저에게 "/" endpoint 로 이동하도록 지시.
 		return "redirect:/";
 	}
 
-	// 게시글 내용 조회
-	// endpoint => /view/게시글 아이디 => /view/BO-20260327-000001
+	// 게시글 내용 조회.
+	// endpoint ==> /view/게시글아이디 예> /view/BO-20260327-000001
 	// 해야 하는 역할
 	// 1. 게시글 내용을 조회해서 브라우저에게 노출.
 	// 2. 조회수 1증가.
-	// PathVariable 이 게시글 아이디의 값이다. - ?가 없고
 	@GetMapping("/view/{articleId}")
 	public String viewDetailPage(Model model, @PathVariable String articleId) {
-		// articleID로 데이터ㅓ베이스에서 게시글을 조회한다.
+
+		// articleId로 데이터베이스에서 게시글을 조회한다.
 		// 조회할 때 조회수가 하나 증가해야 한다.
-		BoardVO findResult = this.boardService.findBoardArticleId(articleId, ReadType.VIEW);
+		BoardVO findResult = this.boardService.findBoardByArticleId(articleId, ReadType.VIEW);
+
 		model.addAttribute("articleId", findResult);
+
 		return "board/view";
 	}
 
-	// 수정 - PathVariable
-	@GetMapping("/update/{articleId}")
-	public String viewUpdatePage(Model model, @PathVariable String articleId) {
-		BoardVO data = this.boardService.findBoardArticleId(articleId, ReadType.UPDATE);
-		model.addAttribute("article", data);
+	@GetMapping("/delete")
+	public String doDeleteAction(@RequestParam String id) {
 
+		boolean deleteResult = this.boardService.deleteBoardByArticleId(id);
+		System.out.println("삭제 결과? " + deleteResult);
+		return "redirect:/";
+
+	}
+
+	@GetMapping("/update/{articleId}")
+	public String viewUpdatePage(@PathVariable String articleId, Model model) {
+		BoardVO data = this.boardService.findBoardByArticleId(articleId, ReadType.UPDATE);
+		model.addAttribute("article", data);
 		return "board/update";
 	}
 
 	@PostMapping("/update/{articleId}")
-	public String doUpdatePage(@PathVariable String articleId, UpdateVO updateVO) {
-		// 폼 데이터랑, 모델 데이터만 패스베리어블은 들어가 있지 않은 상황
-		// setter 에 아이디의 값을 넣어줘야 한다.
+	public String doUpdateAction(@PathVariable String articleId, UpdateVO updateVO) {
 		updateVO.setId(articleId);
-		boolean updateResult = this.boardService.updateBoardArticleId(updateVO);
-		System.out.println("성공?" + updateResult);
+
+		boolean updateResult = this.boardService.updateBoardByArticleId(updateVO);
+		System.out.println("수정 성공? " + updateResult);
 
 		return "redirect:/view/" + articleId;
 	}
-
-	// 삭제 Query Stinrg 파라미터 @RequestParam
-	@GetMapping("/delete")
-	public String doDeleteAction(@RequestParam String id) {
-		this.boardService.findBoarDelectArticleId(id);
-		System.out.println("삭제 id = " + id);
-
-		return "redirect:/";
-	}
-
 }

@@ -15,10 +15,9 @@ public interface BoardService {
 
 	boolean createNewBoard(WriteVO writeVO);
 
-	BoardVO findBoardArticleId(String articleId, ReadType readType);
+	BoardVO findBoardByArticleId(String articleId, ReadType readType);
 
-	boolean findBoarDelectArticleId(String articleId);
+	boolean deleteBoardByArticleId(String id);
 
-	boolean updateBoardArticleId(UpdateVO updateVO);
-
+	boolean updateBoardByArticleId(UpdateVO updateVO);
 }

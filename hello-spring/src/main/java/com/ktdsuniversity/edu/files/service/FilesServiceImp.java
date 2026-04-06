@@ -20,7 +20,4 @@ public class FilesServiceImp implements FilesService {
 		return result;
 	}
 
-	// 파일에 넣으면 디비에도 넣어져야한다.
-	// 삭제할려면 디비도 지우고 파일애도 삭제되어야한다.
-
 }
