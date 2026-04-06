@@ -1,7 +1,8 @@
 package com.ktdsuniversity.edu.member.service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.logging.SocketHandler;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,8 +13,6 @@ import com.ktdsuniversity.edu.member.vo.MemberVO;
 import com.ktdsuniversity.edu.member.vo.request.WriteVO;
 import com.ktdsuniversity.edu.member.vo.response.LoginVO;
 import com.ktdsuniversity.edu.member.vo.response.MembershipResultVO;
-
-import jakarta.validation.Valid;
 
 @Service
 public class MemberServiceImp implements MemberService {
@@ -84,32 +83,57 @@ public class MemberServiceImp implements MemberService {
 		return delete == 1;
 	}
 
+	// 로그인
 	@Override
 	public MemberVO findMemberByEmailAndPassword(LoginVO loginVO) {
-		// 1. Email 을 이용해 회원 정보 조회하기(selectMemberByEmail)
-		MemberVO memberEmail = this.memberDao.selectMemberByEmail(loginVO);
-		// 2 조회한 결과가 없다면 "이메일 또는 비밀번호가 잘못되었습니다" 예외 던지기
-		// IllegalArgumentsException
-		if (memberEmail != null) {
-			throw new IllegalArgumentException("이메일 또는 비밀번호가 잘못되었습니다");
-		}
-		// 3. 조회된 결과가 있다면 사용자가 전송한 비밀번호와 조회된 회원의 salt 를 이용해 SHA 암호화 하기
-		String newSalt = SHA256Util.generateSalt();
-		String userPassword = loginVO.getPassword();
+		// 1. 이메일로 회원 조회
+		MemberVO member = this.memberDao.selectMemberByEmail(loginVO.getEmail());
 
-		userPassword = SHA256Util.getEncrypt(userPassword, newSalt);
-
-		loginVO.setPassword(userPassword);
-
-		// 4. 3에서 암호화 한 비밀번호와 1에서 조회한 비밀번호가 일치하는지 확인하기
-		if (userPassword != null) {
-			// 5. 비밀번호가 일치하지 않는다면 "이메일 또는 비밀번호가 잘못되었습니다" 예외 던지기
-			// IllegalArgumentsException
+		// 2. 회원 없으면 예외
+		if (member == null) {
 			throw new IllegalArgumentException("이메일 또는 비밀번호가 잘못되었습니다");
 		}
 
-		// 6. 비밀번호가 일치하면 1에서 조회한 결과를 반환.
-		return memberEmail;
+		if (member.getBlockYn().equals("Y")) {
+			// 로그인 Block 된 시간으로부터 120분이 지나면 다시 로그인 가능한 상태로 변경한다.
+			// 이 경우엔 예외를 던지지 않도록 한다.
+			String latestLoginFailDate = member.getLatestLoginFailDate();
+
+			DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+			LocalDateTime lastestBlockDateTime = LocalDateTime.parse(latestLoginFailDate, dateTimeFormatter);
+
+			if (lastestBlockDateTime.isAfter(LocalDateTime.now().minusMinutes(120))) {
+				throw new IllegalArgumentException("이메일 또는 비밀번호가 잘못되었습니다");
+			}
+
+			throw new IllegalArgumentException("이메일 또는 비밀번호가 잘못되었습니다");
+		}
+
+		// 3. 비밀번호 암호화
+		String salt = member.getSalt();
+		String encryptedPassword = SHA256Util.getEncrypt(loginVO.getPassword(), salt);
+
+		// 4. 비밀번호 비교
+		if (!encryptedPassword.equals(member.getPassword())) {
+			// 해당 이메일의 로그인 실패 횟수를 1 증가시키고
+			// 최근 로그인 실패 날짜를 현재 날짜와 시간으로 변경
+			this.memberDao.updateIncreaseLoginFailCount(loginVO.getEmail());
+
+			// 최근 로그인 실패 횟수가 5이상이라면 block-yn을 Y로 변경한다.
+			this.memberDao.updateBlock(loginVO.getEmail());
+
+			throw new IllegalArgumentException("이메일 또는 비밀번호가 잘못되었습니다");
+		}
+
+		// 로그인 성공처리
+		// 1. login_fail_count 를 0으로 초기회
+		// 2. latest_login_ip 를 현재 아이피로 변경
+		// 3. login_date를 현재 시간으로 변경
+		// 4. block_yn을 'N' 으로 변경
+		this.memberDao.updateSuccessLogin(loginVO);
+
+		// 5. 로그인 성공
+		return member;
 	}
 
 }

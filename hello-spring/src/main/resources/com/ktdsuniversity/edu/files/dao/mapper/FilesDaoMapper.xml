@@ -98,5 +98,4 @@
         VALUES 
          (#{_parameter})
     </insert>
-
 </mapper>

@@ -54,15 +54,16 @@
                 <form:form modelAttribute="memberWriteVO" action="/sign" method="post">
                     <div class="login-container">
                         <h2>회원가입</h2>
-                        <input type="email" name="email" id="email" placeholder="이메일" value="${memberWriteVO.email}" />
+                        <input type="email" name="email" id="email" placeholder="이메일" value="${memberWriteVO.email}"
+                            required />
                         <form:errors path="email" cssClass="memberError" element="div" />
 
                         <input type="password" name="password" id="password" placeholder="비밀번호"
-                            value="${memberWriteVO.password}" />
+                            value="${memberWriteVO.password}" required />
                         <form:errors path="password" cssClass="memberError" element="div" />
 
                         <input type="password" name="confirmPassword" id="confirmPassword" placeholder="비밀번호 확인"
-                            value="${memberWriteVO.confirmPassword}" />
+                            value="${memberWriteVO.confirmPassword}" required />
                         <form:errors path="confirmPassword" cssClass="memberError" element="div" />
 
                         <button type="submit">회원가입</button>

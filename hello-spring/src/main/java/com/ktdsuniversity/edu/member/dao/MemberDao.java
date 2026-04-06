@@ -22,6 +22,12 @@ public interface MemberDao {
 
 	int selectMemberCount();
 
-	MemberVO selectMemberByEmail(LoginVO loginVO);
+	MemberVO selectMemberByEmail(String string);
+
+	int updateIncreaseLoginFailCount(String email);
+
+	int updateBlock(String email);
+
+	int updateSuccessLogin(LoginVO loginVO);
 
 }

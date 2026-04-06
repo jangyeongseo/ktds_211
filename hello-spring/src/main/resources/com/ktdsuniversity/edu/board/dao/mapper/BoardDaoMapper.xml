@@ -3,7 +3,7 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.ktdsuniversity.edu.board.dao.BoardDao">
-    <select id="selectBoardCount" 
+     <select id="selectBoardCount" 
             resultType="_int">
         SELECT COUNT(ID)
           FROM BOARD
@@ -113,7 +113,16 @@
              , F.FILE_LENGTH
              , F.FILE_PATH
           FROM BOARD B
-          LEFT OUTER JOIN FILES F
+          LEFT OUTER JOIN (SELECT F.FILE_NUM
+                                , FG.FILE_GROUP_ID
+                                , F.OBFUSCATE_NAME
+                                , F.DISPLAY_NAME
+                                , F.EXTEND_NAME
+                                , F.FILE_LENGTH
+                                , F.FILE_PATH
+                             FROM FILES_GROUP FG
+                            INNER JOIN FILES F
+                               ON FG.FILE_GROUP_ID = F.FILE_GROUP_ID) F
             ON B.FILE_GROUP_ID = F.FILE_GROUP_ID
          WHERE B.ID = #{_parameter}
     </select>
@@ -139,6 +148,7 @@
              , EMAIL = #{email}
              , CONTENT = #{content}
              , MDFY_DT = SYSDATE
+             , FILE_GROUP_ID = #{fileGroupId}
          WHERE ID = #{id}
     </update>
 </mapper>

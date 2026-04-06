@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -21,9 +22,7 @@ public class WriteVO {
 	@Size(min = 3, message = "3글자 이상 작성해주세요.")
 	private String subject;
 
-	@NotEmpty(message = "이메일 형태가 아닙니다.")
-	@Email(message = "이메일 형태가 아닙니다.")
-	private String email;
+	private String email; // 글 작성시 필요 / 벨리데이션(@Valid) 체크만 하지 말것.
 	private String content;
 
 	private String fileGroupId;

@@ -71,8 +71,14 @@ public class MemberController {
 	}
 
 	// 로그인 화면
+//	@GetMapping("/login")
+//	public String viewMemberLoginPage() {
+//		return "member/login";
+//	}
+
 	@GetMapping("/login")
-	public String viewMemberLoginPage() {
+	public String viewMemberLoginPage(Model model) {
+		model.addAttribute("loginVO", new LoginVO()); // JSP의 modelAttribute="loginVO"와 이름이 같아야 함
 		return "member/login";
 	}
 
@@ -80,16 +86,23 @@ public class MemberController {
 	public String doLoginAction(@Valid @ModelAttribute LoginVO loginVO, BindingResult bindingResult, Model model,
 			HttpServletRequest request) {
 		if (bindingResult.hasErrors()) {
-			model.addAttribute("inputModel", loginVO);
-			return "member/sign";
+			model.addAttribute("loginVO", loginVO);
+			return "member/login";
 		}
-		
+
 		String userIp = request.getRemoteAddr();
 		loginVO.setIp(userIp);
-		
+
 		MemberVO member = this.memberService.findMemberByEmailAndPassword(loginVO);
+
+		// 서버의 세션을 삭제한다. - 자신의 Session을 
+		// 로그아웃을 의미.
+		request.getSession().invalidate();
 		
-		HttpSession session = request.getSession();
+		// request.getSession(); <== HttpRequestHrader 로 전달된 JSESSIONID의 객체를 반
+		// request.getSession(true); < = 기존 JSESSIONID로 발급된 세션객체를 버리고, 새로운 ID의 세션객체를 생성 후 반환. 
+		// 세션읗 이용한 로그인
+		HttpSession session = request.getSession(true);
 		session.setAttribute("__LOGIN_DATA__", member);
 
 		return "redirect:/";

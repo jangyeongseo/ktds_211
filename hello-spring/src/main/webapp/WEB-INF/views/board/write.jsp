@@ -29,10 +29,6 @@
                         value="${inputData.subject}" />
                     <form:errors path="subject" cssClass="validation-error" element="div" />
 
-                    <label for="email">이메일</label>
-                    <input type="email" id="email" name="email" placeholder="이메일을 입력하세요" value="${inputData.email}" />
-                    <form:errors path="email" cssClass="validation-error" element="div" />
-
                     <!-- input한테는 file의 값을 줄 수 없다. -->
                     <label>첨부 파일</label>
                     <div class="attach-files">
