@@ -14,7 +14,10 @@
 
         <body>
             <div class="container">
-                <h1>회원가입</h1>
+                <div>
+                    <h1>회원가입</h1>
+                    <a href="/login">뒤로가기</a>
+                </div>
                 <form:form modelAttribute="writeVO" method="post" action="/regist">
                     <main class="main-text">
                         <label for="email">이메일</label>

@@ -77,7 +77,12 @@ public class MemberController {
 //	}
 
 	@GetMapping("/login")
-	public String viewMemberLoginPage(Model model) {
+	public String viewMemberLoginPage(HttpServletRequest request, Model model) {
+	    HttpSession session = request.getSession(false);
+	    if (session != null && session.getAttribute("__LOGIN_DATA__") != null) {
+	        return "redirect:/";
+	    }
+	    
 		model.addAttribute("loginVO", new LoginVO()); // JSP의 modelAttribute="loginVO"와 이름이 같아야 함
 		return "member/login";
 	}
@@ -85,6 +90,13 @@ public class MemberController {
 	@PostMapping("/login")
 	public String doLoginAction(@Valid @ModelAttribute LoginVO loginVO, BindingResult bindingResult, Model model,
 			HttpServletRequest request) {
+	    HttpSession session = request.getSession(false);
+	    if (session != null && session.getAttribute("__LOGIN_DATA__") != null) {
+	        // 이미 로그인 되어 있으면 홈으로
+	        return "redirect:/";
+	    }
+	    
+		
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("loginVO", loginVO);
 			return "member/login";
@@ -94,16 +106,19 @@ public class MemberController {
 		loginVO.setIp(userIp);
 
 		MemberVO member = this.memberService.findMemberByEmailAndPassword(loginVO);
-
-		// 서버의 세션을 삭제한다. - 자신의 Session을 
+		
+		// 서버의 세션을 삭제한다. - 자신의 Session을
 		// 로그아웃을 의미.
 		request.getSession().invalidate();
-		
+
 		// request.getSession(); <== HttpRequestHrader 로 전달된 JSESSIONID의 객체를 반
-		// request.getSession(true); < = 기존 JSESSIONID로 발급된 세션객체를 버리고, 새로운 ID의 세션객체를 생성 후 반환. 
+		// request.getSession(true); < = 기존 JSESSIONID로 발급된 세션객체를 버리고, 새로운 ID의 세션객체를 생성
+		// 후 반환.
 		// 세션읗 이용한 로그인
-		HttpSession session = request.getSession(true);
+		session = request.getSession(true);
 		session.setAttribute("__LOGIN_DATA__", member);
+		System.out.println("세션: " + session.getId());
+		System.out.println("로그인 데이터: " + session.getAttribute("__LOGIN_DATA__"));
 
 		return "redirect:/";
 	}
@@ -155,11 +170,21 @@ public class MemberController {
 
 	// member/delete?id=사용자 아이디 ⇒ 회원 정보 삭제 하기
 	@GetMapping("/member/delete")
-	public String doDeletePage(@RequestParam String email) {
+	public String doDeletePage(@RequestParam String email, HttpServletRequest request) {
 		boolean delete = this.memberService.deleteMemberById(email);
+		request.getSession().invalidate();
+		
 		System.out.println(delete);
 
-		return "redirect:/sign";
+		return "redirect:/login";
+	}
+	
+	// 로그아웃
+	@GetMapping("/logout")
+	public String doLogoutPage(HttpServletRequest request) {
+		request.getSession().invalidate(); // 세션 초기화
+		
+		return "redirect:/login";
 	}
 
 }

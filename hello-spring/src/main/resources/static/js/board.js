@@ -1,4 +1,25 @@
 $().ready(function () {
+    // 유효성 검사
+    $("#writeVO").on("submit", function (event) {
+        event.preventDefault();
+
+        console.log("submit 실행됨");
+        
+        $(this).find(".validation-error").remove();
+
+        var subject = $("#subject").val();
+        if (!subject || subject.length < 3) {
+            $("#subject").after("<div class='validation-error'>제목을 3글자 이상 입력하세요</div>");
+        }
+
+        var content = $("#content").val();
+        if (!content) {
+            $("#content").after("<div class='validation-error'>내용을 입력하세요</div>");
+        }
+
+        this.submit();
+    });
+    
     // ".add-files" 을 클릭하면
     // 새로운 파일 인푸과 버튼을 
     // ".attach-files"아래에 추가한다.
@@ -28,38 +49,6 @@ $().ready(function () {
 
         $(".attach-files").append(fileInput).append(addButton);
 
-    });
-
-    // 유효성 검사
-    $("#writeVO").on("submit", function (event) {
-        event.preventDefault();
-        $(this).find(".validation-error").remove();
-
-        var subject = $("#subject").val();
-        if (!subject || subject.length < 3) {
-            var subjectErrorMessage = $("<div>").addClass("validation-error").text("제목을 3글자 이상 입력하세요");
-            $("#subject").after(subjectErrorMessage);
-            return false;
-
-        }
-
-        var email = $("#email").val();
-        if (!email || !email.includes("@")) {
-            var emailErrorMessage = $("<div>").addClass("validation-error").text("올바른 이메일을 입력하세요");
-            $("#email").after(emailErrorMessage);
-            return false;
-        }
-
-        var content = $("#content").val();
-        if (!content) {
-            var contentErrorMessage = $("<div>").addClass("validation-error").text("내용을 입력하세요");
-            $("#content").after(contentErrorMessage);
-            return false;
-        }
-
-        if ($(".validation-error").length === 0) {
-            this.submit();
-        }
     });
 
 });

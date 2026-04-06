@@ -35,7 +35,6 @@ public class BoardController {
 
 	@GetMapping("/")
 	public String viewListPage(Model model) {
-
 		SearchResultVO searchResult = this.boardService.findAllBoard();
 
 		// 게시글의 목록을 조회.
@@ -46,13 +45,24 @@ public class BoardController {
 
 		model.addAttribute("searchResult", list);
 		model.addAttribute("searchCount", searchCount);
+		
 
 		return "board/list";
 	}
 
 	// 게시글 등록 화면 보여주는 EndPoint
 	@GetMapping("/write")
-	public String viewWritePage() {
+	public String viewWritePage(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		
+		// 로그인 x일 경우
+		if (session == null || session.getAttribute("__LOGIN_DATA__") == null) {
+			return "redirect:/";
+		}
+		
+		System.out.println("write 방문 세션: " + session.getId());
+		System.out.println("write 방문 로그인 데이터: " + session.getAttribute("__LOGIN_DATA__"));
+		
 		return "board/write";
 	}
 
@@ -63,6 +73,13 @@ public class BoardController {
 			// 반드시 @Valid 파라미터 이후에 작성!
 			BindingResult bindingResult, Model model, HttpServletRequest request) {
 		// 사용자의 입력값을 검증 했을 때, 에러가 있다면
+		// 로그인 데이터"__LOGIN_DATA__"에서 로그인 한 사용자의 이메을을 가져온다.
+		HttpSession session = request.getSession(false);
+		if (session == null || session.getAttribute("__LOGIN_DATA__") == null) {
+			
+			return "redirect:/login";
+		}
+
 		if (bindingResult.hasErrors()) {
 			// 브라우저에게 "board/write" 페이지를 보여주도록 하고
 			// 해당 페이지에 사용자가 입력한 값을 전달한다.
@@ -70,12 +87,10 @@ public class BoardController {
 			return "board/write";
 		}
 
-		// 로그인 데이터"__LOGIN_DATA__"에서 로그인 한 사용자의 이메을을 가져온다.
-		HttpSession session = request.getSession();
+		
 		MemberVO loginMember = (MemberVO) session.getAttribute("__LOGIN_DATA__");
 		writeVO.setEmail(loginMember.getEmail());
-		
-		
+
 		System.out.println(writeVO.getSubject());
 		System.out.println(writeVO.getEmail());
 		System.out.println(writeVO.getContent());
@@ -95,7 +110,13 @@ public class BoardController {
 	// 1. 게시글 내용을 조회해서 브라우저에게 노출.
 	// 2. 조회수 1증가.
 	@GetMapping("/view/{articleId}")
-	public String viewDetailPage(Model model, @PathVariable String articleId) {
+	public String viewDetailPage(Model model, @PathVariable String articleId, HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		
+		// 로그인 x일 경우
+		if (session == null || session.getAttribute("__LOGIN_DATA__") == null) {
+			return "redirect:/";
+		}
 
 		// articleId로 데이터베이스에서 게시글을 조회한다.
 		// 조회할 때 조회수가 하나 증가해야 한다.

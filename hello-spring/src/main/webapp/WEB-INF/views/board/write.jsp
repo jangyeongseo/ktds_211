@@ -21,7 +21,7 @@
             <!-- form:form modelAttribute => 
                         form 태그 내부의 input, textarea, select 등을 컨트롤러 보내기 위한 아이디 
                         보편적으로 변수의 이름(엔드포인트의) -->
-            <form:form modelAttribute="writeVO" method="post" action="/write" enctype="multipart/form-data">
+            <form:form id="writeVO" modelAttribute="writeVO" method="post" action="/write" enctype="multipart/form-data">
                 <h1>게시글 작성</h1>
                 <div class="grid write">
                     <label for="subject">제목</label>

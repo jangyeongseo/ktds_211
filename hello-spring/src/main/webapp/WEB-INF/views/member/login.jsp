@@ -23,6 +23,7 @@
 						<form:errors path="password" cssClass="signerror" element="div" />
 
 						<button type="submit">로그인</button>
+						<a href="/regist" class="btn btn-secondary">회원가입</a>
 					</main>
 				</form:form>
 			</div>
