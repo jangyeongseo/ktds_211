@@ -1,0 +1,36 @@
+@charset "UTF-8";
+
+/* 하단 */
+.footer {
+    width: 100%;
+    background-color: #021c2b;
+    padding: 30px 20px;
+    margin-top: 50px;
+}
+
+.footer-container {
+    text-align: center;
+}
+
+.footer-logo {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #01b4e4;
+}
+
+.footer-links a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: white;
+}
+
+.footer-links a:hover {
+    color: #01b4e4;
+}
+
+.copyright {
+    display: block;
+    margin-top: 15px;
+    font-size: 14px;
+    color: #aaa;
+}

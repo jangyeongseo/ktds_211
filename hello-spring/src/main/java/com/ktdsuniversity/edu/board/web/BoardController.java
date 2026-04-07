@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.ktdsuniversity.edu.board.enums.ReadType;
 import com.ktdsuniversity.edu.board.service.BoardService;
@@ -20,7 +21,6 @@ import com.ktdsuniversity.edu.board.vo.request.WriteVO;
 import com.ktdsuniversity.edu.board.vo.response.SearchResultVO;
 import com.ktdsuniversity.edu.member.vo.MemberVO;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
@@ -45,24 +45,18 @@ public class BoardController {
 
 		model.addAttribute("searchResult", list);
 		model.addAttribute("searchCount", searchCount);
-		
 
 		return "board/list";
 	}
 
+	/**
+	 * 
+	 * @param loginMember 세션에서 로그인 정보를 꺼soa
+	 * @return
+	 */
 	// 게시글 등록 화면 보여주는 EndPoint
 	@GetMapping("/write")
-	public String viewWritePage(HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		
-		// 로그인 x일 경우
-		if (session == null || session.getAttribute("__LOGIN_DATA__") == null) {
-			return "redirect:/";
-		}
-		
-		System.out.println("write 방문 세션: " + session.getId());
-		System.out.println("write 방문 로그인 데이터: " + session.getAttribute("__LOGIN_DATA__"));
-		
+	public String viewWritePage() {
 		return "board/write";
 	}
 
@@ -71,15 +65,9 @@ public class BoardController {
 	public String doWriteAction(@Valid @ModelAttribute WriteVO writeVO,
 			// @Valid의 결과를 받아오는 파라미터.
 			// 반드시 @Valid 파라미터 이후에 작성!
-			BindingResult bindingResult, Model model, HttpServletRequest request) {
+			BindingResult bindingResult, Model model, @SessionAttribute MemberVO loginMember) {
 		// 사용자의 입력값을 검증 했을 때, 에러가 있다면
 		// 로그인 데이터"__LOGIN_DATA__"에서 로그인 한 사용자의 이메을을 가져온다.
-		HttpSession session = request.getSession(false);
-		if (session == null || session.getAttribute("__LOGIN_DATA__") == null) {
-			
-			return "redirect:/login";
-		}
-
 		if (bindingResult.hasErrors()) {
 			// 브라우저에게 "board/write" 페이지를 보여주도록 하고
 			// 해당 페이지에 사용자가 입력한 값을 전달한다.
@@ -87,8 +75,6 @@ public class BoardController {
 			return "board/write";
 		}
 
-		
-		MemberVO loginMember = (MemberVO) session.getAttribute("__LOGIN_DATA__");
 		writeVO.setEmail(loginMember.getEmail());
 
 		System.out.println(writeVO.getSubject());
@@ -110,14 +96,7 @@ public class BoardController {
 	// 1. 게시글 내용을 조회해서 브라우저에게 노출.
 	// 2. 조회수 1증가.
 	@GetMapping("/view/{articleId}")
-	public String viewDetailPage(Model model, @PathVariable String articleId, HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		
-		// 로그인 x일 경우
-		if (session == null || session.getAttribute("__LOGIN_DATA__") == null) {
-			return "redirect:/";
-		}
-
+	public String viewDetailPage(Model model, @PathVariable String articleId) {
 		// articleId로 데이터베이스에서 게시글을 조회한다.
 		// 조회할 때 조회수가 하나 증가해야 한다.
 		BoardVO findResult = this.boardService.findBoardByArticleId(articleId, ReadType.VIEW);
@@ -137,16 +116,29 @@ public class BoardController {
 	}
 
 	@GetMapping("/update/{articleId}")
-	public String viewUpdatePage(@PathVariable String articleId, Model model) {
+	public String viewUpdatePage(@PathVariable String articleId, Model model, 
+			@SessionAttribute MemberVO loginMember) {
+		// 내가 작성한 글이 아닐 경우
 		BoardVO data = this.boardService.findBoardByArticleId(articleId, ReadType.UPDATE);
+		
+		if(!loginMember.getEmail().equals(data.getEmail())) {
+			throw new IllegalArgumentException("잘못된 작성자입니다.");
+		}
+
 		model.addAttribute("article", data);
 		return "board/update";
 	}
 
 	@PostMapping("/update/{articleId}")
-	public String doUpdateAction(@PathVariable String articleId, UpdateVO updateVO) {
-		updateVO.setId(articleId);
+	public String doUpdateAction(@PathVariable String articleId, UpdateVO updateVO, 
+			@SessionAttribute MemberVO loginMember) {
+		
+	    // 작성자 정보 세팅
+	    updateVO.setEmail(loginMember.getEmail());
 
+	    // 게시글 ID도 반드시 넣어줘야 함
+	    updateVO.setId(articleId);
+	    
 		boolean updateResult = this.boardService.updateBoardByArticleId(updateVO);
 		System.out.println("수정 성공? " + updateResult);
 

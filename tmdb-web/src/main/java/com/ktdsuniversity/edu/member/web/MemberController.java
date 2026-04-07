@@ -16,6 +16,8 @@ import com.ktdsuniversity.edu.member.vo.MemberVO;
 import com.ktdsuniversity.edu.member.vo.request.MemberWriteVO;
 import com.ktdsuniversity.edu.member.vo.response.DuplicateResultVO;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
@@ -64,7 +66,12 @@ public class MemberController {
 
 	// 마이페이지
 	@GetMapping("/member/view/{articleEmail}")
-	public String viewMyPage(Model model, @PathVariable String articleEmail) {
+	public String viewMyPage(Model model, @PathVariable String articleEmail, HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		if(session == null || session.getAttribute("__LOGIN_DATA__") == null) {
+			return "redirect:/login";
+		}
+		
 		MemberVO findResult = this.memberService.findMemberArticleEmail(articleEmail);
 		model.addAttribute("articleEmail", findResult);
 

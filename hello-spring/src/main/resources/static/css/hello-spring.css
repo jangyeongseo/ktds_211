@@ -55,6 +55,10 @@ header span {
 	margin-right: 0.5rem;
 	font-weight: bold;
 	color: #333;
+	
+	display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* grid style 시작 */

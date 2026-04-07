@@ -3,6 +3,7 @@ package com.ktdsuniversity.edu.board.vo;
 import java.util.List;
 
 import com.ktdsuniversity.edu.files.vo.FilesVO;
+import com.ktdsuniversity.edu.member.vo.MemberVO;
 
 public class BoardVO {
 	private String id;
@@ -16,8 +17,19 @@ public class BoardVO {
 	private String originFileName;
 	private String fileGroupId;
 
+	// 게시글을 작성한 한명의 멤버
+	private MemberVO memberVO;
+
 	private List<FilesVO> files;
 	// 하나의 게시글은 여러개의 게시글을 가지고 있다 - DB join 을 한경우 java 에서 has a 로 표현해 줘야한다.
+
+	public MemberVO getMemberVO() {
+		return this.memberVO;
+	}
+
+	public void setMemberVO(MemberVO memberVO) {
+		this.memberVO = memberVO;
+	}
 
 	public List<FilesVO> getFiles() {
 		return this.files;

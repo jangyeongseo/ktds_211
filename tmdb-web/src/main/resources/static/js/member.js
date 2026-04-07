@@ -1,44 +1,4 @@
 $().ready(function () {
-
-    $("#memberWriteVO").on("submit", function (event) {
-        event.preventDefault();
-
-        $(".memberError").remove();
-
-        var email = $("#email").val();
-        var password = $("#password").val();
-        var confirmPassword = $("#confirmPassword").val();
-
-        // 이메일 검사
-        if (!email || !email.includes("@")) {
-            $("#email").after(
-                $("<div>").addClass("memberError").text("올바른 이메일을 입력하세요")
-            );
-        }
-
-        // 비밀번호 검사
-        var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
-
-        if (!password || !passwordPattern.test(password)) {
-            $("#password").after(
-                $("<div>").addClass("memberError").text("비밀번호는 영문 대/소문자, 숫자 포함 8자 이상")
-            );
-        }
-
-        // 비밀번호 확인
-        if (password !== confirmPassword) {
-            $("#confirmPassword").after(
-                $("<div>").addClass("memberError").text("비밀번호가 일치하지 않습니다")
-            );
-        }
-
-        // 에러 없으면 전송
-        if ($(".memberError").length === 0) {
-            this.submit();
-        }
-    });
-
-
     // 이메일 중복 체크
     var keyUpStartTime = new Date().getTime();
 
@@ -105,6 +65,44 @@ $().ready(function () {
             $("#password").after(passwordErrorMessage);
             $("#confirmPassword").after(passwordErrorMessage);
 
+        }
+    });
+    
+    $("#memberWriteVO").on("submit", function (event) {
+        event.preventDefault();
+
+        $(this).find(".memberError").remove();
+
+        var email = $("#email").val();
+        var password = $("#password").val();
+        var confirmPassword = $("#confirmPassword").val();
+
+        // 이메일 검사
+        if (!email || !email.includes("@")) {
+            $("#email").after(
+                $("<div>").addClass("memberError").text("올바른 이메일을 입력하세요")
+            );
+        }
+
+        // 비밀번호 검사
+        var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+
+        if (!password || !passwordPattern.test(password)) {
+            $("#password").after(
+                $("<div>").addClass("memberError").text("비밀번호는 영문 대/소문자, 숫자 포함 8자 이상")
+            );
+        }
+
+        // 비밀번호 확인
+        if (password !== confirmPassword) {
+            $("#confirmPassword").after(
+                $("<div>").addClass("memberError").text("비밀번호가 일치하지 않습니다")
+            );
+        }
+
+        // 에러 없으면 전송
+        if ($(".memberError").length === 0) {
+            this.submit();
         }
     });
 
