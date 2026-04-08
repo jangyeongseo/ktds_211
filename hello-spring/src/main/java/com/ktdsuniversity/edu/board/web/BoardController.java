@@ -2,6 +2,8 @@ package com.ktdsuniversity.edu.board.web;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,12 +23,13 @@ import com.ktdsuniversity.edu.board.vo.request.WriteVO;
 import com.ktdsuniversity.edu.board.vo.response.SearchResultVO;
 import com.ktdsuniversity.edu.member.vo.MemberVO;
 
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
 public class BoardController {
 
+	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
+	
 	/**
 	 * 빈 컨테이너에 들어있는 객체 중 타입이 일치하는 객체를 할당 받는다.
 	 */
@@ -65,7 +68,7 @@ public class BoardController {
 	public String doWriteAction(@Valid @ModelAttribute WriteVO writeVO,
 			// @Valid의 결과를 받아오는 파라미터.
 			// 반드시 @Valid 파라미터 이후에 작성!
-			BindingResult bindingResult, Model model, @SessionAttribute MemberVO loginMember) {
+			BindingResult bindingResult, Model model,  @SessionAttribute("__LOGIN_DATA__") MemberVO loginMember) {
 		// 사용자의 입력값을 검증 했을 때, 에러가 있다면
 		// 로그인 데이터"__LOGIN_DATA__"에서 로그인 한 사용자의 이메을을 가져온다.
 		if (bindingResult.hasErrors()) {
@@ -77,13 +80,13 @@ public class BoardController {
 
 		writeVO.setEmail(loginMember.getEmail());
 
-		System.out.println(writeVO.getSubject());
-		System.out.println(writeVO.getEmail());
-		System.out.println(writeVO.getContent());
 		// create, update, delete => 성공/실패 여부 반환.
 		boolean createResult = this.boardService.createNewBoard(writeVO);
 
-		System.out.println("게시글 생성 성공? " + createResult);
+		// 동기와 비동기 방식
+		logger.debug("게시글 생성 성공?{}", createResult); 
+		// 비동기 방식 : 이게 더 빠르게 실행한다. / 순서가 안맞으면 앞에 있는 시간을 보고 확인하면 된다.
+		// System.out.println("게시글 생성 성공? " + createResult); -> 동기 방식(이게 끝날때까지 다음껄 실행 안함)
 
 		// redirect: 브라우저에게 다음 End Point를 요청하도록 지시.
 		// redirect:/ ==> 브라우저에게 "/" endpoint 로 이동하도록 지시.
@@ -110,28 +113,28 @@ public class BoardController {
 	public String doDeleteAction(@RequestParam String id) {
 
 		boolean deleteResult = this.boardService.deleteBoardByArticleId(id);
-		System.out.println("삭제 결과? " + deleteResult);
+		logger.debug("삭제 결과?{}", deleteResult);
 		return "redirect:/";
 
 	}
 
 	@GetMapping("/update/{articleId}")
 	public String viewUpdatePage(@PathVariable String articleId, Model model, 
-			@SessionAttribute MemberVO loginMember) {
+			 @SessionAttribute("__LOGIN_DATA__") MemberVO loginMember) {
 		// 내가 작성한 글이 아닐 경우
 		BoardVO data = this.boardService.findBoardByArticleId(articleId, ReadType.UPDATE);
+		model.addAttribute("article", data);
 		
 		if(!loginMember.getEmail().equals(data.getEmail())) {
 			throw new IllegalArgumentException("잘못된 작성자입니다.");
 		}
 
-		model.addAttribute("article", data);
 		return "board/update";
 	}
 
 	@PostMapping("/update/{articleId}")
 	public String doUpdateAction(@PathVariable String articleId, UpdateVO updateVO, 
-			@SessionAttribute MemberVO loginMember) {
+			 @SessionAttribute("__LOGIN_DATA__") MemberVO loginMember) {
 		
 	    // 작성자 정보 세팅
 	    updateVO.setEmail(loginMember.getEmail());
@@ -140,7 +143,7 @@ public class BoardController {
 	    updateVO.setId(articleId);
 	    
 		boolean updateResult = this.boardService.updateBoardByArticleId(updateVO);
-		System.out.println("수정 성공? " + updateResult);
+		logger.debug("수정 성공?{}", updateResult);
 
 		return "redirect:/view/" + articleId;
 	}

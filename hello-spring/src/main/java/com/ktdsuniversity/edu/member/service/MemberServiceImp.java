@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +20,8 @@ import com.ktdsuniversity.edu.member.vo.response.MembershipResultVO;
 @Service
 public class MemberServiceImp implements MemberService {
 
+	private static final Logger logger = LoggerFactory.getLogger(MemberServiceImp.class);
+	
 	@Autowired
 	private MemberDao memberDao;
 
@@ -69,7 +74,7 @@ public class MemberServiceImp implements MemberService {
 	@Override
 	public boolean updateMemberArticleById(MemberVO memberVO) {
 		int update = this.memberDao.updateMemberById(memberVO);
-		System.out.println(update);
+		logger.debug("업데이트 확인{}",update);
 
 		return update == 1;
 	}
@@ -78,7 +83,7 @@ public class MemberServiceImp implements MemberService {
 	@Override
 	public boolean deleteMemberById(String email) {
 		int delete = this.memberDao.deleteMemberbyId(email);
-		System.out.println(delete);
+		logger.debug("삭제 확인{}",delete);
 
 		return delete == 1;
 	}

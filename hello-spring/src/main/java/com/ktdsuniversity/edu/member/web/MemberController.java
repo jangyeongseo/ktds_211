@@ -2,6 +2,8 @@ package com.ktdsuniversity.edu.member.web;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,6 +32,8 @@ import jakarta.validation.Valid;
  */
 @Controller
 public class MemberController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
 	@Autowired
 	private MemberService memberService;
@@ -66,7 +70,7 @@ public class MemberController {
 
 		// 성공 여부
 		boolean createResult = this.memberService.createNewMember(writeVO);
-		System.out.println("결과 : " + createResult + writeVO);
+		logger.debug("결과 : createResult={}, writeVO={}", createResult, writeVO);
 
 		return "redirect:/login";
 	}
@@ -99,7 +103,14 @@ public class MemberController {
 		
 		// 서버의 세션을 삭제한다. - 자신의 Session을
 		// 로그아웃을 의미.
+		// 기존 세션 제거
 		request.getSession().invalidate();
+
+		// 새 세션 생성
+		HttpSession session = request.getSession(true);
+
+		// 핵심
+		session.setAttribute("__LOGIN_DATA__", member);
 		// request.getSession(); <== HttpRequestHrader 로 전달된 JSESSIONID의 객체를 반
 		// request.getSession(true); < = 기존 JSESSIONID로 발급된 세션객체를 버리고, 새로운 ID의 세션객체를 생성
 		// 후 반환.
@@ -148,7 +159,7 @@ public class MemberController {
 	public String doUpdatePage(@PathVariable String articleEmail, MemberVO memberVO) {
 		memberVO.setEmail(articleEmail);
 		boolean updateResult = this.memberService.updateMemberArticleById(memberVO);
-		System.out.println("성공: " + updateResult);
+		logger.debug("성공: {}",updateResult);
 
 		return "redirect:/member/view/" + articleEmail;
 	}
@@ -157,7 +168,7 @@ public class MemberController {
 	@GetMapping("/member/delete")
 	public String doDeletePage(@RequestParam String email) {
 		boolean delete = this.memberService.deleteMemberById(email);
-		System.out.println(delete);
+		logger.debug("{}", delete);
 
 		return "redirect:/login";
 	}
@@ -172,7 +183,7 @@ public class MemberController {
 	
 	// 회원 탈퇴
 	@GetMapping("/delete-me")
-	public String doDeleteAction(@SessionAttribute MemberVO loginMember, HttpSession session) {
+	public String doDeleteAction(@SessionAttribute("__LOGIN_DATA__") MemberVO loginMember, HttpSession session) {
 		// 1. 로그인 세션에서 회원의 이메일을 가져온다.
 		loginMember.getEmail();
 		
