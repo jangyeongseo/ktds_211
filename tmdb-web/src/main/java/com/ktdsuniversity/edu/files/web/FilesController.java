@@ -3,6 +3,8 @@ package com.ktdsuniversity.edu.files.web;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -17,6 +19,7 @@ import com.ktdsuniversity.edu.files.vo.response.DownloadVO;
 
 @Controller
 public class FilesController {
+	private static final Logger logger = LoggerFactory.getLogger(FilesController.class);
 
 	@Autowired
 	private FilesService filesService;
@@ -54,7 +57,7 @@ public class FilesController {
 		seartchFileVO.setFileNum(fileNum);
 		
 		DownloadVO downloadVO = this.filesService.findAttachFile(seartchFileVO);
-		System.out.println(downloadVO);
+		logger.debug("파일 다운도로 : {}",downloadVO);
 		
 		HttpHeaders headers = new HttpHeaders();
 		// inline : 부라우저에서 바로 볼수 있음, attachment : 파일을 무조건 다운로드 받고 싶을 때

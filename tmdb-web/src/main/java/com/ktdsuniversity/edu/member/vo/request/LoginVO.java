@@ -1,4 +1,4 @@
-package com.ktdsuniversity.edu.member.vo.response;
+package com.ktdsuniversity.edu.member.vo.request;
 
 import jakarta.validation.constraints.NotBlank;
 

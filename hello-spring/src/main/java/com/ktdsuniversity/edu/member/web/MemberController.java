@@ -88,7 +88,8 @@ public class MemberController {
 	}
 
 	@PostMapping("/login")
-	public String doLoginAction(@Valid @ModelAttribute LoginVO loginVO, BindingResult bindingResult, Model model,
+	public String doLoginAction(@Valid @ModelAttribute LoginVO loginVO, BindingResult bindingResult, 
+			Model model, @RequestParam(required = false, defaultValue = "/") String go,
 			HttpServletRequest request) {
 		// 로그인 처리 할때는 HttpSession session으로 변경 못하고 이렇게 작성해야한다. HttpServletRequest request
 		if (bindingResult.hasErrors()) {
@@ -116,7 +117,7 @@ public class MemberController {
 		// 후 반환.
 		// 세션읗 이용한 로그인
 
-		return "redirect:/";
+		return "redirect:" + go;
 	}
 
 	// /member => 회원들의 목록이 조회되도록 코드를 작성

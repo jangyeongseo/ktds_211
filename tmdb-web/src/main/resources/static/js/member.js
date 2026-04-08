@@ -73,9 +73,16 @@ $().ready(function () {
 
         $(this).find(".memberError").remove();
 
+        var nickname = $("#name").val();
         var email = $("#email").val();
         var password = $("#password").val();
         var confirmPassword = $("#confirmPassword").val();
+        
+        // 닉네임 검사
+        var nicknameRegex = /^[가-힣a-zA-Z]{2,}$/;
+        if (!nicknameRegex.test(nickname)) {
+            $("#name").after($("<div>").addClass("memberError").text("닉네임은 한글 또는 영문 2글자 이상이어야 합니다."));
+        }
 
         // 이메일 검사
         if (!email || !email.includes("@")) {
@@ -86,7 +93,6 @@ $().ready(function () {
 
         // 비밀번호 검사
         var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
-
         if (!password || !passwordPattern.test(password)) {
             $("#password").after(
                 $("<div>").addClass("memberError").text("비밀번호는 영문 대/소문자, 숫자 포함 8자 이상")

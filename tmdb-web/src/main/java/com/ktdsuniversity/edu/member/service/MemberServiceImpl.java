@@ -9,13 +9,13 @@ import org.springframework.stereotype.Service;
 import com.ktdsuniversity.edu.member.dao.MemberDao;
 import com.ktdsuniversity.edu.member.helpers.SHA256Util;
 import com.ktdsuniversity.edu.member.vo.MemberVO;
+import com.ktdsuniversity.edu.member.vo.request.LoginVO;
 import com.ktdsuniversity.edu.member.vo.request.MemberWriteVO;
-import com.ktdsuniversity.edu.member.vo.response.LoginVO;
 
 import jakarta.validation.Valid;
 
 @Service
-public class MemberServiceImp implements MemberService {
+public class MemberServiceImpl implements MemberService {
 
 	@Autowired
 	private MemberDao memberDao;

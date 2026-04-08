@@ -10,11 +10,12 @@ import com.ktdsuniversity.edu.files.dao.FilesDao;
 import com.ktdsuniversity.edu.files.helpers.MultipartFileHandler;
 import com.ktdsuniversity.edu.movie.dao.MovieDao;
 import com.ktdsuniversity.edu.movie.vo.MovieVO;
+import com.ktdsuniversity.edu.movie.vo.request.MovieUpdateVO;
 import com.ktdsuniversity.edu.movie.vo.request.MovieWriteVO;
 import com.ktdsuniversity.edu.movie.vo.response.MovieSearchResultVO;
 
 @Service
-public class MovieServiceImp implements MovieService {
+public class MovieServiceImpl implements MovieService {
 
 	@Autowired
 	private MovieDao movieDao;
@@ -55,5 +56,20 @@ public class MovieServiceImp implements MovieService {
 
 		return result;
 	}
+	
+	// 영화 수정ㄴ
+	@Override
+	public boolean updateMovieByArticleId(MovieUpdateVO movieUpdateVO) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	// 영화 삭제
+	@Override
+	public boolean deleteMovieByArticleId(String id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 
 }

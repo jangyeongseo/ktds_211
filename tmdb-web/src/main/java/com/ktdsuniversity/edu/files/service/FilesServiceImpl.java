@@ -8,7 +8,7 @@ import com.ktdsuniversity.edu.files.vo.request.SearchFileVO;
 import com.ktdsuniversity.edu.files.vo.response.DownloadVO;
 
 @Service
-public class FilesServiceImp implements FilesService{
+public class FilesServiceImpl implements FilesService{
 	
 	@Autowired
 	private FilesDao filesDao;

@@ -1,7 +1,10 @@
 package com.ktdsuniversity.edu.movie.web;
 
+import java.lang.reflect.Member;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,10 +14,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ktdsuniversity.edu.member.vo.MemberVO;
 import com.ktdsuniversity.edu.movie.service.MovieService;
 import com.ktdsuniversity.edu.movie.vo.MovieVO;
+import com.ktdsuniversity.edu.movie.vo.request.MovieUpdateVO;
 import com.ktdsuniversity.edu.movie.vo.request.MovieWriteVO;
 import com.ktdsuniversity.edu.movie.vo.response.MovieSearchResultVO;
 
@@ -22,6 +28,7 @@ import jakarta.validation.Valid;
 
 @Controller
 public class MovieController {
+	private static final Logger logger = LoggerFactory.getLogger(MovieController.class);
 
 	@Autowired
 	private MovieService movieService;
@@ -46,7 +53,8 @@ public class MovieController {
 	// 영화 등록
 	@PostMapping("/write")
 	public String doMoviePage(@Valid @ModelAttribute MovieWriteVO movieWriteVO, 
-			BindingResult bindingResult, @RequestParam MultipartFile attachFile, Model model) {
+			BindingResult bindingResult, @RequestParam MultipartFile attachFile, 
+			Model model, @SessionAttribute("__LOGIN_DATA__") MemberVO loginMember) {
 		if(bindingResult.hasErrors()) {
 			model.addAttribute("movieWriteVO", movieWriteVO);
 			return "movie/write";
@@ -73,7 +81,9 @@ public class MovieController {
 			movieWriteVO.setPosterUrl(savedPath);
 		}
 
+		// movieWriteVO.set
 		boolean createMovie = this.movieService.insertMovie(movieWriteVO);
+		logger.debug("영화 조회: {}",createMovie);
 
 		return "redirect:/";
 	}
@@ -86,13 +96,34 @@ public class MovieController {
 
 		return "movie/view";
 	}
+	
+	// 영화 수정
+	@GetMapping("/update/{articleMovieID}")
+	public String viewUpdatePage(@PathVariable String articleMovieID, 
+			Model model, @SessionAttribute("__LOGIN_DATA__") MemberVO loginMember) {
+		
+		return "movie/update";
+	}
+	
+	@PostMapping("/update/{articleMovieID}")
+	public String doUpdateArticle(@PathVariable String articleMovieID, 
+			MovieUpdateVO movieUpdateVO, @SessionAttribute("__LOGIN_DATA__") MemberVO loginMember) {
+		movieUpdateVO.setMovieId(articleMovieID);
+		boolean update = this.movieService.updateMovieByArticleId(movieUpdateVO);
+		logger.debug("수정 성공 : {}", update);
+		
+		return "redirect:/view/" + articleMovieID;
+	}
+	
 
 	// 영화 삭제
 	@GetMapping("/delete")
-	public String doDeletePage() {
-		return null;
+	public String doDeleteArticle(@RequestParam String id) {
+		boolean delete = this.movieService.deleteMovieByArticleId(id);
+		logger.debug("삭제 결과 : {}", delete);
+		
+		return "redirect:/";
 	}
 
-	// 영화 수정
 	
 }

@@ -9,7 +9,9 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.ktdsuniversity.edu.exception.HelloSpringException;
 import com.ktdsuniversity.edu.member.dao.MemberDao;
 import com.ktdsuniversity.edu.member.helpers.SHA256Util;
 import com.ktdsuniversity.edu.member.vo.MemberVO;
@@ -18,18 +20,19 @@ import com.ktdsuniversity.edu.member.vo.response.LoginVO;
 import com.ktdsuniversity.edu.member.vo.response.MembershipResultVO;
 
 @Service
-public class MemberServiceImp implements MemberService {
+public class MemberServiceImpl implements MemberService {
 
-	private static final Logger logger = LoggerFactory.getLogger(MemberServiceImp.class);
+	private static final Logger logger = LoggerFactory.getLogger(MemberServiceImpl.class);
 	
 	@Autowired
 	private MemberDao memberDao;
 
+	// 회원가입
 	@Override
 	public boolean createNewMember(WriteVO writeVO) {
 		MemberVO memberVO = this.memberDao.selectMemberArticleId(writeVO.getEmail());
 		if (memberVO != null) {
-			throw new IllegalArgumentException(writeVO.getEmail() + "은 이미 사용 중입니다.");
+			throw new HelloSpringException("이미 사용 중인 이메일입니다.", "member/regist", writeVO, "writeVO");
 		}
 
 		// 암호화를 위한 비밀키 생성
@@ -71,6 +74,7 @@ public class MemberServiceImp implements MemberService {
 	}
 
 	// 수정
+	@Transactional
 	@Override
 	public boolean updateMemberArticleById(MemberVO memberVO) {
 		int update = this.memberDao.updateMemberById(memberVO);
@@ -80,6 +84,7 @@ public class MemberServiceImp implements MemberService {
 	}
 
 	// 삭제
+	@Transactional
 	@Override
 	public boolean deleteMemberById(String email) {
 		int delete = this.memberDao.deleteMemberbyId(email);
@@ -89,6 +94,7 @@ public class MemberServiceImp implements MemberService {
 	}
 
 	// 로그인
+	@Transactional(noRollbackFor = HelloSpringException.class)
 	@Override
 	public MemberVO findMemberByEmailAndPassword(LoginVO loginVO) {
 		// 1. 이메일로 회원 조회
@@ -96,7 +102,7 @@ public class MemberServiceImp implements MemberService {
 
 		// 2. 회원 없으면 예외
 		if (member == null) {
-			throw new IllegalArgumentException("이메일 또는 비밀번호가 잘못되었습니다");
+			throw new HelloSpringException("이메일 또는 비밀번호가 잘못되었습니다", "member/login", loginVO, "loginVO");
 		}
 
 		if (member.getBlockYn().equals("Y")) {
@@ -108,10 +114,10 @@ public class MemberServiceImp implements MemberService {
 			LocalDateTime lastestBlockDateTime = LocalDateTime.parse(latestLoginFailDate, dateTimeFormatter);
 
 			if (lastestBlockDateTime.isAfter(LocalDateTime.now().minusMinutes(120))) {
-				throw new IllegalArgumentException("이메일 또는 비밀번호가 잘못되었습니다");
+				throw new HelloSpringException("이메일 또는 비밀번호가 잘못되었습니다", "member/login", loginVO, "loginVO");
 			}
 
-			throw new IllegalArgumentException("이메일 또는 비밀번호가 잘못되었습니다");
+			throw new HelloSpringException("이메일 또는 비밀번호가 잘못되었습니다", "member/login", loginVO, "loginVO");
 		}
 
 		// 3. 비밀번호 암호화
@@ -127,7 +133,7 @@ public class MemberServiceImp implements MemberService {
 			// 최근 로그인 실패 횟수가 5이상이라면 block-yn을 Y로 변경한다.
 			this.memberDao.updateBlock(loginVO.getEmail());
 
-			throw new IllegalArgumentException("이메일 또는 비밀번호가 잘못되었습니다");
+			throw new HelloSpringException("이메일 또는 비밀번호가 잘못되었습니다", "member/login", loginVO, "loginVO");
 		}
 
 		// 로그인 성공처리

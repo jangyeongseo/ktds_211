@@ -17,11 +17,15 @@ public class tmdbWebconfiguration implements WebMvcConfigurer {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		SessionInterceptor sessionInterceptor = new SessionInterceptor();
-		registry.addInterceptor(sessionInterceptor);
-		
+		registry.addInterceptor(sessionInterceptor).addPathPatterns("/**")
+				.excludePathPatterns("/sign","/login", "/sign/check/duplicate/**",
+						"/js/**", "/css/**", "/imgs/**","/file/**",
+						"/","/view/**");
+
 		IllegalAccessInterceptor illegalAccessInterceptor = new IllegalAccessInterceptor();
-		registry.addInterceptor(illegalAccessInterceptor);
-		
+		registry.addInterceptor(illegalAccessInterceptor)
+				.addPathPatterns("/sign", "/login", "/sign/check/duplicate/**");
+
 		WebMvcConfigurer.super.addInterceptors(registry);
 	}
 

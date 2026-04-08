@@ -5,25 +5,29 @@
 <mapper namespace="com.ktdsuniversity.edu.movie.dao.MovieDao">
 	<!-- 전제 조회 -->
 	<select id="selectMovieList" resultType="com.ktdsuniversity.edu.movie.vo.MovieVO">
-		SELECT
-		    MOVIE_ID,
-		    POSTER_URL,
-		    TITLE,
-		    MOVIE_RATING,
-		    TO_CHAR(OPEN_DATE, 'YYYY-MM-DD') AS OPEN_DATE,
-		    OPEN_COUNTRY,
-		    RUNNING_TIME,
-		    INTRODUCE,
-		    SYNOPSIS,
-		    ORIGINAL_TITLE,
-		    STATE,
-		    "LANGUAGE",
-		    BUDGET,
-		    PROFIT
-		FROM
-		    MOVIE
-		ORDER BY
-            MOVIE_ID DESC
+	    SELECT
+	        MV.MOVIE_ID,
+	        MV.POSTER_URL,
+	        MV.TITLE,
+	        MV.MOVIE_RATING,
+	        TO_CHAR(MV.OPEN_DATE, 'YYYY-MM-DD') AS OPEN_DATE,
+	        MV.OPEN_COUNTRY,
+	        MV.RUNNING_TIME,
+	        MV.INTRODUCE,
+	        MV.SYNOPSIS,
+	        MV.ORIGINAL_TITLE,
+	        MV.STATE,
+	        MV."LANGUAGE",
+	        MV.BUDGET,
+	        MV.PROFIT,
+	        M.NAME,
+	        M.EMAIL
+	    FROM
+	        MOVIE MV
+	    INNER JOIN MEMBERS M
+	    ON MV.CREATOR_EMAIL = M.EMAIL
+	    ORDER BY
+	        MV.MOVIE_ID DESC
     </select>
 	
 	<insert id="insertNewMovie" parameterType="com.ktdsuniversity.edu.movie.vo.MovieVO">
@@ -31,15 +35,52 @@
 	   SELECT 'MV-' || TO_CHAR(SYSDATE, 'YYYYMMDD-') || LPAD(SEQ_MOVIE_PK.NEXTVAL, 6, '0')
 	   FROM DUAL
 	</selectKey>
-	   INSERT INTO TMDB.MOVIE
-		  (MOVIE_ID, POSTER_URL, TITLE, MOVIE_RATING, OPEN_DATE, OPEN_COUNTRY, RUNNING_TIME, INTRODUCE, SYNOPSIS, ORIGINAL_TITLE, STATE, "LANGUAGE", BUDGET, PROFIT)
-		VALUES(#{movieId}, #{posterUrl}, #{title}, #{movieRating}, #{openDate}, #{openCountry}, 0, #{introduce}, #{synopsis}, #{originalTitle}, #{state}, #{language}, 0, 0)
-	</insert>
+	   INSERT INTO MOVIE
+    (
+        MOVIE_ID,
+        POSTER_URL,
+        TITLE,
+        MOVIE_RATING,
+        OPEN_DATE,
+        OPEN_COUNTRY,
+        RUNNING_TIME,
+        INTRODUCE,
+        SYNOPSIS,
+        ORIGINAL_TITLE,
+        STATE,
+        "LANGUAGE",
+        BUDGET,
+        PROFIT,
+        CREATOR_EMAIL
+    )
+    VALUES
+    (
+        #{movieId},
+        #{posterUrl},
+        #{title},
+        #{movieRating},
+        #{openDate},
+        #{openCountry},
+        0,
+        #{introduce},
+        #{synopsis},
+        #{originalTitle},
+        #{state},
+        #{language},
+        0,
+        0,
+        #{creatorEmail}
+    )
+    </insert>
 	
 	
 	<!-- 영화 디테일 조회 -->
 	<resultMap type="com.ktdsuniversity.edu.movie.vo.MovieVO" id="MovieVOMap" autoMapping="true">
 	   <id column="MOVIE_ID" property="movieId" />
+	   
+	   <association property="memberVO" javaType="com.ktdsuniversity.edu.member.vo.MemberVO" autoMapping="true">
+	       <id column="EMAIL" property="email" />
+	   </association>
 	   
 	   <collection property="files" javaType="list" ofType="com.ktdsuniversity.edu.files.vo.FilesVO" autoMapping="true">
 	       <id column="FILE_NUM" property="fileNum" />
@@ -48,29 +89,33 @@
 	</resultMap>
 	<select id="selectMovieById" resultMap="MovieVOMap" parameterType="string">
 	   SELECT
-		    M.MOVIE_ID,
-		    M.POSTER_URL,
-		    M.TITLE,
-		    M.MOVIE_RATING,
-		    TO_CHAR(M.OPEN_DATE, 'YYYY-MM-DD') AS OPEN_DATE,
-		    M.OPEN_COUNTRY,
-		    M.RUNNING_TIME,
-		    M.INTRODUCE,
-		    M.SYNOPSIS,
-		    M.ORIGINAL_TITLE,
-		    M.STATE,
-		    M."LANGUAGE",
-		    M.BUDGET,
-		    M.PROFIT,
+		    MV.MOVIE_ID,
+		    MV.POSTER_URL,
+		    MV.TITLE,
+		    MV.MOVIE_RATING,
+		    TO_CHAR(MV.OPEN_DATE, 'YYYY-MM-DD') AS OPEN_DATE,
+		    MV.OPEN_COUNTRY,
+		    MV.RUNNING_TIME,
+		    MV.INTRODUCE,
+		    MV.SYNOPSIS,
+		    MV.ORIGINAL_TITLE,
+		    MV.STATE,
+		    MV."LANGUAGE",
+		    MV.BUDGET,
+		    MV.PROFIT,
 		    F.FILE_NUM,
 		    F.FILE_GROUP_ID,
 		    F.OBFUSCATE_NAME,
 		    F.DISPLAY_NAME,
 		    F.EXTEND_NAME,
 		    F.FILE_LENGTH,
-		    F.FILE_PATH
+		    F.FILE_PATH,
+		    M.NAME,
+		    TO_CHAR(M.REGIST_DATE, 'YYYY-MM-DD HH24:MI:SS') AS REGIST_DATE
 		FROM
-		    MOVIE M
+		    MOVIE MV
+		INNER JOIN MEMBERS M
+        ON MV.CREATOR_EMAIL = M.EMAIL
 		LEFT OUTER JOIN FILES F
 		ON
 		    M.MOVIE_ID = F.FILE_GROUP_ID

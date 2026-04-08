@@ -25,7 +25,7 @@ ${param.script}
 				</c:when>
 				<c:otherwise>
 					<a href="/login">로그인</a>
-					<a href="/sign">회원가입</a>
+					<a href="regist">회원가입</a>
 				</c:otherwise>
 			</c:choose>
 		</div>

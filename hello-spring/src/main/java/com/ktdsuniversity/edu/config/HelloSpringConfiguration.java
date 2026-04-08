@@ -38,7 +38,7 @@ public class HelloSpringConfiguration implements WebMvcConfigurer {
 						"/regist", // 회원가입 페이지 & 처리
 						"/login", // 로그인 페이지 & 처리
 						"/js/**", "/css/**", "/imgs/**", "/file/**", // static resources
-						"/", "/view/**" // 게시글 목록 & 게시글 내용
+						"/", "/view/**", "/error" // 게시글 목록 & 게시글 내용
 						) // sessionInterceptor 가 적용되지 않을 URL 명시.
 				;
 		

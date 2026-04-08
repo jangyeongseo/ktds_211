@@ -5,9 +5,9 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ktdsuniversity.edu.board.dao.BoardDao;
@@ -16,6 +16,7 @@ import com.ktdsuniversity.edu.board.vo.BoardVO;
 import com.ktdsuniversity.edu.board.vo.request.UpdateVO;
 import com.ktdsuniversity.edu.board.vo.request.WriteVO;
 import com.ktdsuniversity.edu.board.vo.response.SearchResultVO;
+import com.ktdsuniversity.edu.exception.HelloSpringException;
 import com.ktdsuniversity.edu.files.dao.FilesDao;
 import com.ktdsuniversity.edu.files.helpers.MultipartFileHandler;
 
@@ -54,6 +55,7 @@ public class BoardServiceImpl implements BoardService {
 		return result;
 	}
 
+	@Transactional
 	@Override
 	public boolean createNewBoard(WriteVO writeVO) {
 
@@ -74,6 +76,7 @@ public class BoardServiceImpl implements BoardService {
 		return insertCount == 1;
 	}
 
+	@Transactional
 	@Override
 	public BoardVO findBoardByArticleId(String articleId, ReadType readType) {
 		if (readType == ReadType.VIEW) {
@@ -83,8 +86,8 @@ public class BoardServiceImpl implements BoardService {
 
 			if (updateCount == 0) {
 				// 존재하지 않는 게시글을 조회하려 했다.
-				return null;
 				// throw new RuntimeException("존재하지 않는 게시글입니다.");
+				throw new HelloSpringException("존재하지 않는 게시글입니다.", "/errors/404");
 			}
 		}
 
@@ -95,6 +98,7 @@ public class BoardServiceImpl implements BoardService {
 		return board;
 	}
 
+	@Transactional
 	@Override
 	public boolean deleteBoardByArticleId(String id) {
 		int deleteCount = this.boardDao.deleteBoardById(id);
@@ -109,12 +113,13 @@ public class BoardServiceImpl implements BoardService {
 
 			// 파일 목록을 제거한 이후에 "FILES" 테이블에서 해당 파일 정보를 모두 삭제한다.
 			int deleteFileCount = this.filesDao.deleteFileByFileGroupId(id);
-			logger.debug("파일 삭제 개수:{}",deleteCount);
+			logger.debug("파일 삭제 개수:{}",deleteFileCount);
 		}
 
 		return deleteCount == 1;
 	}
 
+	@Transactional
 	@Override
 	public boolean updateBoardByArticleId(UpdateVO updateVO) {
 

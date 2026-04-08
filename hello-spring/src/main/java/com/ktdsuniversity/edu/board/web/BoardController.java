@@ -21,6 +21,7 @@ import com.ktdsuniversity.edu.board.vo.BoardVO;
 import com.ktdsuniversity.edu.board.vo.request.UpdateVO;
 import com.ktdsuniversity.edu.board.vo.request.WriteVO;
 import com.ktdsuniversity.edu.board.vo.response.SearchResultVO;
+import com.ktdsuniversity.edu.exception.HelloSpringException;
 import com.ktdsuniversity.edu.member.vo.MemberVO;
 
 import jakarta.validation.Valid;
@@ -125,8 +126,10 @@ public class BoardController {
 		BoardVO data = this.boardService.findBoardByArticleId(articleId, ReadType.UPDATE);
 		model.addAttribute("article", data);
 		
+		// TODO 게시글의 이메일과 세션의 이메일을 비교할 때에는 항상 SErviceImpl 에서 수행한다.
 		if(!loginMember.getEmail().equals(data.getEmail())) {
-			throw new IllegalArgumentException("잘못된 작성자입니다.");
+			// 뒤에 숫자는 http 에러 메세지에서 403은 권한 없음을 의미한다.
+			throw new HelloSpringException("잘못된 접근입니다.", "errors/403");
 		}
 
 		return "board/update";

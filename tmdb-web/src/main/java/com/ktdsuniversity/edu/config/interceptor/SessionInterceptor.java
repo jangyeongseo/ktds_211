@@ -4,14 +4,24 @@ import org.jspecify.annotations.Nullable;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 public class SessionInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		return HandlerInterceptor.super.preHandle(request, response, handler);
+		HttpSession session = request.getSession();
+		if(session.getAttribute("__LOGIN_DATA__") == null) {
+			String loginPage = "/WEB-INF/views/member/login.jsp";
+			RequestDispatcher dispatcher = request.getRequestDispatcher(loginPage);
+			dispatcher.forward(request, response);
+			return false;
+		}
+		
+		return true;
 	}
 
 	@Override

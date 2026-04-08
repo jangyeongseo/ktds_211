@@ -19,6 +19,7 @@ public class MovieVO {
 	private String language;
 	private long budget;
 	private long profit;
+	private String creatorEmail;
 
 	// filesVO 연결
 	private List<FilesVO> files;
@@ -33,10 +34,10 @@ public class MovieVO {
 
 	public String getMovieId() {
 		// 브라우저만 사용하는 클래스
-		if(this.movieId != null) {
+		if (this.movieId != null) {
 			this.movieId = this.movieId.replace("<", "&lt;").replace(">", "&gt;");
 		}
-		
+
 		return this.movieId;
 	}
 
@@ -45,10 +46,10 @@ public class MovieVO {
 	}
 
 	public String getPosterUrl() {
-		if(this.posterUrl != null) {
+		if (this.posterUrl != null) {
 			this.posterUrl = this.posterUrl.replace("<", "&lt;").replace(">", "&gt;");
 		}
-		
+
 		return this.posterUrl;
 	}
 
@@ -57,10 +58,10 @@ public class MovieVO {
 	}
 
 	public String getTitle() {
-		if(this.title != null) {
+		if (this.title != null) {
 			this.title = this.title.replace("<", "&lt;").replace(">", "&gt;");
 		}
-		
+
 		return this.title;
 	}
 
@@ -69,10 +70,10 @@ public class MovieVO {
 	}
 
 	public String getMovieRating() {
-		if(this.movieRating != null) {
+		if (this.movieRating != null) {
 			this.movieRating = this.movieRating.replace("<", "&lt;").replace(">", "&gt;");
 		}
-		
+
 		return this.movieRating;
 	}
 
@@ -81,10 +82,10 @@ public class MovieVO {
 	}
 
 	public String getOpenDate() {
-		if(this.openDate != null) {
+		if (this.openDate != null) {
 			this.openDate = this.openDate.replace("<", "&lt;").replace(">", "&gt;");
 		}
-		
+
 		return this.openDate;
 	}
 
@@ -93,10 +94,10 @@ public class MovieVO {
 	}
 
 	public String getOpenCountry() {
-		if(this.openCountry != null) {
+		if (this.openCountry != null) {
 			this.openCountry = this.openCountry.replace("<", "&lt;").replace(">", "&gt;");
 		}
-		
+
 		return this.openCountry;
 	}
 
@@ -113,10 +114,10 @@ public class MovieVO {
 	}
 
 	public String getIntroduce() {
-		if(this.introduce != null) {
+		if (this.introduce != null) {
 			this.introduce = this.introduce.replace("<", "&lt;").replace(">", "&gt;");
 		}
-		
+
 		return this.introduce;
 	}
 
@@ -125,10 +126,10 @@ public class MovieVO {
 	}
 
 	public String getSynopsis() {
-		if(this.synopsis != null) {
+		if (this.synopsis != null) {
 			this.synopsis = this.synopsis.replace("<", "&lt;").replace(">", "&gt;");
 		}
-		
+
 		return this.synopsis;
 	}
 
@@ -137,10 +138,10 @@ public class MovieVO {
 	}
 
 	public String getOriginalTitle() {
-		if(this.originalTitle != null) {
+		if (this.originalTitle != null) {
 			this.originalTitle = this.originalTitle.replace("<", "&lt;").replace(">", "&gt;");
 		}
-		
+
 		return this.originalTitle;
 	}
 
@@ -149,10 +150,10 @@ public class MovieVO {
 	}
 
 	public String getState() {
-		if(this.state != null) {
+		if (this.state != null) {
 			this.state = this.state.replace("<", "&lt;").replace(">", "&gt;");
 		}
-		
+
 		return this.state;
 	}
 
@@ -161,10 +162,10 @@ public class MovieVO {
 	}
 
 	public String getLanguage() {
-		if(this.language != null) {
+		if (this.language != null) {
 			this.language = this.language.replace("<", "&lt;").replace(">", "&gt;");
 		}
-		
+
 		return this.language;
 	}
 
@@ -186,6 +187,14 @@ public class MovieVO {
 
 	public void setProfit(long profit) {
 		this.profit = profit;
+	}
+
+	public String getCreatorEmail() {
+		return this.creatorEmail;
+	}
+
+	public void setCreatorEmail(String creatorEmail) {
+		this.creatorEmail = creatorEmail;
 	}
 
 }

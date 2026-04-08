@@ -1,5 +1,7 @@
 package com.ktdsuniversity.edu.member.web;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,9 +15,10 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.ktdsuniversity.edu.member.service.MemberService;
 import com.ktdsuniversity.edu.member.vo.MemberVO;
+import com.ktdsuniversity.edu.member.vo.request.LoginVO;
+import com.ktdsuniversity.edu.member.vo.request.MemberUpdateVO;
 import com.ktdsuniversity.edu.member.vo.request.MemberWriteVO;
 import com.ktdsuniversity.edu.member.vo.response.DuplicateResultVO;
-import com.ktdsuniversity.edu.member.vo.response.LoginVO;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -23,6 +26,7 @@ import jakarta.validation.Valid;
 
 @Controller
 public class MemberController {
+	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
 	@Autowired
 	private MemberService memberService;
@@ -56,7 +60,7 @@ public class MemberController {
 		}
 
 		boolean cteateResult = this.memberService.createNewMember(memberWriteVO);
-		System.out.println("결과 : " + cteateResult);
+		logger.debug("결과 : {}", cteateResult);
 		return "redirect:/login";
 	}
 
@@ -77,22 +81,19 @@ public class MemberController {
 		String ip = request.getRemoteAddr();
 		loginVO.setIp(ip);
 
-		MemberVO memberVO = this.memberService.findMemberByEmailAndPassword(loginVO);
-		System.out.println("이메일 확인 : " + memberVO.getEmail());
-		
+		MemberVO member = this.memberService.findMemberByEmailAndPassword(loginVO);
+		logger.debug("이메일 확인 : {}", member.getEmail());
+
 		request.getSession().invalidate();
+		HttpSession session = request.getSession();
+		session.setAttribute("__LOGIN_DATA__", member);
 
 		return "redirect:/";
 	}
 
 	// 마이페이지
 	@GetMapping("/member/view/{articleEmail}")
-	public String viewMyPage(Model model, @PathVariable String articleEmail, HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		if (session == null || session.getAttribute("__LOGIN_DATA__") == null) {
-			return "redirect:/login";
-		}
-
+	public String viewMyPage(Model model, @PathVariable String articleEmail) {
 		MemberVO findResult = this.memberService.findMemberArticleEmail(articleEmail);
 		model.addAttribute("articleEmail", findResult);
 
@@ -101,14 +102,21 @@ public class MemberController {
 
 	// 사용자 회원 정보 수정
 	@GetMapping("/member/update/{articleEmail}")
-	public String viewUpdatePage(@PathVariable String articleEmail, MemberVO memberVO) {
-		memberVO.setEmail(articleEmail);
-		boolean updateResult = this.memberService.updateMameberArticleEmail(articleEmail);
-		System.out.println("업데이트 : " + updateResult);
-		
+	public String viewUpdatePage(@PathVariable String articleEmail, Model model) {
+		MemberVO update = this.memberService.findMemberArticleEmail(articleEmail);
+		model.addAttribute("article", update);
+
 		return "member/update";
 	}
-	
+
+	@PostMapping("/member/update/{articleEmail}")
+	public String doUpdateArticleEmail(@PathVariable String articleEmail, MemberUpdateVO memberUpdateVO) {
+		memberUpdateVO.setEmail(articleEmail);
+		boolean updateResult = this.memberService.updateMameberArticleEmail(articleEmail);
+		logger.debug("업데이트 : {}", updateResult);
+
+		return "redirect:/member/view/" + articleEmail;
+	}
 
 	// 로그아웃
 	@GetMapping("/logout")
@@ -120,9 +128,9 @@ public class MemberController {
 
 	// 사용자 탈퇴
 	@GetMapping("/member/delete")
-	public String doDeletePage(@SessionAttribute MemberVO loginMember, HttpSession session) {
+	public String doDeletePage(@SessionAttribute("__LOGIN_DATA__") MemberVO loginMember, HttpSession session) {
 		boolean delelte = this.memberService.deleteMemberByEmail(loginMember.getEmail());
-		System.out.println("삭제 성공: " + delelte);
+		logger.debug("삭제 성공: {}", delelte);
 
 		session.invalidate();
 
