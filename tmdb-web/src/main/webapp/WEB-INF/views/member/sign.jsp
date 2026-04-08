@@ -22,6 +22,10 @@
                 <form:form modelAttribute="memberWriteVO" action="/sign" method="post">
                     <div class="login-container">
                         <h2>회원가입</h2>
+                        <input type="text" name="name" id="name" placeholder="닉네임" value="${memberWriteVO.name}"
+                            required />
+                        <form:errors path="name" cssClass="memberError" element="div" />
+                        
                         <input type="email" name="email" id="email" placeholder="이메일" value="${memberWriteVO.email}"
                             required />
                         <form:errors path="email" cssClass="memberError" element="div" />
@@ -29,6 +33,8 @@
                         <input type="password" name="password" id="password" placeholder="비밀번호"
                             value="${memberWriteVO.password}" required />
                         <form:errors path="password" cssClass="memberError" element="div" />
+                        
+                        <!-- 비밀번호 보여주는 클릭 버튼 -->
 
                         <input type="password" name="confirmPassword" id="confirmPassword" placeholder="비밀번호 확인"
                             value="${memberWriteVO.confirmPassword}" required />

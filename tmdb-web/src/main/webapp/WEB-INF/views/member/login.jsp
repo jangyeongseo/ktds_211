@@ -22,7 +22,7 @@
             <div class="login-container">
                 <h2>로그인</h2>
                 <form action="/login" method="post">
-                    <input type="text" name="username" placeholder="아이디" required>
+                    <input type="email" name="email" placeholder="이메일" id="email" required>
                     <input type="password" name="password" placeholder="비밀번호" required>
                     <button type="submit">로그인</button>
                 </form>

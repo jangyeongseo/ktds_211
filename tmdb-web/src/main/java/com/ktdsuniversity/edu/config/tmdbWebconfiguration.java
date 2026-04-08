@@ -2,13 +2,28 @@ package com.ktdsuniversity.edu.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.ktdsuniversity.edu.config.interceptor.IllegalAccessInterceptor;
+import com.ktdsuniversity.edu.config.interceptor.SessionInterceptor;
+
 @Configuration
 @EnableWebMvc
 public class tmdbWebconfiguration implements WebMvcConfigurer {
+
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		SessionInterceptor sessionInterceptor = new SessionInterceptor();
+		registry.addInterceptor(sessionInterceptor);
+		
+		IllegalAccessInterceptor illegalAccessInterceptor = new IllegalAccessInterceptor();
+		registry.addInterceptor(illegalAccessInterceptor);
+		
+		WebMvcConfigurer.super.addInterceptors(registry);
+	}
 
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {

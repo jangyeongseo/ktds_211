@@ -4,6 +4,9 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.ktdsuniversity.edu.member.vo.MemberVO;
 import com.ktdsuniversity.edu.member.vo.request.MemberWriteVO;
+import com.ktdsuniversity.edu.member.vo.response.LoginVO;
+
+import jakarta.validation.Valid;
 
 @Mapper
 public interface MemberDao {
@@ -13,5 +16,13 @@ public interface MemberDao {
     MemberVO selectMemberByEmail(String email);
 
     int deleteMemberByEmail(String email);
+
+	int updateMemberByEmail(String articleEmail);
+
+	void updateBlock(String email);
+
+	void updateIncreaseLoginFailCount(String email);
+
+	void updateSuccessLogin(@Valid LoginVO loginVO);
 
 }
