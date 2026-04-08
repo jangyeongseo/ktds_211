@@ -19,10 +19,10 @@ public interface MemberDao {
 
 	int updateMemberByEmail(String articleEmail);
 
-	void updateBlock(String email);
+	int updateBlock(String email);
 
-	void updateIncreaseLoginFailCount(String email);
+	int updateIncreaseLoginFailCount(String email);
 
-	void updateSuccessLogin(@Valid LoginVO loginVO);
+	int updateSuccessLogin(@Valid LoginVO loginVO);
 
 }

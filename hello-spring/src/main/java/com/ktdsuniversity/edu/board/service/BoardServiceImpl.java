@@ -71,7 +71,7 @@ public class BoardServiceImpl implements BoardService {
 		// update ==> update 된 row의 개수 반환.
 		// delete ==> delete 된 row의 개수 반환.
 		int insertCount = this.boardDao.insertNewBoard(writeVO);
-		
+
 		logger.debug("생성된 게시글의 개수?{}", insertCount);
 		return insertCount == 1;
 	}

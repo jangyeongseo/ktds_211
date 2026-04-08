@@ -3,6 +3,7 @@ package com.ktdsuniversity.edu.movie.vo;
 import java.util.List;
 
 import com.ktdsuniversity.edu.files.vo.FilesVO;
+import com.ktdsuniversity.edu.member.vo.MemberVO;
 
 public class MovieVO {
 	private String movieId;
@@ -21,8 +22,18 @@ public class MovieVO {
 	private long profit;
 	private String creatorEmail;
 
+	private MemberVO memberVO;
+
 	// filesVO 연결
 	private List<FilesVO> files;
+
+	public synchronized MemberVO getMemberVO() {
+		return this.memberVO;
+	}
+
+	public synchronized void setMemberVO(MemberVO memberVO) {
+		this.memberVO = memberVO;
+	}
 
 	public List<FilesVO> getFiles() {
 		return this.files;

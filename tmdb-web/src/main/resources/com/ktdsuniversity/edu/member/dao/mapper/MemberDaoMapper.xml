@@ -7,32 +7,78 @@
     <!-- 회원가입 -->
     <insert id="insertNewMember"
         parameterType="com.ktdsuniversity.edu.member.vo.request.MemberWriteVO">
-        INSERT INTO MEMBERS (
-            EMAIL, PASSWORD, SALT,
-            REGIST_DATE, LATEST_PASSWORD_CHANGE_DATE,
-            LOGIN_FAIL_COUNT, FILE_GROUP_ID
-        )
-        VALUES (
-            #{email}, #{password}, #{salt},
-            SYSDATE, SYSDATE, 0,
-            'NO_FILE'
-        )
+        INSERT INTO MEMBERS (EMAIL, NAME, PASSWORD, SALT, REGIST_DATE, LATEST_PASSWORD_CHANGE_DATE, LOGIN_FAIL_COUNT)
+        VALUES (#{email}, #{name}, #{password}, #{salt}, SYSDATE, SYSDATE, 0)
     </insert>
 
     <!-- 회원 조회 -->
     <select id="selectMemberByEmail"
         resultType="com.ktdsuniversity.edu.member.vo.MemberVO"
         parameterType="string">
-        SELECT EMAIL, PASSWORD
-        FROM MEMBERS
-        WHERE EMAIL = #{_parameter}
+               SELECT
+		            EMAIL,
+		            NAME,
+		            PASSWORD,
+		            SALT,
+		            TO_CHAR(REGIST_DATE, 'YYYY-MM-DD') AS REGIST_DATE,
+		            TO_DATE(MODIFY_DATE, 'YYYY-MM-DD') AS MODIFY_DATE,
+		            LATEST_PASSWORD_CHANGE_DATE,
+		            TO_CHAR(LOGIN_DATE, 'YYYY-MM-DD') AS LOGIN_DATE,
+		            LATEST_LOGIN_IP,
+		            LOGIN_FAIL_COUNT,
+		            LATEST_LOGIN_FAIL_DATE,
+		            BLOCK_YN,
+		            FILE_GROUP_ID
+		        FROM
+		          MEMBERS
+		        WHERE
+		          EMAIL = #{_parameter}
     </select>
+    
+    <!-- 수정 -->
+    <update id="updateMemberByEmail" parameterType="com.ktdsuniversity.edu.member.vo.MemberVO">
+        UPDATE
+          MEMBERS
+        SET
+            NAME = #{name},
+            PASSWORD = #{password}
+        WHERE
+          EMAIL = #{email}
+    </update>
 
     <!-- 삭제 -->
-    <delete id="deleteMemberByEmail"
-        parameterType="string">
+    <delete id="deleteMemberByEmail" parameterType="string">
         DELETE FROM MEMBERS
         WHERE EMAIL = #{_parameter}
     </delete>
+    
+    <!-- 로그인 시 업데이트 되야하는 것들 -->
+    <update id="updateBlock" parameterType="string">
+        UPDARTE MEMBERS
+        SET 
+            BLOCK_YN = 'Y'
+        WHERE EMAIL = #{email}
+        AND LOGIN_FAIL_COUNT >= 5
+    </update>
+    
+    <update id="updateIncreaseLoginFailCount" parameterType="String">
+        UPDATE
+            MEMBERS
+        SET
+            LOGIN_FAIL_COUNT = LOGIN_FAIL_COUNT + 1,
+            LATEST_LOGIN_FAIL_DATE = SYSDATE
+        WHERE EMAIL = #{_parameter}
+    </update>
+    
+    <update id="updateSuccessLogin" parameterType="com.ktdsuniversity.edu.member.vo.request.LoginVO">
+        UPDATE
+            MEMBERS
+        SET
+            LOGIN_FAIL_COUNT = 0,
+            LATEST_LOGIN_IP = #{ip},
+            LOGIN_DATE = SYSDATE,
+            BLOCK_YN = 'N' 
+        WHERE EMAIL = #{email}
+    </update>
     
 </mapper>
