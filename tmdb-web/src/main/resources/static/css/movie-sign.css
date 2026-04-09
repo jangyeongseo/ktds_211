@@ -26,7 +26,7 @@ body {
 /* 카드 */
 .sign-container {
     width: 100%;
-    max-width: 400px;
+    max-width: 600px;
     background-color: rgba(255, 255, 255, 0.95);
     padding: 40px;
     border-radius: 12px;
@@ -81,7 +81,11 @@ body {
 }
 
 /* 에러 메시지 */
-.memberError {
+.sign-container > .memberError {
+	display: block;
+    width: 100%;
+    box-sizing: border-box;
+    
     color: #ff4d4f;
     background-color: #fff1f0;
     border: 1px solid #ffa39e;
@@ -97,7 +101,7 @@ body {
     position: relative;
 }
 
-.memberError::before {
+.sign-container > .memberError::before {
     content: "⚠";
     position: absolute;
     left: 6px;

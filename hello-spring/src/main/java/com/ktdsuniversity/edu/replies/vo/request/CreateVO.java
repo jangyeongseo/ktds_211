@@ -1,5 +1,9 @@
 package com.ktdsuniversity.edu.replies.vo.request;
 
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+
 import jakarta.validation.constraints.NotBlank;
 
 public class CreateVO {
@@ -12,6 +16,25 @@ public class CreateVO {
 	@NotBlank(message = "댓글을 작성할 게시글의 아이디가 없습니다.")
 	private String articleId;
 	private String parentReplyId;
+
+	private String fileGroupId;
+	private List<MultipartFile> attachFile;
+
+	public synchronized String getFileGroupId() {
+		return this.fileGroupId;
+	}
+
+	public synchronized void setFileGroupId(String fileGroupId) {
+		this.fileGroupId = fileGroupId;
+	}
+
+	public synchronized List<MultipartFile> getAttachFile() {
+		return this.attachFile;
+	}
+
+	public synchronized void setAttachFile(List<MultipartFile> attachFile) {
+		this.attachFile = attachFile;
+	}
 
 	public synchronized String getId() {
 		return this.id;

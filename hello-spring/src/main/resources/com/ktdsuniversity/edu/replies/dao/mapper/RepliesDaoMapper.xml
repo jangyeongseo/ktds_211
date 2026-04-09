@@ -5,7 +5,8 @@
 <mapper namespace="com.ktdsuniversity.edu.replies.dao.RepliesDao">
 	<insert id="insertNewReply" parameterType="com.ktdsuniversity.edu.replies.vo.RepliesVO">
 		<selectKey order="BEFORE" resultType="string" keyProperty="id">
-		  SELECT 'RP-' || TO_CHAR(SYSDATE,'YYYY-MM-DD') || LPAD(SEQ_REPLIES_PK.NEXTVAL, 6,'0') FROM DUAL
+		  SELECT 'RP-' || TO_CHAR(SYSDATE,'YYYYMMDD') || LPAD(SEQ_REPLIES_PK.NEXTVAL, 6,'0') 
+            FROM DUAL
 		</selectKey>
 		INSERT
 		    INTO REPLIES
@@ -23,11 +24,11 @@
 		    #{reply},
 		    0,
 		    SYSDATE,
-		    SYSDATE,
+		    NULL,
 		    #{email},
 		    #{articleId},
 		    #{parentReplyId},
-		    null
+		    #{fileGroupId}
 		)
 		
 	</insert>
@@ -38,7 +39,6 @@
         
         <association property="memberVO" javaType="com.ktdsuniversity.edu.member.vo.MemberVO" autoMapping="true">
             <id column="EMAIL" property="email" />
-            <result column="NAME" property="name"/>
         </association>
     </resultMap>
 	<select id="selectReplyByReplyId" parameterType="string"
@@ -62,5 +62,52 @@
 		WHERE
 		    R.ID = #{_parameter}
 	</select>
+	
+	<select id="selectRepliesCountByArticleId" parameterType="string" resultType="_int">
+		SELECT COUNT(R.ID)
+		FROM
+		    REPLIES R
+		INNER JOIN MEMBERS M
+		ON
+		    R.EMAIL = M.EMAIL
+		WHERE
+            R.ARTICLE_ID = #{_parameter}
+	</select>
+
+	   <select id="selectRepliesByArticleId"
+        parameterType="string"
+        resultType="com.ktdsuniversity.edu.member.vo.RepliesVO">
+	    SELECT
+	        R.ID,
+	        R.REPLY,
+	        R.RECOMMEND_CNT,
+	        TO_CHAR(R.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') AS CRT_DT,
+	        TO_CHAR(R.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') AS MDFY_DT,
+	        R.EMAIL,
+	        R.ARTICLE_ID,
+	        R.PARENT_REPLY_ID,
+	        R.FILE_GROUP_ID,
+	        M.NAME
+	    FROM
+	        REPLIES R
+	    INNER JOIN MEMBERS M
+	       ON R.EMAIL = M.EMAIL
+		LEFT OUTER JOIN (SELECT
+					        F.FILE_NUM,
+					        F.DISPLAY_NAME ,
+					        F.FILE_LENGTH,
+					        FG.FILE_GROUP_ID
+					    FROM
+					        FILES_GROUP FG
+					    INNER JOIN FILES F ON
+					        FG.FILE_GROUP_ID = F.FILE_GROUP_ID)F
+		  ON R.FILE_GROUP_ID = F.FILE_GROUP_ID
+	    WHERE
+	        R.ARTICLE_ID = #{articleId}
+	    START WITH
+	        R.PARENT_REPLY_ID IS NULL
+	    CONNECT BY PRIOR
+	        R.ID = R.PARENT_REPLY_ID
+        </select>
 
 </mapper>

@@ -20,22 +20,22 @@
             </jsp:include>
 
             <main class="sign-page">
-                <form:form modelAttribute="memberWriteVO" action="/sign" method="post">
+                <form:form id="memberWriteVO" modelAttribute="memberWriteVO" action="/sign" method="post">
                     <div class="sign-container">
                         <h2>회원가입</h2>
                         <input type="text" name="name" id="name" placeholder="닉네임" value="${memberWriteVO.name}" />
                         <form:errors path="name" cssClass="memberError" element="div" />
                         
-                        <input type="email" name="email" id="email" placeholder="이메일" value="${memberWriteVO.email}" />
+                        <form:input path="email" id="email" placeholder="이메일" />
                         <form:errors path="email" cssClass="memberError" element="div" />
 
                         <div class="password-wrapper">
-                            <input type="password" name="password" id="password" placeholder="비밀번호" />
+                            <form:password path="password" id="password" placeholder="비밀번호" />
                             <button type="button" class="toggle-password" data-target="password">
                                  <span class="material-symbols-outlined">visibility</span>
                             </button>
-                            <form:errors path="password" cssClass="memberError" element="div" />
                         </div>
+                        <form:errors path="password" cssClass="memberError" element="div" />
                         
                         <!-- 비밀번호 보여주는 클릭 버튼 -->
                         <c:if test="${not empty errorMessage}">

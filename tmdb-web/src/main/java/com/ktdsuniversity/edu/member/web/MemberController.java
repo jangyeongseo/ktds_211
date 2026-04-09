@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
@@ -66,13 +67,14 @@ public class MemberController {
 
 	// 영화 로그인
 	@GetMapping("/login")
-	public String viewLoginPage() {
+	public String login(Model model) {
+		model.addAttribute("loginVO", new LoginVO());
 		return "member/login";
 	}
 
 	@PostMapping("/login")
-	public String doLoginAction(@Valid @ModelAttribute LoginVO loginVO, BindingResult bindingResult, Model model,
-			HttpServletRequest request) {
+	public String doLoginAction(@Valid @ModelAttribute LoginVO loginVO, BindingResult bindingResult,
+			@RequestParam(required = false, defaultValue = "/") String go, Model model, HttpServletRequest request) {
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("loginVO", loginVO);
 			return "member/login";
@@ -88,7 +90,7 @@ public class MemberController {
 		HttpSession session = request.getSession();
 		session.setAttribute("__LOGIN_DATA__", member);
 
-		return "redirect:/";
+		return "redirect:" + go;
 	}
 
 	// 마이페이지

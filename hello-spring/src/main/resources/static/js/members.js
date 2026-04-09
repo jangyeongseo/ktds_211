@@ -28,7 +28,9 @@ $().ready(function () {
 
         // form 내부에 존재하는 ".signerror" 클래스를 가진 요소를 제거한다.
         $(this).find(".signerror").remove();
-
+        
+        var formId = $(this).attr("id");
+        
         $("#password").trigger("keyup"); // password 입력폼에 keyup 이벤트를 강제로 발생시킨다.
 
         // 이름, 이메일, 비밀번호를 제대로 입력하지 않았다 => 에러 메세지를 화면에 보여준다. 폼 전송 x
@@ -38,12 +40,6 @@ $().ready(function () {
             $("#email").after(emaillErrorMessage);
         }
 
-        var name = $("#name").val();
-        if (!name || name.length < 2) {
-            var nameErrorMessage = $("<div>").addClass("signerror").text("이름을 입력하세요");
-            $("#name").after(nameErrorMessage);
-        }
-
         var passwordPath = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
         var password = $("#password").val();
         if (!password || !passwordPath.test(password)) {
@@ -51,6 +47,15 @@ $().ready(function () {
                 .text("비밀번호는 영소문자, 영대문자, 숫자 최소 1개를 포함하여 8글자 이상이어야 합니다.");
             $("#password").after(passwordErrorMessage);
         }
+        
+                if (formId === "writeVO") {
+                    var name = $("#name").val();
+                    if (!name || name.length < 2) {
+                        $("#name").after(
+                            $("<div>").addClass("signerror").text("이름을 입력하세요")
+                        );
+                    }
+                }
 
         // 이름, 이메일, 비밀번호를 제대로 입력했다 => 폼 전송
         if ($(".signerror").length === 0) {
@@ -59,7 +64,6 @@ $().ready(function () {
             this.submit(); // => Javascript Event
         }
     });
-
 
     // 이메일 입력폼에 keyup 이벤트가 발생할 때마다 입력값이 이메일 형식에 맞는지 체크
     // 이메일 포커스가 해제되면. 0.15초 이후에 이메일 재검사.

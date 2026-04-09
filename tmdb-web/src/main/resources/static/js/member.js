@@ -1,119 +1,129 @@
 $().ready(function () {
-    // 이메일 중복 체크
-    var keyUpStartTime = new Date().getTime();
+
+    /* 이메일 중복 체크 */
+    let keyUpStartTime = new Date().getTime();
 
     $("#email").on("keyup", function () {
 
-        var email = $(this).val();
+        const email = $(this).val();
+        const nowTime = new Date().getTime();
 
-        // 이메일 키 입력이 발생한 시간
-        var nowTime = new Date().getTime();
-
+        // 너무 빠른 입력 방지
         if (nowTime - keyUpStartTime < 100) {
             return;
         }
-
         keyUpStartTime = nowTime;
 
-        var emailPattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+        const emailPattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+
+        // 기존 메시지
+        $("#email").next(".memberError, .membersuccess").remove();
 
         if (email && emailPattern.test(email)) {
+
             fetch("/regist/check/duplicate/" + email)
-                .then(response => response.json())
+                .then(res => res.json())
                 .then(function (data) {
-                    var duplicateResult = $("#email").closest(".sign-container").children(".memberError");
 
-                    if (duplicateResult.length === 0) {
-                        duplicateResult = $("#email").closest(".sign-container").children(".membersuccess");
-                    }
-
-                    if (duplicateResult.length === 0) {
-                        var duplicateResult = $("<div>");
-                        $("#email").after(duplicateResult);
-                    }
+                    let resultDiv = $("<div>");
 
                     if (!data.duplicate) {
-                        // 사용 가능한 이메일
-                        duplicateResult.removeClass("memberError");
-                        duplicateResult.addClass("membersuccess").text("사용 가능한 이메일입니다.");
-
+                        resultDiv
+                            .addClass("membersuccess")
+                            .text("사용 가능한 이메일입니다.");
                     } else {
-                        // 사용 불가능한 이메일
-                        duplicateResult.removeClass("membersuccess");
-                        duplicateResult.addClass("memberError").text("이미 사용 중인 이메일입니다.");
+                        resultDiv
+                            .addClass("memberError")
+                            .text("이미 사용 중인 이메일입니다.");
                     }
 
-                })
-        } else {
-            // 이메일 형식이 올바르지 않을 때
-            $(this).closest(".sign-container").children(".membersuccess, .memberError").remove();
-        }
+                    $("#email").after(resultDiv);
+                });
 
+        }
     });
 
 
-    // 비밀번호 실시간 체크
+    /* 비밀번호 실시간 체크 */
     $("#password, #confirmPassword").on("keyup", function () {
-        var confirmPasswordValue = $("#confirmPassword").val();
-        var passwordValue = $("#password").val();
 
-        $("#confirmPassword").closest(".sign-container").children(".memberError").remove();
+        // 기존 에러 제거
+        $(".password-error").remove();
 
-        if (confirmPasswordValue !== passwordValue) {
-            var passwordErrorMessage = $("<div>").addClass("memberError").text("비밀번호가 일치하지 않습니다.");
+        const password = $("#password").val();
+        const confirmPassword = $("#confirmPassword").val();
 
-            $("#password").after(passwordErrorMessage);
-            $("#confirmPassword").after(passwordErrorMessage);
+        if (confirmPassword && password !== confirmPassword) {
 
+            const error = $("<div>")
+                .addClass("memberError password-error")
+                .text("비밀번호가 일치하지 않습니다.");
+
+            // wrapper 밖에 넣기
+            $("#confirmPassword").after(error);
         }
     });
-    
+
+
+    /* 폼 제출 검증 */
     $("#memberWriteVO").on("submit", function (event) {
+
         event.preventDefault();
 
+        // 기존 에러 전체 제거
         $(this).find(".memberError").remove();
 
-        var nickname = $("#name").val();
-        var email = $("#email").val();
-        var password = $("#password").val();
-        var confirmPassword = $("#confirmPassword").val();
-        
+        const nickname = $("#name").val();
+        const email = $("#email").val();
+        const password = $("#password").val();
+        const confirmPassword = $("#confirmPassword").val();
+
+        let isValid = true;
+
         // 닉네임 검사
-        var nicknameRegex = /^[가-힣a-zA-Z]{2,}$/;
+        const nicknameRegex = /^[가-힣a-zA-Z]{2,}$/;
         if (!nicknameRegex.test(nickname)) {
-            $("#name").after($("<div>").addClass("memberError").text("닉네임은 한글 또는 영문 2글자 이상이어야 합니다."));
+            $("#name").after(
+                $("<div>").addClass("memberError").text("닉네임은 한글 또는 영문 2글자 이상이어야 합니다.")
+            );
+            isValid = false;
         }
 
         // 이메일 검사
         if (!email || !email.includes("@")) {
             $("#email").after(
-                $("<div>").addClass("memberError").text("올바른 이메일을 입력하세요")
+                $("<div>").addClass("memberError").text("올바른 이메일을 입력하세요.")
             );
+            isValid = false;
         }
 
         // 비밀번호 검사
-        var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+        const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
         if (!password || !passwordPattern.test(password)) {
-            $("#password").after(
+            $(".password-wrapper").after(
                 $("<div>").addClass("memberError").text("비밀번호는 영문 대/소문자, 숫자 포함 8자 이상")
             );
+            isValid = false;
         }
 
         // 비밀번호 확인
         if (password !== confirmPassword) {
-            $("#confirmPassword").after(
-                $("<div>").addClass("memberError").text("비밀번호가 일치하지 않습니다")
+            $("#confirmPassword").closest(".password-wrapper").after(
+                $("<div>").addClass("memberError").text("비밀번호가 일치하지 않습니다.")
             );
+            isValid = false;
         }
 
-        // 에러 없으면 전송
-        if ($(".memberError").length === 0) {
+        // 통과 시 제출
+        if (isValid) {
             this.submit();
         }
     });
-    
-    /* 비밀번호용 확인 버튼 */
+
+
+    /* 비밀번호 보기 토글 */
     $(".toggle-password").on("click", function () {
+
         const targetId = $(this).data("target");
         const input = $("#" + targetId);
 
