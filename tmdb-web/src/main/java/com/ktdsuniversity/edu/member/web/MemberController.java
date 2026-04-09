@@ -47,7 +47,8 @@ public class MemberController {
 
 	// 영화 회원가입
 	@GetMapping("/sign")
-	public String viewSignPage() {
+	public String viewSignPage(Model model) {
+		model.addAttribute("memberWriteVO", new MemberWriteVO());
 		return "member/sign";
 	}
 
@@ -57,7 +58,7 @@ public class MemberController {
 			Model model) {
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("memberWriteVO", memberWriteVO);
-			return "member/sing";
+			return "member/sign";
 		}
 
 		boolean cteateResult = this.memberService.createNewMember(memberWriteVO);
@@ -73,8 +74,8 @@ public class MemberController {
 	}
 
 	@PostMapping("/login")
-	public String doLoginAction(@Valid @ModelAttribute LoginVO loginVO, BindingResult bindingResult,
-			@RequestParam(required = false, defaultValue = "/") String go, Model model, HttpServletRequest request) {
+	public String doLoginAction(@Valid @ModelAttribute LoginVO loginVO, BindingResult bindingResult, Model model,
+			HttpServletRequest request) {
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("loginVO", loginVO);
 			return "member/login";
@@ -90,7 +91,8 @@ public class MemberController {
 		HttpSession session = request.getSession();
 		session.setAttribute("__LOGIN_DATA__", member);
 
-		return "redirect:" + go;
+		// return "redirect:" + go; @RequestParam(required = false, defaultValue = "/") String go
+		return "redirect:/";
 	}
 
 	// 마이페이지

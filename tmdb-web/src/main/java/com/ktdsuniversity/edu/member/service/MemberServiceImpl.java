@@ -44,7 +44,7 @@ public class MemberServiceImpl implements MemberService {
 		}
 
 		String salt = member.getSalt();
-		String encryptedPassword = SHA256Util.getEncrypt(loginVO.getEmail(), salt);
+		String encryptedPassword = SHA256Util.getEncrypt(loginVO.getPassword(), salt);
 
 		if (!encryptedPassword.equals(member.getPassword())) {
 			this.memberDao.updateIncreaseLoginFailCount(loginVO.getEmail());

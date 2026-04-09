@@ -12,6 +12,7 @@ public class MemberWriteVO {
 	@NotEmpty(message = "비밀번호를 입력해야 합니다.")
 	@Pattern(message = "특수문자로 시작해서 영어소문자 혹은 대문자, 숫자 최소 1개 이상의 8자리를 입력해주세요.", regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$")
 	private String password;
+	private String confirmPassword;
 	private String name;
 
 	private String salt;
@@ -30,6 +31,14 @@ public class MemberWriteVO {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
 	}
 
 	public String getSalt() {

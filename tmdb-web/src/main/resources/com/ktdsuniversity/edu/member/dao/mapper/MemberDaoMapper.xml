@@ -54,7 +54,7 @@
     
     <!-- 로그인 시 업데이트 되야하는 것들 -->
     <update id="updateBlock" parameterType="string">
-        UPDARTE MEMBERS
+        UPDATE MEMBERS
         SET 
             BLOCK_YN = 'Y'
         WHERE EMAIL = #{email}

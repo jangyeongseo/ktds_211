@@ -287,3 +287,130 @@ div.attach-files button:hover {
 	color: red;
 	text-decoration: line-through;
 }
+
+/* 댓글 영역 */
+
+/* 댓글 개수 */
+.replies-count {
+    margin-top: 2rem;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* 댓글 리스트 */
+ul.replies {
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* 댓글 하나 */
+.reply-item {
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 1rem;
+    background-color: #fafafa;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+/* 작성자 */
+.reply-item .writer {
+    font-weight: bold;
+    margin-bottom: 0.3rem;
+}
+
+.reply-item .writer-email {
+    color: #888;
+    font-size: 12px;
+    margin-left: 5px;
+}
+
+/* 날짜 */
+.reply-item .dates {
+    font-size: 12px;
+    color: #999;
+    margin-bottom: 0.5rem;
+    display: flex;
+    gap: 10px;
+}
+
+/* 내용 */
+.reply-item .content {
+    margin: 0.5rem 0;
+    white-space: pre-wrap;
+    font-size: 14px;
+}
+
+/* 액션 버튼 */
+.reply-item .links {
+    display: flex;
+    gap: 10px;
+    font-size: 13px;
+}
+
+.reply-item .links span {
+    cursor: pointer;
+    color: #ff9100;
+}
+
+.reply-item .links span:hover {
+    text-decoration: underline;
+}
+
+
+/* 댓글 입력 영역 */
+
+.reply-form {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* textarea */
+.reply-form textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 0.6rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    resize: none;
+}
+
+.reply-form textarea:focus {
+    outline: none;
+    border-color: #ff9100;
+}
+
+/* 파일 input */
+.reply-form input[type="file"] {
+    padding: 0.3rem;
+}
+
+/* 버튼 */
+.reply-form button {
+    align-self: flex-end;
+    padding: 0.5rem 1rem;
+    border: none;
+    background-color: #ff9100;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.reply-form button:hover {
+    background-color: #aa6102;
+}
+
+
+/* 대댓글 */
+
+.reply-item.child {
+    margin-left: 2rem;
+    background-color: #fff7ec;
+    border-left: 4px solid #ff9100;
+}

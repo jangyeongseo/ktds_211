@@ -20,35 +20,34 @@
             </jsp:include>
 
             <main class="sign-page">
-                <form:form id="memberWriteVO" modelAttribute="memberWriteVO" action="/sign" method="post">
-                    <div class="sign-container">
-                        <h2>회원가입</h2>
-                        <input type="text" name="name" id="name" placeholder="닉네임" value="${memberWriteVO.name}" />
-                        <form:errors path="name" cssClass="memberError" element="div" />
-                        
-                        <form:input path="email" id="email" placeholder="이메일" />
-                        <form:errors path="email" cssClass="memberError" element="div" />
-
-                        <div class="password-wrapper">
-                            <form:password path="password" id="password" placeholder="비밀번호" />
-                            <button type="button" class="toggle-password" data-target="password">
-                                 <span class="material-symbols-outlined">visibility</span>
-                            </button>
-                        </div>
-                        <form:errors path="password" cssClass="memberError" element="div" />
-                        
-                        <!-- 비밀번호 보여주는 클릭 버튼 -->
-                        <c:if test="${not empty errorMessage}">
-                            <div class="memberError">${errorMessage}</div>
-                        </c:if>
-
-                        <input type="password" name="confirmPassword" id="confirmPassword" placeholder="비밀번호 확인" />
-                        <form:errors path="confirmPassword" cssClass="memberError" element="div" />
-
-                        <button type="submit">회원가입</button>
-                        <p>이미 계정이 있으신가요? <a href="/login">로그인</a></p>
-                    </div>
-                </form:form>
+                <form:form modelAttribute="memberWriteVO" action="/sign" method="post">
+				    <div class="sign-container">
+				        <h2>회원가입</h2>
+				
+				        <form:input path="name" id="name" placeholder="닉네임" />
+				        <form:errors path="name" cssClass="memberError" element="div" />
+				
+				        <form:input path="email" id="email" placeholder="이메일" />
+				        <form:errors path="email" cssClass="memberError" element="div" />
+				
+				        <div class="password-wrapper">
+				            <form:password path="password" id="password" placeholder="비밀번호" />
+				            <button type="button" class="toggle-password" data-target="password">
+				                <span class="material-symbols-outlined">visibility</span>
+				            </button>
+				        </div>
+				        <form:errors path="password" cssClass="memberError" element="div" />
+				
+				        <!-- 전체 에러 -->
+				        <%-- <form:errors path="*" cssClass="memberError" element="div" /> --%>
+				
+				        <form:password path="confirmPassword" id="confirmPassword" placeholder="비밀번호 확인" />
+				        <form:errors path="confirmPassword" cssClass="memberError" element="div" />
+				
+				        <button type="submit">회원가입</button>
+				        <p>이미 계정이 있으신가요? <a href="/login">로그인</a></p>
+				    </div>
+				</form:form>
             </main>
         </body>
 

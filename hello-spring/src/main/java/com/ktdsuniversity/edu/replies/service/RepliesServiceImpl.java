@@ -40,6 +40,7 @@ public class RepliesServiceImpl implements RepliesService {
 		return null;
 	}
 
+	@Transactional
 	@Override
 	public SearchResultVO findRepliseByArticleId(String articleId) {
 

@@ -1,5 +1,8 @@
 package com.ktdsuniversity.edu.replies.vo;
 
+import java.util.List;
+
+import com.ktdsuniversity.edu.files.vo.FilesVO;
 import com.ktdsuniversity.edu.member.vo.MemberVO;
 
 public class RepliesVO {
@@ -16,13 +19,8 @@ public class RepliesVO {
 
 	private MemberVO meberVO;
 
-	public synchronized MemberVO getMeberVO() {
-		return this.meberVO;
-	}
-
-	public synchronized void setMeberVO(MemberVO meberVO) {
-		this.meberVO = meberVO;
-	}
+	private int level;
+	private List<FilesVO> files;
 
 	public String getId() {
 		return id;
@@ -94,5 +92,29 @@ public class RepliesVO {
 
 	public void setFileGroupId(String fileGroupId) {
 		this.fileGroupId = fileGroupId;
+	}
+
+	public synchronized MemberVO getMeberVO() {
+		return this.meberVO;
+	}
+
+	public synchronized void setMeberVO(MemberVO meberVO) {
+		this.meberVO = meberVO;
+	}
+
+	public synchronized int getLevel() {
+		return this.level;
+	}
+
+	public synchronized void setLevel(int level) {
+		this.level = level;
+	}
+
+	public synchronized List<FilesVO> getFiles() {
+		return this.files;
+	}
+
+	public synchronized void setFiles(List<FilesVO> files) {
+		this.files = files;
 	}
 }
