@@ -21,10 +21,10 @@ $().ready(function () {
             fetch("/regist/check/duplicate/" + email)
                 .then(response => response.json())
                 .then(function (data) {
-                    var duplicateResult = $("#email").closest(".login-container").children(".memberError");
+                    var duplicateResult = $("#email").closest(".sign-container").children(".memberError");
 
                     if (duplicateResult.length === 0) {
-                        duplicateResult = $("#email").closest(".login-container").children(".membersuccess");
+                        duplicateResult = $("#email").closest(".sign-container").children(".membersuccess");
                     }
 
                     if (duplicateResult.length === 0) {
@@ -46,7 +46,7 @@ $().ready(function () {
                 })
         } else {
             // 이메일 형식이 올바르지 않을 때
-            $(this).closest(".login-container").children(".membersuccess, .memberError").remove();
+            $(this).closest(".sign-container").children(".membersuccess, .memberError").remove();
         }
 
     });
@@ -57,7 +57,7 @@ $().ready(function () {
         var confirmPasswordValue = $("#confirmPassword").val();
         var passwordValue = $("#password").val();
 
-        $("#confirmPassword").closest(".login-container").children(".memberError").remove();
+        $("#confirmPassword").closest(".sign-container").children(".memberError").remove();
 
         if (confirmPasswordValue !== passwordValue) {
             var passwordErrorMessage = $("<div>").addClass("memberError").text("비밀번호가 일치하지 않습니다.");
@@ -109,6 +109,18 @@ $().ready(function () {
         // 에러 없으면 전송
         if ($(".memberError").length === 0) {
             this.submit();
+        }
+    });
+    
+    /* 비밀번호용 확인 버튼 */
+    $(".toggle-password").on("click", function () {
+        const targetId = $(this).data("target");
+        const input = $("#" + targetId);
+
+        if (input.attr("type") === "password") {
+            input.attr("type", "text");
+        } else {
+            input.attr("type", "password");
         }
     });
 

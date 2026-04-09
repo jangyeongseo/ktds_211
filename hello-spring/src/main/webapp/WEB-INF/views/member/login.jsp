@@ -9,7 +9,6 @@
 <meta charset="UTF-8">
 <title>로그인</title>
 <script type="text/javascript" src="/js/jquery-4.0.0.slim.min.js"></script>
-<script type="text/javascript" src="/js/members.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/member-spring.css">
 </head>
 

@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,6 +16,7 @@ import com.ktdsuniversity.edu.files.vo.response.UploadVO;
 // 다운로드 및 수정
 @Component
 public class MultipartFileHandler {
+	private static final Logger logger = LoggerFactory.getLogger(MultipartFileHandler.class);
 
 	@Autowired
 	private FilesDao filesDao;
@@ -41,7 +44,7 @@ public class MultipartFileHandler {
 					uploadVO.setFilePath(storeFiles.getAbsolutePath());
 
 					int result = this.filesDao.insertAttachFile(uploadVO);
-					System.out.println("결과 : " + result);
+					logger.debug("결과 : {}", result);
 
 				} catch (IllegalStateException | IOException e) {
 					e.printStackTrace();

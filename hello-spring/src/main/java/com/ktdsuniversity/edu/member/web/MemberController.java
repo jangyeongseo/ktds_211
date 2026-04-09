@@ -32,7 +32,7 @@ import jakarta.validation.Valid;
  */
 @Controller
 public class MemberController {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
 	@Autowired
@@ -88,10 +88,10 @@ public class MemberController {
 	}
 
 	@PostMapping("/login")
-	public String doLoginAction(@Valid @ModelAttribute LoginVO loginVO, BindingResult bindingResult, 
-			Model model, @RequestParam(required = false, defaultValue = "/") String go,
-			HttpServletRequest request) {
-		// 로그인 처리 할때는 HttpSession session으로 변경 못하고 이렇게 작성해야한다. HttpServletRequest request
+	public String doLoginAction(@Valid @ModelAttribute LoginVO loginVO, BindingResult bindingResult, Model model,
+			@RequestParam(required = false, defaultValue = "/") String go, HttpServletRequest request) {
+		// 로그인 처리 할때는 HttpSession session으로 변경 못하고 이렇게 작성해야한다. HttpServletRequest
+		// request
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("loginVO", loginVO);
 			return "member/login";
@@ -101,7 +101,7 @@ public class MemberController {
 		loginVO.setIp(userIp);
 
 		MemberVO member = this.memberService.findMemberByEmailAndPassword(loginVO);
-		
+
 		// 서버의 세션을 삭제한다. - 자신의 Session을
 		// 로그아웃을 의미.
 		// 기존 세션 제거
@@ -160,7 +160,7 @@ public class MemberController {
 	public String doUpdatePage(@PathVariable String articleEmail, MemberVO memberVO) {
 		memberVO.setEmail(articleEmail);
 		boolean updateResult = this.memberService.updateMemberArticleById(memberVO);
-		logger.debug("성공: {}",updateResult);
+		logger.debug("성공: {}", updateResult);
 
 		return "redirect:/member/view/" + articleEmail;
 	}
@@ -173,32 +173,32 @@ public class MemberController {
 
 		return "redirect:/login";
 	}
-	
+
 	// 로그아웃
 	@GetMapping("/logout")
 	public String doLogoutPage(HttpSession session) {
-		session.invalidate(); 
-		
+		session.invalidate();
+
 		return "redirect:/login";
 	}
-	
+
 	// 회원 탈퇴
 	@GetMapping("/delete-me")
 	public String doDeleteAction(@SessionAttribute("__LOGIN_DATA__") MemberVO loginMember, HttpSession session) {
 		// 1. 로그인 세션에서 회원의 이메일을 가져온다.
 		loginMember.getEmail();
-		
-		//2. MEMBERS 테이블에서 회원의 정보를 이메일을 이용해 삭제한다.
+
+		// 2. MEMBERS 테이블에서 회원의 정보를 이메일을 이용해 삭제한다.
 		this.memberService.deleteMemberById(loginMember.getEmail());
-		
+
 		// 3. 현재 로그인된 사용자를 로그아웃시킨다.
 		session.invalidate();
-		
+
 		// 4. "member/deletesuccess" 페이지를 보여준다.
 		// -> "탈퇴 완료됐습니다. 다음에 다시 만나요!"
-		
+
 		return "member/deletesuccess";
-		
+
 	}
 
 }

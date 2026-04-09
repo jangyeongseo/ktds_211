@@ -22,7 +22,7 @@ $().ready(function () {
     // 회원 가입 폼이 전송이 되기 전에 입력값을 제대로 작성했는지 체크
 
     // 폼이 전송이 될 때 이벤트 처리
-    $("#writeVO").on("submit", function (event) {
+    $("#writeVO, #loginVO").on("submit", function (event) {
         // 이밎 브라우저에 할당된 서브밋 콜백 이벤트를 제거한다.
         event.preventDefault();
 

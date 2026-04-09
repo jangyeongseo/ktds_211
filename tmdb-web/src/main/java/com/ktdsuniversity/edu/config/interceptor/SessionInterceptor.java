@@ -14,13 +14,14 @@ public class SessionInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		HttpSession session = request.getSession();
-		if(session.getAttribute("__LOGIN_DATA__") == null) {
+
+		if (session.getAttribute("__LOGIN_DATA__") == null) {
 			String loginPage = "/WEB-INF/views/member/login.jsp";
 			RequestDispatcher dispatcher = request.getRequestDispatcher(loginPage);
 			dispatcher.forward(request, response);
 			return false;
 		}
-		
+
 		return true;
 	}
 

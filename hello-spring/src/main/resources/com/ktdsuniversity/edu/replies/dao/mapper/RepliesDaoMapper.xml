@@ -1,0 +1,66 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ktdsuniversity.edu.replies.dao.RepliesDao">
+	<insert id="insertNewReply" parameterType="com.ktdsuniversity.edu.replies.vo.RepliesVO">
+		<selectKey order="BEFORE" resultType="string" keyProperty="id">
+		  SELECT 'RP-' || TO_CHAR(SYSDATE,'YYYY-MM-DD') || LPAD(SEQ_REPLIES_PK.NEXTVAL, 6,'0') FROM DUAL
+		</selectKey>
+		INSERT
+		    INTO REPLIES
+		    (ID,
+		    REPLY,
+		    RECOMMEND_CNT,
+		    CRT_DT,
+		    MDFY_DT,
+		    EMAIL,
+		    ARTICLE_ID,
+		    PARENT_REPLY_ID,
+		    FILE_GROUP_ID)
+		VALUES(
+		    #{id},
+		    #{reply},
+		    0,
+		    SYSDATE,
+		    SYSDATE,
+		    #{email},
+		    #{articleId},
+		    #{parentReplyId},
+		    null
+		)
+		
+	</insert>
+    
+
+    <resultMap type="com.ktdsuniversity.edu.replies.vo.RepliesVO" id="RepliesMap" autoMapping="true">
+        <id column="ID" property="id" />
+        
+        <association property="memberVO" javaType="com.ktdsuniversity.edu.member.vo.MemberVO" autoMapping="true">
+            <id column="EMAIL" property="email" />
+            <result column="NAME" property="name"/>
+        </association>
+    </resultMap>
+	<select id="selectReplyByReplyId" parameterType="string"
+		resultMap="RepliesMap">
+		SELECT
+		    R.ID,
+		    R.REPLY,
+		    R.RECOMMEND_CNT,
+		    TO_CHAR(R.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') AS CRT_DT,
+		    TO_CHAR(R.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') AS MDFY_DT,
+		    R.EMAIL,
+		    R.ARTICLE_ID,
+		    R.PARENT_REPLY_ID,
+		    R.FILE_GROUP_ID,
+		    M.NAME
+		FROM
+		    REPLIES R
+		INNER JOIN MEMBERS M
+		ON
+		    R.EMAIL = M.EMAIL
+		WHERE
+		    R.ID = #{_parameter}
+	</select>
+
+</mapper>

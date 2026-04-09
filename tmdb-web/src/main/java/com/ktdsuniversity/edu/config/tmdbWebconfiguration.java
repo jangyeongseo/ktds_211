@@ -19,7 +19,7 @@ public class tmdbWebconfiguration implements WebMvcConfigurer {
 		SessionInterceptor sessionInterceptor = new SessionInterceptor();
 		registry.addInterceptor(sessionInterceptor).addPathPatterns("/**")
 				.excludePathPatterns("/sign","/login", "/sign/check/duplicate/**",
-						"/js/**", "/css/**", "/imgs/**","/file/**",
+						"/js/**", "/css/**", "/imgs/**","/file/**", "/error",
 						"/","/view/**");
 
 		IllegalAccessInterceptor illegalAccessInterceptor = new IllegalAccessInterceptor();

@@ -14,54 +14,56 @@ body {
     color: #333;
 }
 
-.login-page {
-    /* min-height: calc(100vh - 120px);  footer 있을 경우*/
+/* 전체 레이아웃 */
+.sign-page {
     min-height: calc(100vh - 60px);
     display: flex;
     justify-content: center;
     align-items: center;
-    /* background-color: #f0f0f0; */
-    background: linear-gradient(to right,
-            #032541,
-            #01b4e4);
+    background: linear-gradient(to right, #032541, #01b4e4);
 }
 
-.login-container {
+/* 카드 */
+.sign-container {
+    width: 100%;
+    max-width: 400px;
     background-color: rgba(255, 255, 255, 0.95);
     padding: 40px;
     border-radius: 12px;
-
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
 }
 
-.login-container h2 {
+/* 제목 */
+.sign-container h2 {
     margin-bottom: 30px;
     color: #333;
     text-align: center;
 }
 
-.login-container label {
-    display: block;
-    margin-bottom: 8px;
-    color: #555;
-}
-
-.login-container input {
+/* input */
+.sign-container input {
     width: 100%;
     padding: 12px;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
 
     border: 1px solid #ddd;
     border-radius: 6px;
     outline: none;
+
+    transition: 0.2s;
 }
 
-.login-container input:focus {
+.sign-container input:hover {
+    border-color: #01b4e4;
+}
+
+.sign-container input:focus {
     border-color: #01b4e4;
     box-shadow: 0 0 5px rgba(1, 180, 228, 0.5);
 }
 
-.login-container button[type="submit"] {
+/* submit 버튼만 스타일 적용 */
+.sign-container > button{
     width: 100%;
     padding: 12px;
 
@@ -72,14 +74,13 @@ body {
 
     border-radius: 6px;
     cursor: pointer;
-    transition: 0.3s;
 }
 
-.login-container button:hover {
-    transform: translateY(-2px);
+.sign-container > button:hover {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
+/* 에러 메시지 */
 .memberError {
     color: #ff4d4f;
     background-color: #fff1f0;
@@ -87,21 +88,59 @@ body {
 
     font-size: 13px;
     padding: 8px 10px;
-    margin-top: 0;
+    padding-left: 26px;
+
+    margin-top: 4px;
     margin-bottom: 12px;
 
     border-radius: 6px;
-
-    width: 100%;
     position: relative;
-    padding-left: 26px;
 }
 
 .memberError::before {
     content: "⚠";
     position: absolute;
-    left: 5px;
+    left: 6px;
     top: 7px;
     font-size: 13px;
 }
 
+/* 비밀번호 영역 */
+.password-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.password-wrapper input {
+    padding-right: 40px;
+}
+
+/* 눈 아이콘 버튼 */
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 0;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 6px;
+    cursor: pointer;
+
+    border: none;
+    background: none;
+}
+
+/* 아이콘 스타일 */
+.toggle-password span {
+    font-size: 20px;
+    color: #888;
+    transition: 0.2s;
+}
+
+.toggle-password:hover span {
+    color: #01b4e4;
+}
