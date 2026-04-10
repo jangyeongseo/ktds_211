@@ -8,16 +8,6 @@ public class SearchResultVO {
 	private List<RepliesVO> result;
 	private int count;
 
-	public SearchResultVO() {
-
-	}
-
-	public SearchResultVO(List<RepliesVO> result, int count) {
-		super();
-		this.result = result;
-		this.count = count;
-	}
-
 	public List<RepliesVO> getResult() {
 		return this.result;
 	}

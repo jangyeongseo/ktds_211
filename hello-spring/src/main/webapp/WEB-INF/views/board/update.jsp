@@ -10,19 +10,19 @@
         <!-- action => form 내부의 value를 전송할 엔드포인트 -->
         <!-- post는 내용의 값응ㄹ 안정했기 때문에 많은 용량을 보낼 경우 post가 좋고 적은 내용일 경우 get이 좋다. -->
         <!-- url 혹은 링크 일경우 get으로 연결한다 -->
-        <form method="post" action="/update/${article.id}" enctype="multipart/form-data">
-            <input type="hidden" name="fileGroupId" value="${article.fileGroupId" /> <!-- 파일 그룹 아이디를 보내줘야 한다.-->
+        <form method="post" action="/update/${articleId.id}" enctype="multipart/form-data">
+            <input type="hidden" name="fileGroupId" value="${articleId.fileGroupId}" /> <!-- 파일 그룹 아이디를 보내줘야 한다.-->
             
             <div class="grid write">
                 <label for="subject">제목</label>
-                <input type="text" id="subject" name="subject" placeholder="제목을 입력하세요" value="${article.subject}" />
+                <input type="text" id="subject" name="subject" placeholder="제목을 입력하세요" value="${articleId.subject}" />
                 
                 <span>첨부파일</span>
                 <div>
                     <ul class="vertical-list">
-                        <c:forEach items="${article.files}" var="file">
+                        <c:forEach items="${articleIda.files}" var="file">
                             <li>
-                            <input type="checkbox" name="deleteFileNum" />
+                            <input type="checkbox" name="deleteFileNum" value="${file.fileNum}" />
                                 <a href="/file/${file.fileGroupId}/${file.fileNum}">
                                     ${file.displayName}
                                 </a>
@@ -32,7 +32,7 @@
                 </div>
 
                 <label for="content">내용</label>
-                <textarea id="content" name="content" placeholder="내용을 입력하세요">${article.content}</textarea>
+                <textarea id="content" name="content" placeholder="내용을 입력하세요">${articleId.content}</textarea>
 
                 <div class="btn-group">
                     <div class="right-align">

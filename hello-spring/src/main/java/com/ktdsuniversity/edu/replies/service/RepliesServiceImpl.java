@@ -12,6 +12,8 @@ import com.ktdsuniversity.edu.files.helpers.MultipartFileHandler;
 import com.ktdsuniversity.edu.replies.dao.RepliesDao;
 import com.ktdsuniversity.edu.replies.vo.RepliesVO;
 import com.ktdsuniversity.edu.replies.vo.request.CreateVO;
+import com.ktdsuniversity.edu.replies.vo.response.DeleteResultVO;
+import com.ktdsuniversity.edu.replies.vo.response.RecommendResultVO;
 import com.ktdsuniversity.edu.replies.vo.response.SearchResultVO;
 
 @Service
@@ -33,7 +35,7 @@ public class RepliesServiceImpl implements RepliesService {
 
 		int insertCount = this.repliesDao.insertNewReply(createVO);
 		if (insertCount == 1) {
-			RepliesVO insertResult = this.repliesDao.selectReplyByReplyId();
+			RepliesVO insertResult = this.repliesDao.selectReplyByReplyId(createVO.getId());
 			return insertResult;
 		}
 
@@ -50,11 +52,53 @@ public class RepliesServiceImpl implements RepliesService {
 		searchResultVO.setCount(count);
 
 		if (count > 0) {
-			List<RepliesVO> searchList = this.repliesDao.selectRepliesByArticleId(articleId); // ✅ 수정
+			List<RepliesVO> searchList = this.repliesDao.selectRepliesByArticleId(articleId);
 			searchResultVO.setResult(searchList);
 		}
 
 		return searchResultVO;
+	}
+
+	// 추천
+	@Transactional
+	@Override
+	public RepliesVO findReplyByReplyId(String replyId) {
+		RepliesVO replies = this.repliesDao.selectReplyByReplyId(replyId);
+		
+		return replies;
+	}
+
+	// 수정
+	@Transactional
+	@Override
+	public RecommendResultVO updateRecommendByReplyId(String replyId) {
+		int update = this.repliesDao.updateRecommendByReplyId(replyId);
+		if(update == 1) {
+			RepliesVO replies = this.repliesDao.selectReplyByReplyId(replyId);
+			
+			RecommendResultVO result = new RecommendResultVO();
+			result.setReplyId(replyId);
+			result.setRecommendCount(replies.getRecommendCnt());
+			
+			return result;
+		}
+		
+		return null;
+	}
+
+	// 삭제
+	@Transactional
+	@Override
+	public DeleteResultVO deleteReplyByReplyId(String replyId) {
+		int delete = this.repliesDao.deleteRelpyByReplyId(replyId);
+		if(delete == 1) {
+			DeleteResultVO result = new DeleteResultVO();
+			result.setReplyId(replyId);
+			
+			return result;
+		}
+		
+		return null;
 	}
 
 }

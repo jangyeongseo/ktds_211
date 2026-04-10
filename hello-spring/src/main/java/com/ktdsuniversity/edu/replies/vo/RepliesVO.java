@@ -17,7 +17,7 @@ public class RepliesVO {
 	private String parentReplyId;
 	private String fileGroupId;
 
-	private MemberVO meberVO;
+	private MemberVO memberVO;
 
 	private int level;
 	private List<FilesVO> files;
@@ -94,12 +94,12 @@ public class RepliesVO {
 		this.fileGroupId = fileGroupId;
 	}
 
-	public synchronized MemberVO getMeberVO() {
-		return this.meberVO;
+	public synchronized MemberVO getMemberVO() {
+		return this.memberVO;
 	}
 
-	public synchronized void setMeberVO(MemberVO meberVO) {
-		this.meberVO = meberVO;
+	public synchronized void setMemberVO(MemberVO memberVO) {
+		this.memberVO = memberVO;
 	}
 
 	public synchronized int getLevel() {

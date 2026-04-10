@@ -21,6 +21,8 @@ import com.ktdsuniversity.edu.member.vo.MemberVO;
 import com.ktdsuniversity.edu.replies.service.RepliesService;
 import com.ktdsuniversity.edu.replies.vo.RepliesVO;
 import com.ktdsuniversity.edu.replies.vo.request.CreateVO;
+import com.ktdsuniversity.edu.replies.vo.response.DeleteResultVO;
+import com.ktdsuniversity.edu.replies.vo.response.RecommendResultVO;
 import com.ktdsuniversity.edu.replies.vo.response.SearchResultVO;
 
 import jakarta.validation.Valid;
@@ -31,12 +33,15 @@ public class RepliesController {
 
 	@Autowired
 	private RepliesService repliesService;
-	
+
+	@ResponseBody
 	@GetMapping("/api/replies/{articleId}")
 	public SearchResultVO getRepliesList(@PathVariable String articleId) {
 		SearchResultVO searchResult = this.repliesService.findRepliseByArticleId(articleId);
-		
-		return null;
+		logger.debug("articleId{}", articleId);
+		logger.debug("searchResult{}", searchResult);
+
+		return searchResult;
 	}
 
 	@ResponseBody
@@ -45,8 +50,7 @@ public class RepliesController {
 			@SessionAttribute("__LOGIN_DATA__") MemberVO loginMember) {
 		if (bindingResult.hasErrors()) {
 			List<FieldError> errors = bindingResult.getFieldErrors();
-			throw new HelloSpringApiException("파라미터가 충분하지 않습니다.", HttpStatus.BAD_REQUEST.value(), errors, "errors");
-
+			throw new HelloSpringApiException("파라미터가 충분하지 않습니다.", HttpStatus.BAD_REQUEST.value(), errors);
 		}
 
 		createVO.setEmail(loginMember.getEmail());
@@ -71,12 +75,13 @@ public class RepliesController {
 		if (bindingResult.hasErrors()) {
 			// bindingResult.getAllErrors(); // 어떤 에러가 존재하는지를 알 수 있다.
 			List<FieldError> errors = bindingResult.getFieldErrors(); // field : 멤버변수를 의미, 멤버변수에 에러가 존재하는지 알 수 있다.
-			throw new HelloSpringApiException("파라미터가 충분하지 않습니다.", HttpStatus.BAD_REQUEST.value(), errors, "errors");
+			throw new HelloSpringApiException("파라미터가 충분하지 않습니다.", HttpStatus.BAD_REQUEST.value(), errors);
 
 		}
 
 		// 전체정보를 반환시킨다.
 		createVO.setEmail(loginMember.getEmail());
+
 		logger.debug("reply {}", createVO.getReply());
 		logger.debug("email {}", createVO.getEmail());
 		logger.debug("articleId {}", createVO.getArticleId());
@@ -85,6 +90,40 @@ public class RepliesController {
 		RepliesVO createReply = this.repliesService.createNewReply(createVO);
 
 		return createReply;
+	}
+
+	// 추천
+	@ResponseBody
+	@GetMapping("/api/replies/recommend/{replyId}")
+	public RecommendResultVO doRecommendReplyByReplyId(@PathVariable String replyId,
+			@SessionAttribute("__LOGIN_DATA__") MemberVO loginMember) {
+
+		// TODO Session 비교는 Service에서.
+		RepliesVO repliesVO = this.repliesService.findReplyByReplyId(replyId);
+		if (repliesVO.getEmail().equals(loginMember.getEmail())) {
+			throw new HelloSpringApiException("권한이 부족합니다.", HttpStatus.FORBIDDEN.value(), replyId);
+		}
+
+		RecommendResultVO result = this.repliesService.updateRecommendByReplyId(replyId);
+
+		return result;
+	}
+
+	// 삭제
+	@ResponseBody
+	@GetMapping("/api/replies/delete/{replyId}")
+	public DeleteResultVO doDeleteReplyByReplyId(@PathVariable String replyId,
+			@SessionAttribute("__LOGIN_DATA__") MemberVO loginMember) {
+
+		// TODO Session 비교는 Service에서.
+		RepliesVO repliesVO = this.repliesService.findReplyByReplyId(replyId);
+		if (!repliesVO.getEmail().equals(loginMember.getEmail())) {
+			throw new HelloSpringApiException("권한이 부족합니다.", HttpStatus.FORBIDDEN.value(), replyId);
+		}
+
+		DeleteResultVO deleteResult = this.repliesService.deleteReplyByReplyId(replyId);
+
+		return deleteResult;
 	}
 
 }

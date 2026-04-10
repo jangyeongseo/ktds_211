@@ -4,7 +4,7 @@
 
 <mapper namespace="com.ktdsuniversity.edu.movie.dao.MovieDao">
 	<!-- 전제 조회 -->
-	<select id="selectMovieList" resultType="com.ktdsuniversity.edu.movie.vo.MovieVO">
+<!-- 	<select id="selectMovieList" resultMap="MovieVOMap">
 	    SELECT
 	        MV.MOVIE_ID,
 	        MV.POSTER_URL,
@@ -20,14 +20,31 @@
 	        MV."LANGUAGE",
 	        MV.BUDGET,
 	        MV.PROFIT,
-	        M.NAME,
-	        M.EMAIL
-	    FROM
-	        MOVIE MV
+	        M.EMAIL,
+	        M.NAME
+	    FROM MOVIE MV
 	    INNER JOIN MEMBERS M
 	    ON MV.CREATOR_EMAIL = M.EMAIL
-	    ORDER BY
-	        MV.MOVIE_ID DESC
+	    ORDER BY MV.MOVIE_ID DESC
+	</select> -->
+	<select id="selectMovieList" resultMap="MovieVOMap">
+        SELECT
+            MOVIE_ID,
+            POSTER_URL,
+            TITLE,
+            MOVIE_RATING,
+            TO_CHAR(OPEN_DATE, 'YYYY-MM-DD') AS OPEN_DATE,
+            OPEN_COUNTRY,
+            RUNNING_TIME,
+            INTRODUCE,
+            SYNOPSIS,
+            ORIGINAL_TITLE,
+            STATE,
+            "LANGUAGE",
+            BUDGET,
+            PROFIT
+        FROM MOVIE
+        ORDER BY MOVIE_ID DESC
     </select>
 	
 	<insert id="insertNewMovie" parameterType="com.ktdsuniversity.edu.movie.vo.MovieVO">
@@ -103,22 +120,12 @@
 		    MV."LANGUAGE",
 		    MV.BUDGET,
 		    MV.PROFIT,
-		    F.FILE_NUM,
-		    F.FILE_GROUP_ID,
-		    F.OBFUSCATE_NAME,
-		    F.DISPLAY_NAME,
-		    F.EXTEND_NAME,
-		    F.FILE_LENGTH,
-		    F.FILE_PATH,
 		    M.NAME,
 		    TO_CHAR(M.REGIST_DATE, 'YYYY-MM-DD HH24:MI:SS') AS REGIST_DATE
 		FROM
 		    MOVIE MV
 		INNER JOIN MEMBERS M
         ON MV.CREATOR_EMAIL = M.EMAIL
-		LEFT OUTER JOIN FILES F
-		ON
-		    M.MOVIE_ID = F.FILE_GROUP_ID
 		WHERE 
 		      M.MOVIE_ID = #{_parameter}
 	</select>

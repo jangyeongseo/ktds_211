@@ -124,7 +124,7 @@ public class BoardController {
 			 @SessionAttribute("__LOGIN_DATA__") MemberVO loginMember) {
 		// 내가 작성한 글이 아닐 경우
 		BoardVO data = this.boardService.findBoardByArticleId(articleId, ReadType.UPDATE);
-		model.addAttribute("article", data);
+		model.addAttribute("articleId", data);
 		
 		// TODO 게시글의 이메일과 세션의 이메일을 비교할 때에는 항상 SErviceImpl 에서 수행한다.
 		if(!loginMember.getEmail().equals(data.getEmail())) {

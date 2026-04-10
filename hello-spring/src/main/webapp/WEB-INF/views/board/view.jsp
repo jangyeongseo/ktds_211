@@ -4,11 +4,11 @@
 		<!-- header -->
 		<jsp:include page="/WEB-INF/views/templates/header.jsp">
 			<jsp:param name="title" value="게시글 내용 조회 : ${articleId.id}" />
-			<jsp:param name="scripts" value="<script type='text/javascript' src='/js/reply.js'></script>" />
+			<jsp:param name="script" value="<script type='text/javascript' src='/js/reply.js'></script>" />
 		</jsp:include>
 
-		<div class="container">
-			<div class="grid view" data-article-id="${articleId.id}">
+		<div class="container" data-article-id="${articleId.id}">
+			<div class="grid view">
 				<span>이름</span>
 				<div>
 					${articleId.memberVO.name} / 가입 날짜: ${articleId.memberVO.registDate}
@@ -61,11 +61,31 @@
 
 			<!-- 댓글 작성 -->
 			<div class="reply-form">
-				<input type="hidden" class="parent-reply-id" />
+				<input type="hidden" class="parent-reply-id" readonly />
 				<textarea class="reply-content" placeholder="댓글을 입력하세요"></textarea>
-				<input type="file" class="reply-attach-file" />
+				<input type="file" class="reply-attach-file" multiple />
 				<button class="reply-save" data-article-id="${articleId.id}">등록</button>
 			</div>
+
+			<!-- 업데이트 댓글 템플릿 -->
+			<template class="reply-item-update-files">
+				<div>
+					<input type="checkbox" id="#fileGroupId#-#fileNum#" name="deleteFileNum" value="#fileNum#" />
+					<label for="#fileGroupId#-#fileNum#">#fileDisplayName#</label>
+				</div>
+			</template>
+
+			<template class="reply-item-update-template">
+				<div class="update-form">
+					<textarea></textarea>
+					<div class="update-file-list"></div>
+					<input type="file" class="reply-update-attach-file" multiple />
+					<div class="update-button-area">
+						<button class="update-save">저장</button>
+						<button class="update-cancel">취소</button>
+					</div>
+				</div>
+			</template>
 
 			<!-- 댓글 템플릿 -->
 			<template class="reply-item-template">
@@ -73,6 +93,7 @@
 					<div class="writer">
 						<span class="writer-name">#name#</span>
 						<span class="writer-email">(#email#)</span>
+						<span class="recommend-count">#recommendCount#</span> 추천
 					</div>
 
 					<div class="dates">
@@ -81,6 +102,7 @@
 					</div>
 
 					<pre class="content">#content#</pre>
+					<div class="reply-attach-files" data-files=""></div>
 
 					<div class="links">
 						<span class="links-write">답글</span>
