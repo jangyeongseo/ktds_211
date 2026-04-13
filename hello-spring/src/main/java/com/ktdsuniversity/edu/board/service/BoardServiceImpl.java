@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ktdsuniversity.edu.board.dao.BoardDao;
 import com.ktdsuniversity.edu.board.enums.ReadType;
 import com.ktdsuniversity.edu.board.vo.BoardVO;
+import com.ktdsuniversity.edu.board.vo.request.SearchListVO;
 import com.ktdsuniversity.edu.board.vo.request.UpdateVO;
 import com.ktdsuniversity.edu.board.vo.request.WriteVO;
 import com.ktdsuniversity.edu.board.vo.response.SearchResultVO;
@@ -24,7 +25,7 @@ import com.ktdsuniversity.edu.files.vo.request.SaerchFileGroupVO;
 @Service
 public class BoardServiceImpl implements BoardService {
 	private static final Logger logger = LoggerFactory.getLogger(BoardServiceImpl.class);
-	
+
 	/**
 	 * 빈 컨테이너에 들어있는 객체 중 타입이 일치하는 객체를 할당 받는다.
 	 */
@@ -38,19 +39,23 @@ public class BoardServiceImpl implements BoardService {
 	private FilesDao filesDao;
 
 	@Override
-	public SearchResultVO findAllBoard() {
+	public SearchResultVO findAllBoard(SearchListVO searchListVO) {
 		SearchResultVO result = new SearchResultVO();
 
 		// 게시글 개수 조회. ==> 1
 		int count = this.boardDao.selectBoardCount();
 		result.setCount(count);
 
+		// 몇 개의 페이지가 필요한지 계산
+		searchListVO.computePagination(count); 
+		
+		
 		if (count == 0) {
 			return result;
 		}
 
 		// 게시글 목록 조회. ==> [BoardVO]
-		List<BoardVO> list = this.boardDao.selectBoardList();
+		List<BoardVO> list = this.boardDao.selectBoardList(searchListVO); // 페이지네이션 해라
 		result.setResult(list);
 
 		return result;
@@ -114,7 +119,7 @@ public class BoardServiceImpl implements BoardService {
 
 			// 파일 목록을 제거한 이후에 "FILES" 테이블에서 해당 파일 정보를 모두 삭제한다.
 			int deleteFileCount = this.filesDao.deleteFileByFileGroupId(id);
-			logger.debug("파일 삭제 개수:{}",deleteFileCount);
+			logger.debug("파일 삭제 개수:{}", deleteFileCount);
 		}
 
 		return deleteCount == 1;
@@ -130,14 +135,14 @@ public class BoardServiceImpl implements BoardService {
 			SaerchFileGroupVO saerchFileGroupVO = new SaerchFileGroupVO();
 			saerchFileGroupVO.setDelFileNum(updateVO.getDeleteFileNum());
 			saerchFileGroupVO.setFileGroupId(updateVO.getFileGroupId());
-			
+
 			List<String> deleteTargets = this.filesDao.selectFilePathByFileGroupIdAndFileNums(saerchFileGroupVO);
 			for (String target : deleteTargets) {
 				new File(target).delete();
 			}
 			// 선택한 파일들을 FILES 테이블에서 제거.
 			int deleteCount = this.filesDao.deleteFilesByFileGroupIdAndFileNums(saerchFileGroupVO);
-			logger.debug("삭제한 파일 데이터의 수: {}",deleteCount);
+			logger.debug("삭제한 파일 데이터의 수: {}", deleteCount);
 		}
 
 		// 첨부파일 업로드

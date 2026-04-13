@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.ktdsuniversity.edu.board.vo.BoardVO;
+import com.ktdsuniversity.edu.board.vo.request.SearchListVO;
 import com.ktdsuniversity.edu.board.vo.request.UpdateVO;
 import com.ktdsuniversity.edu.board.vo.request.WriteVO;
 
@@ -12,7 +13,7 @@ import com.ktdsuniversity.edu.board.vo.request.WriteVO;
 public interface BoardDao {
 	int selectBoardCount();
 
-	List<BoardVO> selectBoardList();
+	List<BoardVO> selectBoardList(SearchListVO searchListVO);
 
 	int insertNewBoard(WriteVO writeVO);
 

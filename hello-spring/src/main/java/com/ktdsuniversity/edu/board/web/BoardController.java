@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import com.ktdsuniversity.edu.board.enums.ReadType;
 import com.ktdsuniversity.edu.board.service.BoardService;
 import com.ktdsuniversity.edu.board.vo.BoardVO;
+import com.ktdsuniversity.edu.board.vo.request.SearchListVO;
 import com.ktdsuniversity.edu.board.vo.request.UpdateVO;
 import com.ktdsuniversity.edu.board.vo.request.WriteVO;
 import com.ktdsuniversity.edu.board.vo.response.SearchResultVO;
@@ -30,16 +31,17 @@ import jakarta.validation.Valid;
 public class BoardController {
 
 	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
-	
+
 	/**
 	 * 빈 컨테이너에 들어있는 객체 중 타입이 일치하는 객체를 할당 받는다.
 	 */
 	@Autowired
 	private BoardService boardService;
 
+	// http://192.162.211.11:8081/?pageNo=0&listSize=10 - Request Query String
 	@GetMapping("/")
-	public String viewListPage(Model model) {
-		SearchResultVO searchResult = this.boardService.findAllBoard();
+	public String viewListPage(Model model, SearchListVO searchListVO) {
+		SearchResultVO searchResult = this.boardService.findAllBoard(searchListVO);
 
 		// 게시글의 목록을 조회.
 		List<BoardVO> list = searchResult.getResult();
@@ -49,6 +51,8 @@ public class BoardController {
 
 		model.addAttribute("searchResult", list);
 		model.addAttribute("searchCount", searchCount);
+		
+		model.addAttribute("pagination",searchListVO);
 
 		return "board/list";
 	}
@@ -69,7 +73,7 @@ public class BoardController {
 	public String doWriteAction(@Valid @ModelAttribute WriteVO writeVO,
 			// @Valid의 결과를 받아오는 파라미터.
 			// 반드시 @Valid 파라미터 이후에 작성!
-			BindingResult bindingResult, Model model,  @SessionAttribute("__LOGIN_DATA__") MemberVO loginMember) {
+			BindingResult bindingResult, Model model, @SessionAttribute("__LOGIN_DATA__") MemberVO loginMember) {
 		// 사용자의 입력값을 검증 했을 때, 에러가 있다면
 		// 로그인 데이터"__LOGIN_DATA__"에서 로그인 한 사용자의 이메을을 가져온다.
 		if (bindingResult.hasErrors()) {
@@ -85,9 +89,10 @@ public class BoardController {
 		boolean createResult = this.boardService.createNewBoard(writeVO);
 
 		// 동기와 비동기 방식
-		logger.debug("게시글 생성 성공?{}", createResult); 
+		logger.debug("게시글 생성 성공?{}", createResult);
 		// 비동기 방식 : 이게 더 빠르게 실행한다. / 순서가 안맞으면 앞에 있는 시간을 보고 확인하면 된다.
-		// System.out.println("게시글 생성 성공? " + createResult); -> 동기 방식(이게 끝날때까지 다음껄 실행 안함)
+		// System.out.println("게시글 생성 성공? " + createResult); -> 동기 방식(이게 끝날때까지 다음껄 실행
+		// 안함)
 
 		// redirect: 브라우저에게 다음 End Point를 요청하도록 지시.
 		// redirect:/ ==> 브라우저에게 "/" endpoint 로 이동하도록 지시.
@@ -120,14 +125,14 @@ public class BoardController {
 	}
 
 	@GetMapping("/update/{articleId}")
-	public String viewUpdatePage(@PathVariable String articleId, Model model, 
-			 @SessionAttribute("__LOGIN_DATA__") MemberVO loginMember) {
+	public String viewUpdatePage(@PathVariable String articleId, Model model,
+			@SessionAttribute("__LOGIN_DATA__") MemberVO loginMember) {
 		// 내가 작성한 글이 아닐 경우
 		BoardVO data = this.boardService.findBoardByArticleId(articleId, ReadType.UPDATE);
 		model.addAttribute("articleId", data);
-		
+
 		// TODO 게시글의 이메일과 세션의 이메일을 비교할 때에는 항상 SErviceImpl 에서 수행한다.
-		if(!loginMember.getEmail().equals(data.getEmail())) {
+		if (!loginMember.getEmail().equals(data.getEmail())) {
 			// 뒤에 숫자는 http 에러 메세지에서 403은 권한 없음을 의미한다.
 			throw new HelloSpringException("잘못된 접근입니다.", "errors/403");
 		}
@@ -136,15 +141,15 @@ public class BoardController {
 	}
 
 	@PostMapping("/update/{articleId}")
-	public String doUpdateAction(@PathVariable String articleId, UpdateVO updateVO, 
-			 @SessionAttribute("__LOGIN_DATA__") MemberVO loginMember) {
-		
-	    // 작성자 정보 세팅
-	    updateVO.setEmail(loginMember.getEmail());
+	public String doUpdateAction(@PathVariable String articleId, UpdateVO updateVO,
+			@SessionAttribute("__LOGIN_DATA__") MemberVO loginMember) {
 
-	    // 게시글 ID도 반드시 넣어줘야 함
-	    updateVO.setId(articleId);
-	    
+		// 작성자 정보 세팅
+		updateVO.setEmail(loginMember.getEmail());
+
+		// 게시글 ID도 반드시 넣어줘야 함
+		updateVO.setId(articleId);
+
 		boolean updateResult = this.boardService.updateBoardByArticleId(updateVO);
 		logger.debug("수정 성공?{}", updateResult);
 

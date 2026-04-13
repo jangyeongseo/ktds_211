@@ -50,15 +50,40 @@
 </table>
 
 <div class="astyle">
-    <c:choose>
-        <c:when test="${not empty sessionScope.__LOGIN_DATA__}">
-            <a href="/write">글 작성</a>
-        </c:when>
-        <c:otherwise>
-            <div></div>
-        </c:otherwise>
-    </c:choose>
+	<c:choose>
+		<c:when test="${not empty sessionScope.__LOGIN_DATA__}">
+			<a href="/write">글 작성</a>
+		</c:when>
+		<c:otherwise>
+			<div></div>
+		</c:otherwise>
+	</c:choose>
 </div>
+
+<!-- 페이지네이션 -->
+<ul class="pagination">
+    <c:if test="${pagination.hasPrevPageGroup}">
+        <li>
+            <a href="/?pageNo=0&listSize=${pagination.listSize}">처음</a>
+        </li>
+        <li>
+            <a href="/?pageNo=${pagination.prevPageGroupStartPageNo}&listSize=${pagination.listSize}">이전</a>
+        </li>
+    </c:if>
+	<c:forEach begin="${pagination.groupStartPageNo}" end="${pagination.groupEndPageNo}" var="page">
+		<li class="${page == pagination.pageNo ? 'active' : ''}">
+		  <a href="/?pageNo=${page}&listSize=${pagination.listSize}"> ${page + 1}</a>
+		</li>
+	</c:forEach>
+	<c:if test="${pagination.hasNextPageGroup}">
+        <li>
+            <a href="/?pageNo=${pagination.nextPageGroupStartPageNo}&listSize=${pagination.listSize}">다음</a>
+        </li>
+        <li>
+            <a href="/?pageNo=${pagination.pageCount -1}&listSize=${pagination.listSize}">마지막</a>
+        </li>
+    </c:if>
+</ul>
 
 <!-- footer -->
 <jsp:include page="/WEB-INF/views/templates/footer.jsp" />

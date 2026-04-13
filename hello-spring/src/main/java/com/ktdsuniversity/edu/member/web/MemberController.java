@@ -118,6 +118,7 @@ public class MemberController {
 		// 세션읗 이용한 로그인
 
 		return "redirect:" + go;
+		// return "redirect:/";
 	}
 
 	// /member => 회원들의 목록이 조회되도록 코드를 작성
