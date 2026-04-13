@@ -4,11 +4,30 @@
 
 <mapper namespace="com.ktdsuniversity.edu.board.dao.BoardDao">
      <select id="selectBoardCount" 
-            resultType="_int">
+            resultType="_int"
+            parameterType="com.ktdsuniversity.edu.board.vo.request.SearchListVO">
         SELECT COUNT(B.ID)
         FROM BOARD B
         INNER JOIN MEMBERS M
         ON B.EMAIL = M.EMAIL
+        <if test='searchKeyWord != null and searchKeyWord !=""'>
+	        <if test='searchType == "email"'>
+	            WHERE M.EMAIL LIKE '%' || #{searchKeyWord} || '%'
+	        </if>
+	        <if test='searchType == "name"'>
+	            WHERE M.NAME LIKE '%' || #{searchKeyWord} || '%'
+	         </if>
+	        <if test='searchType == "subject"'>
+	            WHERE B.SUBJECT LIKE '%' || #{searchKeyWord} || '%'
+	         </if>
+	        <if test='searchType == "content"'>
+	            WHERE B.CONTENT LIKE '%' || #{searchKeyWord} || '%'
+	         </if>
+	        <if test='searchType == "subject+content"'>
+	            WHERE (B.SUBJECT LIKE '%' || #{searchKeyWord} || '%' 
+	            OR B.CONTENT LIKE '%' || #{searchKeyWord} || '%')
+	        </if>
+        </if>
     </select>
     
     <!-- 조인을 할 경우는 resultMap -->
@@ -32,6 +51,24 @@
                     FROM BOARD B
                     INNER JOIN MEMBERS M
                     ON B.EMAIL = M.EMAIL
+                    <if test='searchKeyWord != null and searchKeyWord !=""'>
+			            <if test='searchType == "email"'>
+			                WHERE M.EMAIL LIKE '%' || #{searchKeyWord} || '%'
+			            </if>
+			            <if test='searchType == "name"'>
+			                WHERE M.NAME LIKE '%' || #{searchKeyWord} || '%'
+			             </if>
+			            <if test='searchType == "subject"'>
+			                WHERE B.SUBJECT LIKE '%' || #{searchKeyWord} || '%'
+			             </if>
+			            <if test='searchType == "content"'>
+			                WHERE B.CONTENT LIKE '%' || #{searchKeyWord} || '%'
+			             </if>
+			            <if test='searchType == "subject+content"'>
+			                WHERE (B.SUBJECT LIKE '%' || #{searchKeyWord} || '%' 
+			                OR B.CONTENT LIKE '%' || #{searchKeyWord} || '%')
+			            </if>
+			        </if>
                     ORDER BY B.ID DESC) S
                WHERE ROWNUM <![CDATA[<=]]> (#{pageNo} + 1) * #{listSize})
         WHERE RNUM >= #{pageNo} * #{listSize} +1

@@ -414,6 +414,71 @@ ul.replies {
     border-left: 4px solid #ff9100;
 }
 
+/* 검색 */
+.search-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+/* 왼쪽 list-size */
+#list-size {
+    padding: 0.4rem 0.6rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* 오른쪽 검색 영역 */
+.search-box > div {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+#search-type {
+    padding: 0.4rem 0.6rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* 검색 input */
+#search-keyword {
+    padding: 0.45rem 0.6rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    min-width: 200px;
+}
+
+#search-keyword:focus,
+#search-type:focus,
+#list-size:focus {
+    outline: none;
+    border-color: #ff9100;
+}
+
+/* 검색 버튼 */
+.search-button {
+    padding: 0.45rem 0.8rem;
+    border: none;
+    background-color: #ff9100;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+/* hover */
+.search-button:hover {
+    background-color: #aa6102;
+}
+
+
 /* 페이지네이션 */
 ul.pagination {
     display: flex;

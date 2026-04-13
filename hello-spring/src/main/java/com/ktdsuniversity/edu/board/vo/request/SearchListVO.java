@@ -42,6 +42,12 @@ public class SearchListVO {
 	// 현재 노출되고 있는 페이지 그룹의 이전 그룹 페이지 마지막 번호
 	private int prevPageGroupStartPageNo;
 
+	/**
+	 * 검색용
+	 */
+	private String searchType;
+	private String searchKeyWord;
+
 	// listSize의 기본값 할당을 위한 생성자
 	public SearchListVO() {
 		// 한 페이지에 10개의 게시글이 노출되도록 설정
@@ -144,6 +150,22 @@ public class SearchListVO {
 
 	public synchronized void setPrevPageGroupStartPageNo(int prevPageGroupStartPageNo) {
 		this.prevPageGroupStartPageNo = prevPageGroupStartPageNo;
+	}
+
+	public synchronized String getSearchType() {
+		return this.searchType;
+	}
+
+	public synchronized void setSearchType(String searchType) {
+		this.searchType = searchType;
+	}
+
+	public synchronized String getSearchKeyWord() {
+		return this.searchKeyWord;
+	}
+
+	public synchronized void setSearchKeyWord(String searchKeyWord) {
+		this.searchKeyWord = searchKeyWord;
 	}
 
 	/**
