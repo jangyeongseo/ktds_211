@@ -23,7 +23,7 @@
 	        <if test='searchType == "content"'>
 	            WHERE B.CONTENT LIKE '%' || #{searchKeyWord} || '%'
 	         </if>
-	        <if test='searchType == "subject+content"'>
+	        <if test='searchType == "subject content"'>
 	            WHERE (B.SUBJECT LIKE '%' || #{searchKeyWord} || '%' 
 	            OR B.CONTENT LIKE '%' || #{searchKeyWord} || '%')
 	        </if>
@@ -64,7 +64,7 @@
 			            <if test='searchType == "content"'>
 			                WHERE B.CONTENT LIKE '%' || #{searchKeyWord} || '%'
 			             </if>
-			            <if test='searchType == "subject+content"'>
+			            <if test='searchType == "subject content"'>
 			                WHERE (B.SUBJECT LIKE '%' || #{searchKeyWord} || '%' 
 			                OR B.CONTENT LIKE '%' || #{searchKeyWord} || '%')
 			            </if>

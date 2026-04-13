@@ -26,7 +26,7 @@
 									<option value="name" ${pagination.searchType eq "name" ? "selected" : "" }>작성자 이름으로 검색</option>
 									<option value="subject" ${pagination.searchType eq "subject" ? "selected" : "" }>제목으로 검색</option>
 									<option value="content" ${pagination.searchType eq "content" ? "selected" : "" }>내용으로 검색</option>
-									<option value="subject+content" ${pagination.searchType eq "subject+content" ? "selected" : "" }>제목 + 내용으로 검색</option>
+									<option value="subject content" ${pagination.searchType eq "subject content" ? "selected" : "" }>제목 + 내용으로 검색</option>
 								</select>
 								<input type="text" placeholder="검색어를 입력" id="search-keyword" value="${pagination.searchKeyWord}" />
 								<button type="button" class="search-button">검색</button>
