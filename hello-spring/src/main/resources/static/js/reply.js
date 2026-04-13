@@ -175,7 +175,7 @@ $().ready(function () {
                                 formData.append("newAttachFile", newAttachFiles[j]);
                             }
 
-                            fetch("/api/replies/" + repliId, {
+                            fetch("/api/replies/" + replyId, {
                                 method: "post",
                                 body: formData
                             })

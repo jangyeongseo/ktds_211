@@ -6,8 +6,9 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.ktdsuniversity.edu.replies.vo.RepliesVO;
 import com.ktdsuniversity.edu.replies.vo.request.CreateVO;
-import com.ktdsuniversity.edu.replies.vo.response.DeleteResultVO;
-import com.ktdsuniversity.edu.replies.vo.response.RecommendResultVO;
+import com.ktdsuniversity.edu.replies.vo.request.UpdateVO;
+
+import jakarta.validation.Valid;
 
 @Mapper
 public interface RepliesDao {
@@ -23,5 +24,7 @@ public interface RepliesDao {
 	int deleteRelpyByReplyId(String replyId);
 
 	int updateRecommendByReplyId(String replyId);
+
+	int updateReplyByReplyId(@Valid UpdateVO updateVO);
 
 }

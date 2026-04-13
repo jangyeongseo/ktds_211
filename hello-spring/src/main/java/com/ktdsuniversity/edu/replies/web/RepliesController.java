@@ -21,9 +21,11 @@ import com.ktdsuniversity.edu.member.vo.MemberVO;
 import com.ktdsuniversity.edu.replies.service.RepliesService;
 import com.ktdsuniversity.edu.replies.vo.RepliesVO;
 import com.ktdsuniversity.edu.replies.vo.request.CreateVO;
+import com.ktdsuniversity.edu.replies.vo.request.UpdateVO;
 import com.ktdsuniversity.edu.replies.vo.response.DeleteResultVO;
 import com.ktdsuniversity.edu.replies.vo.response.RecommendResultVO;
 import com.ktdsuniversity.edu.replies.vo.response.SearchResultVO;
+import com.ktdsuniversity.edu.replies.vo.response.UpdateResultVO;
 
 import jakarta.validation.Valid;
 
@@ -95,14 +97,7 @@ public class RepliesController {
 	// 추천
 	@ResponseBody
 	@GetMapping("/api/replies/recommend/{replyId}")
-	public RecommendResultVO doRecommendReplyByReplyId(@PathVariable String replyId,
-			@SessionAttribute("__LOGIN_DATA__") MemberVO loginMember) {
-
-		// TODO Session 비교는 Service에서.
-		RepliesVO repliesVO = this.repliesService.findReplyByReplyId(replyId);
-		if (repliesVO.getEmail().equals(loginMember.getEmail())) {
-			throw new HelloSpringApiException("권한이 부족합니다.", HttpStatus.FORBIDDEN.value(), replyId);
-		}
+	public RecommendResultVO doRecommendReplyByReplyId(@PathVariable String replyId) {
 
 		RecommendResultVO result = this.repliesService.updateRecommendByReplyId(replyId);
 
@@ -112,18 +107,25 @@ public class RepliesController {
 	// 삭제
 	@ResponseBody
 	@GetMapping("/api/replies/delete/{replyId}")
-	public DeleteResultVO doDeleteReplyByReplyId(@PathVariable String replyId,
-			@SessionAttribute("__LOGIN_DATA__") MemberVO loginMember) {
-
-		// TODO Session 비교는 Service에서.
-		RepliesVO repliesVO = this.repliesService.findReplyByReplyId(replyId);
-		if (!repliesVO.getEmail().equals(loginMember.getEmail())) {
-			throw new HelloSpringApiException("권한이 부족합니다.", HttpStatus.FORBIDDEN.value(), replyId);
-		}
-
+	public DeleteResultVO doDeleteReplyByReplyId(@PathVariable String replyId) {
 		DeleteResultVO deleteResult = this.repliesService.deleteReplyByReplyId(replyId);
 
 		return deleteResult;
+	}
+
+	// 수정
+	@ResponseBody
+	@PostMapping("/api/replies/{replyId}")
+	public UpdateResultVO doUpdateReplyByReplyId(@PathVariable String replyId, @Valid UpdateVO updateVO, BindingResult bindingResult) {
+		if(bindingResult.hasErrors()) {
+			List<FieldError> errors = bindingResult.getFieldErrors();
+			throw new HelloSpringApiException("파라미터가 출분하지 않습니다",HttpStatus.BAD_REQUEST.value(), errors);
+		}
+		updateVO.setReplyId(replyId);
+		
+		UpdateResultVO update = this.repliesService.doUpdateReply(updateVO);
+		
+		return update;
 	}
 
 }

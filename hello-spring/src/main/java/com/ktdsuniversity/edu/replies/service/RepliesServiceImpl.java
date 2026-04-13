@@ -1,20 +1,32 @@
 package com.ktdsuniversity.edu.replies.service;
 
+import java.io.File;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.ktdsuniversity.edu.common.utils.ObjectUtils;
+import com.ktdsuniversity.edu.common.utils.SessionUtils;
+import com.ktdsuniversity.edu.exception.HelloSpringApiException;
+import com.ktdsuniversity.edu.files.dao.FilesDao;
 import com.ktdsuniversity.edu.files.helpers.MultipartFileHandler;
+import com.ktdsuniversity.edu.files.vo.request.SaerchFileGroupVO;
 import com.ktdsuniversity.edu.replies.dao.RepliesDao;
 import com.ktdsuniversity.edu.replies.vo.RepliesVO;
 import com.ktdsuniversity.edu.replies.vo.request.CreateVO;
+import com.ktdsuniversity.edu.replies.vo.request.UpdateVO;
 import com.ktdsuniversity.edu.replies.vo.response.DeleteResultVO;
 import com.ktdsuniversity.edu.replies.vo.response.RecommendResultVO;
 import com.ktdsuniversity.edu.replies.vo.response.SearchResultVO;
+import com.ktdsuniversity.edu.replies.vo.response.UpdateResultVO;
+
+import jakarta.validation.Valid;
 
 @Service
 public class RepliesServiceImpl implements RepliesService {
@@ -22,6 +34,9 @@ public class RepliesServiceImpl implements RepliesService {
 
 	@Autowired
 	private RepliesDao repliesDao;
+
+	@Autowired
+	private FilesDao filesDao;
 
 	@Autowired
 	private MultipartFileHandler multipartFileHandler;
@@ -59,30 +74,37 @@ public class RepliesServiceImpl implements RepliesService {
 		return searchResultVO;
 	}
 
-	// 추천
+	// 추천 업로드
 	@Transactional
 	@Override
 	public RepliesVO findReplyByReplyId(String replyId) {
 		RepliesVO replies = this.repliesDao.selectReplyByReplyId(replyId);
-		
+
 		return replies;
 	}
 
-	// 수정
+	// 추천
 	@Transactional
 	@Override
 	public RecommendResultVO updateRecommendByReplyId(String replyId) {
+		RepliesVO replies = this.repliesDao.selectReplyByReplyId(replyId);
+		if (ObjectUtils.isNotNull(replies)) {
+			if (SessionUtils.isMineResource(replies.getEmail())) {
+				throw new HelloSpringApiException("권한 부족", HttpStatus.BAD_REQUEST.value(), "자신의 댓글은 추천할 수 없습니다.");
+			}
+		}
+
 		int update = this.repliesDao.updateRecommendByReplyId(replyId);
-		if(update == 1) {
-			RepliesVO replies = this.repliesDao.selectReplyByReplyId(replyId);
-			
+		if (update == 1) {
+			replies = this.repliesDao.selectReplyByReplyId(replyId);
+
 			RecommendResultVO result = new RecommendResultVO();
 			result.setReplyId(replyId);
 			result.setRecommendCount(replies.getRecommendCnt());
-			
+
 			return result;
 		}
-		
+
 		return null;
 	}
 
@@ -90,15 +112,69 @@ public class RepliesServiceImpl implements RepliesService {
 	@Transactional
 	@Override
 	public DeleteResultVO deleteReplyByReplyId(String replyId) {
+		RepliesVO replies = this.repliesDao.selectReplyByReplyId(replyId);
+		if (ObjectUtils.isNotNull(replies)) {
+			if (!SessionUtils.isMineResource(replies.getEmail())) {
+				throw new HelloSpringApiException("권한 부족", HttpStatus.BAD_REQUEST.value(), "자신의 댓글이 아닙니가.");
+			}
+		}
+
 		int delete = this.repliesDao.deleteRelpyByReplyId(replyId);
-		if(delete == 1) {
+		if (delete == 1) {
 			DeleteResultVO result = new DeleteResultVO();
 			result.setReplyId(replyId);
-			
+
 			return result;
 		}
-		
+
 		return null;
+	}
+
+	// 수정
+	@Transactional
+	@Override
+	public UpdateResultVO doUpdateReply(@Valid UpdateVO updateVO) {
+		RepliesVO replies = this.repliesDao.selectReplyByReplyId(updateVO.getReplyId());
+		if (ObjectUtils.isNotNull(replies)) {
+			if (!SessionUtils.isMineResource(replies.getEmail())) {
+				throw new HelloSpringApiException("권한 부족", HttpStatus.BAD_REQUEST.value(), "자신의 댓글이 아닙니가.");
+			}
+		}
+		updateVO.setFileGroupId(replies.getFileGroupId());
+		
+		// 선택한 파일들만 삭제.
+		if (updateVO.getDelFileNum() != null && updateVO.getDelFileNum().size() > 0) {
+			// 선택한 파일들의 정보를 조회 --> 파일의 경로 --> 실제 파일을 제거.
+			SaerchFileGroupVO saerchFileGroupVO = new SaerchFileGroupVO();
+			saerchFileGroupVO.setDelFileNum(updateVO.getDelFileNum());
+			saerchFileGroupVO.setFileGroupId(updateVO.getFileGroupId());
+			
+			List<String> deleteTargets = this.filesDao.selectFilePathByFileGroupIdAndFileNums(saerchFileGroupVO);
+			for (String target : deleteTargets) {
+				new File(target).delete();
+			}
+			// 선택한 파일들을 FILES 테이블에서 제거.
+			int deleteCount = this.filesDao.deleteFilesByFileGroupIdAndFileNums(saerchFileGroupVO);
+			logger.debug("삭제한 파일 데이터의 수: {}", deleteCount);
+		}
+
+		// 첨부파일 업로드
+		List<MultipartFile> attachFiles = updateVO.getNewAttachFiles();
+
+		String fileGroupId = updateVO.getFileGroupId();
+		if (fileGroupId == null || fileGroupId.length() == 0) {
+			fileGroupId = this.multipartFileHandler.upload(attachFiles);
+			updateVO.setFileGroupId(fileGroupId);
+		} else {
+			this.multipartFileHandler.upload(attachFiles, updateVO.getFileGroupId());
+		}
+
+		int updateCount = this.repliesDao.updateReplyByReplyId(updateVO);
+		UpdateResultVO result = new UpdateResultVO();
+		result.setReplyId(updateVO.getReplyId());
+		result.setUpdate(updateCount == 1);
+
+		return result;
 	}
 
 }

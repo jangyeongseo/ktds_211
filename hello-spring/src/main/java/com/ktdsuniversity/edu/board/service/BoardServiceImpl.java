@@ -19,6 +19,7 @@ import com.ktdsuniversity.edu.board.vo.response.SearchResultVO;
 import com.ktdsuniversity.edu.exception.HelloSpringException;
 import com.ktdsuniversity.edu.files.dao.FilesDao;
 import com.ktdsuniversity.edu.files.helpers.MultipartFileHandler;
+import com.ktdsuniversity.edu.files.vo.request.SaerchFileGroupVO;
 
 @Service
 public class BoardServiceImpl implements BoardService {
@@ -126,12 +127,16 @@ public class BoardServiceImpl implements BoardService {
 		// 선택한 파일들만 삭제.
 		if (updateVO.getDeleteFileNum() != null && updateVO.getDeleteFileNum().size() > 0) {
 			// 선택한 파일들의 정보를 조회 --> 파일의 경로 --> 실제 파일을 제거.
-			List<String> deleteTargets = this.filesDao.selectFilePathByFileGroupIdAndFileNums(updateVO);
+			SaerchFileGroupVO saerchFileGroupVO = new SaerchFileGroupVO();
+			saerchFileGroupVO.setDelFileNum(updateVO.getDeleteFileNum());
+			saerchFileGroupVO.setFileGroupId(updateVO.getFileGroupId());
+			
+			List<String> deleteTargets = this.filesDao.selectFilePathByFileGroupIdAndFileNums(saerchFileGroupVO);
 			for (String target : deleteTargets) {
 				new File(target).delete();
 			}
 			// 선택한 파일들을 FILES 테이블에서 제거.
-			int deleteCount = this.filesDao.deleteFilesByFileGroupIdAndFileNums(updateVO);
+			int deleteCount = this.filesDao.deleteFilesByFileGroupIdAndFileNums(saerchFileGroupVO);
 			logger.debug("삭제한 파일 데이터의 수: {}",deleteCount);
 		}
 

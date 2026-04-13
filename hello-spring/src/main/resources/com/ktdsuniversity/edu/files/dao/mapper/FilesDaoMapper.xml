@@ -40,7 +40,7 @@
     </select>
     
     <select id="selectFilePathByFileGroupIdAndFileNums"
-            parameterType="com.ktdsuniversity.edu.board.vo.request.UpdateVO"
+            parameterType="com.ktdsuniversity.edu.files.vo.request.SaerchFileGroupVO"
             resultType="string">
         SELECT FILE_PATH
           FROM FILES
@@ -56,7 +56,7 @@
     </select>
 
     <delete id="deleteFilesByFileGroupIdAndFileNums"
-            parameterType="com.ktdsuniversity.edu.board.vo.request.UpdateVO">
+            parameterType="com.ktdsuniversity.edu.files.vo.request.SaerchFileGroupVO">
         DELETE
           FROM FILES
          WHERE FILE_GROUP_ID = #{fileGroupId}
