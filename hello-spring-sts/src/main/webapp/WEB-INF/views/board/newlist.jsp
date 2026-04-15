@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" 
     pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<!-- authentication의 값을 꺼내서 사용할 수 있다. -->
 
     <!-- /templates/header.jsp import -->
     <jsp:include page="/WEB-INF/views/templates/header.jsp">
@@ -54,9 +56,9 @@
 
         <div class="btn-group">
           <div class="right-align">
-            <c:if test="${not empty sessionScope.__LOGIN_DATA__}">
-              <a href="/write">새로운 게시글 작성</a>
-            </c:if>
+            <sec:authorize access="isAuthenticated()">
+                <a href="/write">새로운 게시글 작성</a>
+            </sec:authorize>
           </div>
         </div>
         

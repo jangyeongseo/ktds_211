@@ -1,5 +1,7 @@
 package com.ktdsuniversity.edu.members.vo;
 
+import java.util.List;
+
 public class MembersVO {
 
 	private String email;
@@ -16,7 +18,18 @@ public class MembersVO {
 	private String latestLoginFailDate;
 	private String blockYn;
 	private String fileGroupId;
-	
+
+	private List<String> roles;
+	// 권한 별로 다른 권한을 주고 싶어서 만듦.
+
+	public synchronized List<String> getRoles() {
+		return this.roles;
+	}
+
+	public synchronized void setRoles(List<String> roles) {
+		this.roles = roles;
+	}
+
 	public String getEmail() {
 		return this.email;
 	}

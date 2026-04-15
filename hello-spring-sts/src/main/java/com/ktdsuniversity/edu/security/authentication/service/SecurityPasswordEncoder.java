@@ -34,15 +34,19 @@ public class SecurityPasswordEncoder implements PasswordEncoder {
 	 */
 	@Override
 	public boolean matches(@Nullable CharSequence rawPassword, @Nullable String encodedPassword) {
-		return false;
+	    // 이 메소드는 salt 가 없어서 SHA256Util을 직접 쓰기 어렵다면, 
+	    // 현재 Provider 에서 직접 만든 커스텀 matches 를 호출하고 있으니 
+	    // 최소한의 방어 코드로 두거나, 아예 커스텀 로직에 집중
+	    return false; 
 	}
 
 	public String encode(String rawPassword, String salt) {
 		return SHA256Util.getEncrypt(rawPassword, salt);
 	}
 	
+	// 현재 Provider 에서 사용
 	public boolean matches(String rawPassword, String salt, String encodedPassword) {
-		return this.encode(rawPassword, salt).equals(encodedPassword);
+	    return this.encode(rawPassword, salt).equals(encodedPassword);
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.ktdsuniversity.edu.security.authentication.service;
 
+import java.util.List;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,7 +15,12 @@ import com.ktdsuniversity.edu.security.SecurityUser;
  */
 public class SecurityUserDetailsService implements UserDetailsService {
 
+	// bean을 추가하는 또 하나의 다른 방법이 있어 @Autowired를 안붙였다
 	private MembersDao membersDao;
+
+	public SecurityUserDetailsService(MembersDao membersDao) {
+		this.membersDao = membersDao;
+	}
 
 	/**
 	 * 아이디로 데이터베이스에서 회원의 정보를 조회
@@ -28,6 +35,9 @@ public class SecurityUserDetailsService implements UserDetailsService {
 		if (loadedUser == null) {
 			throw new UsernameNotFoundException("아이디 또는 비밀번혹호가 일치하지 않습니다.");
 		}
+		
+		List<String> userRole = this.membersDao.selectMemberRolesByEmail(username);
+		loadedUser.setRoles(userRole);
 
 		return new SecurityUser(loadedUser);
 	}
