@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -27,6 +28,14 @@ import com.ktdsuniversity.edu.exceptions.HelloSpringException;
 public class GlobalExceptionHandler {
 	
 	private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+	
+	@ExceptionHandler(AuthorizationDeniedException.class)
+	public String viewLoginPage( AuthorizationDeniedException ade ) {
+		logger.error(ade.getMessage(), ade);
+		// return "redirect:/login" ==> /login 페이지로 이동해라! (URL 변경)
+		// return "forward:/login"; ==> /login 페이지를 보여줘라! (URL 변경 X)
+		return "forward:/login";
+	}
 	
 	/**
 	 * HelloSpringException이 던져지면,

@@ -20,15 +20,6 @@ public class MembersVO {
 	private String fileGroupId;
 
 	private List<String> roles;
-	// 권한 별로 다른 권한을 주고 싶어서 만듦.
-
-	public synchronized List<String> getRoles() {
-		return this.roles;
-	}
-
-	public synchronized void setRoles(List<String> roles) {
-		this.roles = roles;
-	}
 
 	public String getEmail() {
 		return this.email;
@@ -132,6 +123,14 @@ public class MembersVO {
 
 	public void setFileGroupId(String fileGroupId) {
 		this.fileGroupId = fileGroupId;
+	}
+
+	public List<String> getRoles() {
+		return this.roles;
+	}
+
+	public void setRoles(List<String> roles) {
+		this.roles = roles;
 	}
 
 }

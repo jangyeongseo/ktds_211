@@ -3,6 +3,7 @@ package com.ktdsuniversity.edu.members.web;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -55,12 +56,17 @@ public class MembersController {
 		return result;
 	}
 	
-	
 	@GetMapping("/regist")
-	public String viewRegistPage() {
+	public String viewRegistPage(Authentication authentication) {
+		// 인증 토큰이 존재하면!
+		if (authentication != null) {
+			return "redirect:/";
+		}
+		
 		return "members/regist";
 	}
 	
+	@PreAuthorize("isAnonymous()")
 	@PostMapping("/regist")
 	public String doRegistAction(
 			@Valid @ModelAttribute RegistVO registVO,
@@ -82,6 +88,10 @@ public class MembersController {
 	 * /member/update/사용자아이디 ==> 회원 정보 수정 하기.
 	 * /member/delete?id=사용자아이디 ==> 회원 정보 삭제 하기.
 	 */
+	
+	// 본인의 정보만 조회 가능하도록 개선
+	// 다른 사람의 정보를 조회할려고 할 경우 예외 발생 ==> 잘못된 접근
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/member/view/{email}")
 	public String viewMemberPage(@PathVariable String email, 
 			Model model) {
@@ -90,6 +100,8 @@ public class MembersController {
 		return "members/view";
 	}
 	
+	// 다른 사람의 정보를 조회할려고 할 경우 예외 발생 ==> 잘못된 접근
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/member/update/{email}")
 	public String viewUpdatePage(@PathVariable String email,
 			Model model) {
@@ -98,6 +110,8 @@ public class MembersController {
 		return "members/update";
 	}
 	
+	// 다른 사람의 정보를 조회할려고 할 경우 예외 발생 ==> 잘못된 접근
+	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/member/update/{email}")
 	public String doUpdateAction(@PathVariable String email,
 			UpdateVO updateVO) {
@@ -107,6 +121,8 @@ public class MembersController {
 		return "redirect:/member/view/" + email;
 	}
 	
+	// 다른 사람의 정보를 조회할려고 할 경우 예외 발생 ==> 잘못된 접근
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/member/delete")
 	public String doDeleteAction(@RequestParam String id) {
 		boolean updateResult = this.membersService.deleteMemberByEmail(id);
@@ -120,6 +136,8 @@ public class MembersController {
 	//                          : 회원의 수 출력
 	//                          : 회원의 수가 없을 때, "등록된 회원이 없습니다" 출력
 	//                          : 목록 아래에는 "새로운 회원 등록" 링크 추가.
+	// 관리자 계정에서만 볼 수 있도록 개선
+	@PreAuthorize("hasRole('RL-20260414-000001')")
 	@GetMapping("/member")
 	public String viewMembersPage(Model model) {
 		SearchResultVO searchResult = this.membersService.findMembersList();
@@ -128,20 +146,34 @@ public class MembersController {
 		return "members/newlist";
 	}
 	
+	// @PreAuthorize("isAnonymous()") 로그인은 이런걸 직접 쓰지 않는다.
 	@GetMapping("/login")
-	public String viewLoginPage() {
+	public String viewLoginPage(Authentication authentication) {
+		
+		// 인증 토큰이 존재하면!
+		if (authentication != null) {
+			return "redirect:/";
+		}
+		
 		return "members/login"; 
 	}
 	
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/logout")
 	public String doLogoutAction(Authentication authentication) {
-		// SecurityContext에서 인증받은 Authentication 을 제거하는 객체
+		
+		// SecurityContext에서 인증받은 Authentication을 제거하는 객체.
 		LogoutHandler logoutHandler = new SecurityContextLogoutHandler();
-		logoutHandler.logout(ServletUtils.getRequest(), ServletUtils.getResponse(), authentication);
-
+		logoutHandler.logout(
+				ServletUtils.getRequest(), 
+				ServletUtils.getResponse(), 
+				authentication);
+		
 		return "redirect:/login";
 	}
 	
+	// 다른 사람의 정보를 조회할려고 할 경우 예외 발생 ==> 잘못된 접근
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/delete-me")
 	public String doDeleteAction(Authentication authentication) {
 		// 1. 로그인 세션에서 회원의 이메일을 가져온다.
@@ -154,10 +186,19 @@ public class MembersController {
 		
 		// 3. 현재 로그인된 사용자를 로그아웃 시킨다.
 		LogoutHandler logoutHandler = new SecurityContextLogoutHandler();
-		logoutHandler.logout(ServletUtils.getRequest(), ServletUtils.getResponse(), authentication);
+		logoutHandler.logout(
+				ServletUtils.getRequest(), 
+				ServletUtils.getResponse(), 
+				authentication);
 		
 		// 4. "members/deletesuccess" 페이지를 보여준다.
 		//    "탈퇴가 완료됐습니다. 다음에 다시 만나요!"
 		return "members/deletesuccess";
 	}
 }
+
+
+
+
+
+

@@ -1,4 +1,4 @@
-package com.ktdsuniversity.edu.security.authentication.handlers;
+package com.ktdsuniversity.edu.security.authenticate.handlers;
 
 import java.io.IOException;
 
@@ -13,27 +13,40 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public class LoginSuccessHandler implements AuthenticationSuccessHandler {
+public class LoginSuccessHandler 
+	implements AuthenticationSuccessHandler {
 
 	private MembersDao membersDao;
-
+	
 	public LoginSuccessHandler(MembersDao membersDao) {
 		this.membersDao = membersDao;
 	}
-
+	
 	@Override
-	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+	public void onAuthenticationSuccess(
+			HttpServletRequest request, 
+			HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
+		
 		LoginVO loginVO = new LoginVO();
 		loginVO.setIp(request.getRemoteAddr());
-		loginVO.setEmail(authentication.getName()); // 토큰에 있는 이메일 이름을 가져와라.
-
+		loginVO.setEmail(authentication.getName());
+		
 		this.membersDao.updateSuccessLogin(loginVO);
-
-		// HttpServletRquest에서 파라미터를 가져오는 방법
+		
+		// HttpServletRequest에서 파라미터를 가져오는 방법.
 		String go = request.getParameter("go");
 		
-		response.sendRedirect(StringUtils.emptyTo(go, "/")); // 로그인 성공시 이 페이지로 이동해라.
+		response.sendRedirect( StringUtils.emptyTo(go, "/") );
 	}
 
 }
+
+
+
+
+
+
+
+
+
