@@ -91,7 +91,7 @@ public class MembersController {
 	
 	// 본인의 정보만 조회 가능하도록 개선
 	// 다른 사람의 정보를 조회할려고 할 경우 예외 발생 ==> 잘못된 접근
-	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("isAutheticated() and #email == authentication.principal.email")
 	@GetMapping("/member/view/{email}")
 	public String viewMemberPage(@PathVariable String email, 
 			Model model) {
@@ -101,7 +101,7 @@ public class MembersController {
 	}
 	
 	// 다른 사람의 정보를 조회할려고 할 경우 예외 발생 ==> 잘못된 접근
-	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("isAutheticated() and #email == authentication.principal.email")
 	@GetMapping("/member/update/{email}")
 	public String viewUpdatePage(@PathVariable String email,
 			Model model) {
@@ -111,7 +111,8 @@ public class MembersController {
 	}
 	
 	// 다른 사람의 정보를 조회할려고 할 경우 예외 발생 ==> 잘못된 접근
-	@PreAuthorize("isAuthenticated()")
+	// 메소드의 파라미터로 전달된 값(email)과 authentication 에 할당된 email 값을 비교한다.
+	@PreAuthorize("isAutheticated() and #email == authentication.principal.email") 
 	@PostMapping("/member/update/{email}")
 	public String doUpdateAction(@PathVariable String email,
 			UpdateVO updateVO) {
@@ -122,7 +123,7 @@ public class MembersController {
 	}
 	
 	// 다른 사람의 정보를 조회할려고 할 경우 예외 발생 ==> 잘못된 접근
-	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("isAutheticated() and #id == authentication.principal.email")
 	@GetMapping("/member/delete")
 	public String doDeleteAction(@RequestParam String id) {
 		boolean updateResult = this.membersService.deleteMemberByEmail(id);

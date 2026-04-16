@@ -47,8 +47,7 @@
     <update id="updateMemberByEmail"
             parameterType="com.ktdsuniversity.edu.members.vo.request.UpdateVO">
         UPDATE MEMBERS
-           SET EMAIL = #{email}
-             , NAME = #{name}
+           SET NAME = #{name}
              , PASSWORD = #{password}
          WHERE EMAIL = #{email}
     </update>
