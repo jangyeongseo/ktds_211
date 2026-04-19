@@ -2,6 +2,11 @@
 회원페이지와 관련된 스크립트 작성.
  */
 $().ready(function () {
+
+    $(".page-navigator").find("a").on("click", function() {
+      var pageNo = $(this).data("page-no");
+      location.href = "/member?pageNo=" + pageNo;
+    });
   
   // 현재 Location의 pathname을 가지고 온다.
   var pathname = location.pathname;

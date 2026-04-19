@@ -12,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
@@ -84,9 +86,33 @@ public class HelloSpringConfiguration implements
 	@Bean
 	SecurityFilterChain configureFilterChain(HttpSecurity httpSecurity) {
 		
+		// 상대방이 내 서버로 접속할 수 있도록 허용하기
+		// ==> 내 서버로 접속 가능한 안전한 URL 등록하기
+		httpSecurity.cors(corsConfigurer -> {
+			CorsConfigurationSource source = (httpServletReqest) -> {
+				// 허용할 타 사이트의 도메인을 작성.
+				CorsConfiguration config = new CorsConfiguration();
+				// 허용할 타 사이트의 URL
+				// http://192.168.211.26:8080 에서 요청하는 모든 접근(API)들을 허용하겠다.
+				config.addAllowedOrigin("http://192.168.211.26:8080");
+				
+				// 허용할 타 사이트의 Method
+				// http://192.168.211.26:8080 에서 POST와 GET으로 요청되는 접든들만 허용하겠다.
+				config.addAllowedMethod("POST");
+				config.addAllowedMethod("GET");
+				// 허용할 타 사이트의 HttpHeader
+				// 모든 요청 HttpHeader를 허용하겠다.
+				config.addAllowedHeader("*");
+				
+				return config;
+				
+			};
+			corsConfigurer.configurationSource(source);
+		});
+		
 		// CSRF 수정, 댓글 등록 불가. (Invalid CSRF token found for  ...)
 		// CSRF를 체크하는 SecurityFilter(CsrfFilter)를 무효화.
-		httpSecurity.csrf(csrf -> csrf.disable());
+		// httpSecurity.csrf(csrf -> csrf.disable());
 		
 		// UsernamePasswordAuthenticationFilter 수정.
 		httpSecurity.formLogin(formLogin -> 
@@ -98,6 +124,7 @@ public class HelloSpringConfiguration implements
 					// 로그인에 필요한 아이디 파라미터 이름을 "username"에서 "email"로 변경한다.
 							 .usernameParameter("email")
 					// 로그인에 성공하면 뭐할까?
+					// email 이라고 작성한 이유는 login.jsp에서 email 이라는 이름으로 값을 받아오기 때문
 					// this.membersDao.updateSuccessLogin(loginVO); 실행해야 한다.
 							 .successHandler(this.createLoginSuccessHandler())
 					// 로그인에 실패하면 뭐할까?
@@ -106,7 +133,6 @@ public class HelloSpringConfiguration implements
 							 .failureHandler(this.createLoginFailureHandler())
 		);
 		
-		// 10시 15분 시작.
 		return httpSecurity.build();
 	}
 

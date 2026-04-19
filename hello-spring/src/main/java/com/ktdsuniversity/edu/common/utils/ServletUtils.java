@@ -6,12 +6,12 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public class ServletUtils {
-private ServletUtils() {}
+public abstract class ServletUtils {
+
+	private ServletUtils() {}
 	
 	public static HttpServletRequest getRequest() {
 		return ServletUtils.getRequestAttributes().getRequest();
-		// HttpServiet이 봔환된다.
 	}
 	
 	public static HttpServletResponse getResponse() {
@@ -24,6 +24,6 @@ private ServletUtils() {}
 	
 	private static ServletRequestAttributes getRequestAttributes() {
 		return (ServletRequestAttributes)RequestContextHolder.getRequestAttributes(); 
-		// controller 가 아닌 이외에서도 가져가서 꺼낼 수 있도록.
 	}
+	
 }

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ktdsuniversity.edu.common.utils.ServletUtils;
 import com.ktdsuniversity.edu.members.service.MembersService;
 import com.ktdsuniversity.edu.members.vo.MembersVO;
+import com.ktdsuniversity.edu.members.vo.request.MembersSearchListVO;
 import com.ktdsuniversity.edu.members.vo.request.RegistVO;
 import com.ktdsuniversity.edu.members.vo.request.UpdateVO;
 import com.ktdsuniversity.edu.members.vo.response.DuplicateResultVO;
@@ -66,7 +67,7 @@ public class MembersController {
 		return "members/regist";
 	}
 	
-	@PreAuthorize("isAnonymous()")
+	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/regist")
 	public String doRegistAction(
 			@Valid @ModelAttribute RegistVO registVO,
@@ -91,7 +92,7 @@ public class MembersController {
 	
 	// 본인의 정보만 조회 가능하도록 개선
 	// 다른 사람의 정보를 조회할려고 할 경우 예외 발생 ==> 잘못된 접근
-	@PreAuthorize("isAutheticated() and #email == authentication.principal.email")
+	@PreAuthorize("isAuthenticated() and #email == authentication.principal.email")
 	@GetMapping("/member/view/{email}")
 	public String viewMemberPage(@PathVariable String email, 
 			Model model) {
@@ -101,7 +102,7 @@ public class MembersController {
 	}
 	
 	// 다른 사람의 정보를 조회할려고 할 경우 예외 발생 ==> 잘못된 접근
-	@PreAuthorize("isAutheticated() and #email == authentication.principal.email")
+	@PreAuthorize("isAuthenticated() and #email == authentication.principal.email")
 	@GetMapping("/member/update/{email}")
 	public String viewUpdatePage(@PathVariable String email,
 			Model model) {
@@ -112,7 +113,7 @@ public class MembersController {
 	
 	// 다른 사람의 정보를 조회할려고 할 경우 예외 발생 ==> 잘못된 접근
 	// 메소드의 파라미터로 전달된 값(email)과 authentication 에 할당된 email 값을 비교한다.
-	@PreAuthorize("isAutheticated() and #email == authentication.principal.email") 
+	@PreAuthorize("isAuthenticated() and #email == authentication.principal.email") 
 	@PostMapping("/member/update/{email}")
 	public String doUpdateAction(@PathVariable String email,
 			UpdateVO updateVO) {
@@ -123,7 +124,7 @@ public class MembersController {
 	}
 	
 	// 다른 사람의 정보를 조회할려고 할 경우 예외 발생 ==> 잘못된 접근
-	@PreAuthorize("isAutheticated() and #id == authentication.principal.email")
+	@PreAuthorize("isAuthenticated() and #id == authentication.principal.email")
 	@GetMapping("/member/delete")
 	public String doDeleteAction(@RequestParam String id) {
 		boolean updateResult = this.membersService.deleteMemberByEmail(id);
@@ -140,10 +141,14 @@ public class MembersController {
 	// 관리자 계정에서만 볼 수 있도록 개선
 	@PreAuthorize("hasRole('RL-20260414-000001')")
 	@GetMapping("/member")
-	public String viewMembersPage(Model model) {
-		SearchResultVO searchResult = this.membersService.findMembersList();
+	public String viewMembersPage(Model model, MembersSearchListVO membersSearchListVO) {
+		SearchResultVO searchResult = this.membersService.findMembersList(membersSearchListVO);
+		
 		model.addAttribute("searchList", searchResult.getResult());
 		model.addAttribute("searchCount", searchResult.getCount());
+		
+		model.addAttribute("pagination", membersSearchListVO);
+		
 		return "members/newlist";
 	}
 	

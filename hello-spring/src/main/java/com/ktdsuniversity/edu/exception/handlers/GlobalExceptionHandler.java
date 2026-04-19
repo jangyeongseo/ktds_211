@@ -5,11 +5,13 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ktdsuniversity.edu.common.utils.AuthUtils;
 import com.ktdsuniversity.edu.exception.HelloSpringApiException;
 import com.ktdsuniversity.edu.exception.HelloSpringException;
 
@@ -25,6 +27,23 @@ import com.ktdsuniversity.edu.exception.HelloSpringException;
 public class GlobalExceptionHandler {
 
 	private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
+	@ExceptionHandler(AuthorizationDeniedException.class)
+	public String viewLoginPage(AuthorizationDeniedException ade, Model model) {
+
+		// 로그인을 했다면?
+		// 로그인을 했지만 접근을 잘못한 경우
+		boolean isAuthenticated = AuthUtils.isAuthenticated();
+		if (isAuthenticated) {
+			model.addAttribute("errorMessage", "잘못된 접근입니다");
+			return "errors/403";
+		}
+
+		logger.error(ade.getMessage(), ade);
+		// return "redirect:/login" ==> /login 페이지로 이동해라! (URL 변경)
+		// return "forward:/login"; ==> /login 페이지를 보여줘라! (URL 변경 X)
+		return "forward:/login";
+	}
 
 	/**
 	 * HelloSpringException이 던져지면, viewErrorPage가 실행된다.
@@ -48,19 +67,19 @@ public class GlobalExceptionHandler {
 
 		return errorPage;
 	}
-	
+
 	@ResponseBody
 	@ExceptionHandler(HelloSpringApiException.class)
 	public Map<String, Object> returnErrorJson(HelloSpringApiException hsae) {
 		logger.error(hsae.getMessage(), hsae);
-		
+
 		int status = hsae.getErrorStatus();
 		Object errorObjet = hsae.getError();
-		
+
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("status", status);
 		responseData.put("error", errorObjet);
-		
+
 		return responseData;
 	}
 

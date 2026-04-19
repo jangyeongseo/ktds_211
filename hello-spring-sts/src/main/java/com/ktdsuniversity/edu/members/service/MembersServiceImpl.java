@@ -3,15 +3,14 @@ package com.ktdsuniversity.edu.members.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ktdsuniversity.edu.common.utils.AuthUtils;
 import com.ktdsuniversity.edu.exceptions.HelloSpringException;
 import com.ktdsuniversity.edu.members.dao.MembersDao;
 import com.ktdsuniversity.edu.members.helpers.SHA256Util;
 import com.ktdsuniversity.edu.members.vo.MembersVO;
+import com.ktdsuniversity.edu.members.vo.request.MembersSearchListVO;
 import com.ktdsuniversity.edu.members.vo.request.RegistVO;
 import com.ktdsuniversity.edu.members.vo.request.UpdateVO;
 import com.ktdsuniversity.edu.members.vo.response.SearchResultVO;
@@ -72,16 +71,20 @@ public class MembersServiceImpl implements MembersService {
 
 	// 관리자만 확인이 가능한 member 목록
 	@Override
-	public SearchResultVO findMembersList() {
+	public SearchResultVO findMembersList(MembersSearchListVO membersSearchListVO) {
 		SearchResultVO result = new SearchResultVO();
-		int searchCount = this.membersDao.selectMembersCount();
+		// 멤버 개수 조회
+		int searchCount = this.membersDao.selectMembersCount(membersSearchListVO);
 		result.setCount(searchCount);
 
+		// 몇개의 페이지 계산
+		membersSearchListVO.computePagination(searchCount);
+		
 		if (searchCount == 0) {
 			return result;
 		}
 
-		List<MembersVO> searchResult = this.membersDao.selectMembersList();
+		List<MembersVO> searchResult = this.membersDao.selectMembersList(membersSearchListVO);
 		result.setResult(searchResult);
 
 		return result;

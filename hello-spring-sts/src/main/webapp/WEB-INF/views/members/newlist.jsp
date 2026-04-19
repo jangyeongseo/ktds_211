@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-  <jsp:include page="/WEB-INF/views/templates/header.jsp">
+<jsp:include page="/WEB-INF/views/templates/header.jsp">
     <jsp:param value="회원 목록" name="title" />
-  </jsp:include>
+    <jsp:param name="scripts" value="<script type='text/javascript' src='/js/members.js'></script>" />
+</jsp:include>
     <div class="grid list">
       <h1>회원 목록</h1>
       <div>총 ${searchCount}명의 회원이 검색되었습니다.</div>
@@ -46,5 +47,11 @@ pageEncoding="UTF-8"%>
           <a href="/regist">새로운 회원 등록</a>
         </div>
       </div>
+      
+    <!-- 페이지네이션 -->
+    <jsp:include page="/WEB-INF/views/templates/pagination.jsp"></jsp:include>
+    
     </div>
+    
+
   <jsp:include page="/WEB-INF/views/templates/footer.jsp"></jsp:include>

@@ -5,6 +5,12 @@ logging:
 
 #spring.application.name=hello-spring
 spring:
+  servlet:
+    multipart: # 파일업로드 용량 정책 설정.
+      # Spring Server가 한 번에 받을 수 있는 최대 용량
+      max-file-size: 150MB
+      # 파일 업로드를 할 수 있는 최대 용량
+      max-request-size: 50MB
   mvc:
     view:
       prefix: /WEB-INF/views/
@@ -23,3 +29,9 @@ mybatis:
   config-location: classpath:mybatis-config.xml
   mapper-locations: classpath:com/ktdsuniversity/edu/**/mapper/*Mapper.xml
 # mapper 파일들의 위치 지정 - 동시에 지정해주는 작
+
+app:
+  jwt:
+    issuer: hello-spring
+#    이게 너무 짧은 데이터 호은 유출을 할 수 없는 글자를 작성하는것이 좋다 (43 이상)
+    secert-key: a7F3kP9xQ2mZ8Lw1R5bT6YcH4uV0dN3sJ8eKpX2GqM7

@@ -163,7 +163,9 @@ $().ready(function () {
                             console.log(replyId, updateContent, deleteFilesNum, newAttachFiles);
 
                             var formData = new FormData();
+                            formData.append("_csrf", $("meta[name='_csrf']").attr("content"));
                             formData.append("content", updateContent);
+                            
                             // 삭제할 파일이 있으면 formData 추가한다.
                             deleteFilesNum.each(function () {
                                 formData.append("delfileNum", $(this).val());
@@ -259,6 +261,7 @@ $().ready(function () {
         formData.append("reply", replyContent);
         formData.append("articleId", articleId);
         formData.append("parentReplyId", parentReplyId);
+        formData.append("_csrf", $("meta[name='_csrf']").attr("content"));
 
 
         if (fileInput.files.length > 0) {

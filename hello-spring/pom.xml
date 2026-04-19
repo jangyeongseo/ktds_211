@@ -33,6 +33,51 @@
     </properties>
     <dependencies>
 
+        <!-- JWT 작업에 필요한 라이브러리 -->
+        <!-- Source: https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>0.13.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- Source:
+        https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-impl -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>0.13.0</version>
+            <scope>runtime</scope>
+        </dependency>
+        <!-- Source:
+        https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-jackson -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>0.13.0</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- Spring Security를 위한 JSTL 라이브러리 -->
+        <!-- Spring Security로 인증받은 토큰을 통해 jsp에서 인증/권한 제어 목적 -->
+        <!-- Source:
+        https://mvnrepository.com/artifact/org.springframework.security/spring-security-taglibs -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- Spring Security 라이브러리 추가 -->
+        <!-- spring Security는 라이브러리 추가만으로 인증절차가 추가된다. -->
+        <!-- Source:
+        https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-security -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-security</artifactId>
+            <scope>compile</scope>
+        </dependency>
+
         <!-- 파라미터 유효성 검사(@Valid)를 사용하기 위한 라이브러리 추가. -->
         <!-- Source:
         https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-validation -->
