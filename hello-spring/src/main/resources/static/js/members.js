@@ -3,17 +3,21 @@
 */
 
 $().ready(function () {
+    $(".page-navigator").find("a").on("click", function() {
+      var pageNo = $(this).data("page-no");
+      location.href = "/member?pageNo=" + pageNo;
+    });
     
     // 형재 Location의 pathname을 가지고 온다.
     var pathname = location.pathname;
     // pathname이 "/login"이 아니라면 action을 "/login?go=/write"으로 수정한다.
-    if(pathname !== "/login"){
+    if(pathname !== "/login" && pathname !== "/login-provider"){
         pathname = "?go=" + pathname;
     }else{
         pathname = "";
     }
     
-    $("#loginVO").attr({action:"/login" + pathname})
+    $("#loginVO").attr({action: "/login-provider"  + pathname})
     
     // 브라우저에서 입력값을 검증하는 방법 2가지
     // 1. 폼 전송할 때 체크하는 방법

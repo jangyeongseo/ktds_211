@@ -113,5 +113,16 @@
         WHERE EMAIL = #{email}
     </update>
 	
+	<!-- 권한 -->
+	<select id="selectMemberRolesByEmail" parameterType="string" resultType="string">
+	   SELECT ROLE_ID
+           FROM ROLES
+          START WITH ROLE_ID = (SELECT ROLE_ID
+                                  FROM MEMBERS
+                                 WHERE EMAIL = #{_parameter})
+        CONNECT BY PRIOR ROLE_ID = TOP_ROLE_ID
+	</select>
+	
+	
 
 </mapper>

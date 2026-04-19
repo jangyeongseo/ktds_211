@@ -28,21 +28,42 @@ public class GlobalExceptionHandler {
 
 	private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
+	/**
+	 * 권한 거부 - AuthorizationDeniedException 발생 시 실행되는 예외 처리 메서드
+	 */
 	@ExceptionHandler(AuthorizationDeniedException.class)
 	public String viewLoginPage(AuthorizationDeniedException ade, Model model) {
 
-		// 로그인을 했다면?
-		// 로그인을 했지만 접근을 잘못한 경우
-		boolean isAuthenticated = AuthUtils.isAuthenticated();
-		if (isAuthenticated) {
-			model.addAttribute("errorMessage", "잘못된 접근입니다");
-			return "errors/403";
-		}
+	    // 1️. 현재 사용자가 로그인 상태인지 확인
+	    // SecurityContext에 인증 정보가 있는지 체크
+	    boolean isAuthenticated = AuthUtils.isAuthenticated();
 
-		logger.error(ade.getMessage(), ade);
-		// return "redirect:/login" ==> /login 페이지로 이동해라! (URL 변경)
-		// return "forward:/login"; ==> /login 페이지를 보여줘라! (URL 변경 X)
-		return "forward:/login";
+	    // 2️. 로그인은 되어 있지만 권한이 없는 경우
+	    if (isAuthenticated) {
+	        // 사용자에게 보여줄 에러 메시지 전달
+	        model.addAttribute("errorMessage", "잘못된 접근입니다");
+	        // 403 에러 페이지로 이동
+	        return "errors/403";
+	    }
+
+	    // 3️. 로그인이 안 된 상태에서 접근한 경우
+	    // -> 인증 자체가 안 된 상태
+	    logger.error(ade.getMessage(), ade);
+
+	    /**
+	     * forward vs redirect 차이
+	     * 
+	     * redirect:/login
+	     * -> 브라우저 URL이 /login으로 변경됨
+	     * -> 새로운 요청 발생
+	     * 
+	     * forward:/login
+	     * -> URL은 그대로 유지
+	     * -> 서버 내부에서 /login 페이지를 보여줌
+	     */
+	    
+		// 로그인 페이지로 이동 - URL은 유지
+	    return "forward:/login";
 	}
 
 	/**

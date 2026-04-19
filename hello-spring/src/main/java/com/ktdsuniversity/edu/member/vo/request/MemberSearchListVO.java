@@ -1,11 +1,11 @@
-package com.ktdsuniversity.edu.board.vo.request;
+package com.ktdsuniversity.edu.member.vo.request;
 
 import com.ktdsuniversity.edu.common.vo.PaginationVO;
 
 /**
  * 게시글을 검색 사용. 게시글 페이지네이션 사용
  */
-public class SearchListVO extends PaginationVO {
+public class MemberSearchListVO extends PaginationVO {
 	/**
 	 * 검색용
 	 */

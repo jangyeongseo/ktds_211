@@ -1,12 +1,9 @@
 package com.ktdsuniversity.edu.member.service;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,8 +12,8 @@ import com.ktdsuniversity.edu.exception.HelloSpringException;
 import com.ktdsuniversity.edu.member.dao.MemberDao;
 import com.ktdsuniversity.edu.member.helpers.SHA256Util;
 import com.ktdsuniversity.edu.member.vo.MemberVO;
+import com.ktdsuniversity.edu.member.vo.request.MemberSearchListVO;
 import com.ktdsuniversity.edu.member.vo.request.WriteVO;
-import com.ktdsuniversity.edu.member.vo.response.LoginVO;
 import com.ktdsuniversity.edu.member.vo.response.MembershipResultVO;
 
 @Service
@@ -55,11 +52,13 @@ public class MemberServiceImpl implements MemberService {
 
 	// 회원 수와 회원들의 목록 조회
 	@Override
-	public MembershipResultVO findAllMember() {
+	public MembershipResultVO findAllMember(MemberSearchListVO memberSearchListVO) {
+		MembershipResultVO result = new MembershipResultVO();
+		
 		List<MemberVO> list = this.memberDao.selectMemberList();
 		int count = this.memberDao.selectMemberCount();
+		memberSearchListVO.computePagination(count);
 
-		MembershipResultVO result = new MembershipResultVO();
 		result.setCount(count);
 		result.setResult(list);
 
@@ -91,60 +90,6 @@ public class MemberServiceImpl implements MemberService {
 		logger.debug("삭제 확인{}",delete);
 
 		return delete == 1;
-	}
-
-	// 로그인
-	@Transactional(noRollbackFor = HelloSpringException.class)
-	@Override
-	public MemberVO findMemberByEmailAndPassword(LoginVO loginVO) {
-		// 1. 이메일로 회원 조회
-		MemberVO member = this.memberDao.selectMemberByEmail(loginVO.getEmail());
-
-		// 2. 회원 없으면 예외
-		if (member == null) {
-			throw new HelloSpringException("이메일 또는 비밀번호가 잘못되었습니다", "member/login", loginVO, "loginVO");
-		}
-
-		if (member.getBlockYn().equals("Y")) {
-			// 로그인 Block 된 시간으로부터 120분이 지나면 다시 로그인 가능한 상태로 변경한다.
-			// 이 경우엔 예외를 던지지 않도록 한다.
-			String latestLoginFailDate = member.getLatestLoginFailDate();
-
-			DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-			LocalDateTime lastestBlockDateTime = LocalDateTime.parse(latestLoginFailDate, dateTimeFormatter);
-
-			if (lastestBlockDateTime.isAfter(LocalDateTime.now().minusMinutes(120))) {
-				throw new HelloSpringException("이메일 또는 비밀번호가 잘못되었습니다", "member/login", loginVO, "loginVO");
-			}
-
-			throw new HelloSpringException("이메일 또는 비밀번호가 잘못되었습니다", "member/login", loginVO, "loginVO");
-		}
-
-		// 3. 비밀번호 암호화
-		String salt = member.getSalt();
-		String encryptedPassword = SHA256Util.getEncrypt(loginVO.getPassword(), salt);
-
-		// 4. 비밀번호 비교
-		if (!encryptedPassword.equals(member.getPassword())) {
-			// 해당 이메일의 로그인 실패 횟수를 1 증가시키고
-			// 최근 로그인 실패 날짜를 현재 날짜와 시간으로 변경
-			this.memberDao.updateIncreaseLoginFailCount(loginVO.getEmail());
-
-			// 최근 로그인 실패 횟수가 5이상이라면 block-yn을 Y로 변경한다.
-			this.memberDao.updateBlock(loginVO.getEmail());
-
-			throw new HelloSpringException("이메일 또는 비밀번호가 잘못되었습니다", "member/login", loginVO, "loginVO");
-		}
-
-		// 로그인 성공처리
-		// 1. login_fail_count 를 0으로 초기회
-		// 2. latest_login_ip 를 현재 아이피로 변경
-		// 3. login_date를 현재 시간으로 변경
-		// 4. block_yn을 'N' 으로 변경
-		this.memberDao.updateSuccessLogin(loginVO);
-
-		// 5. 로그인 성공
-		return member;
 	}
 
 }
