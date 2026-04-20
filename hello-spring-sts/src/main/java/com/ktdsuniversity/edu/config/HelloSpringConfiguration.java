@@ -22,6 +22,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.ktdsuniversity.edu.exceptions.handlers.AuthorizationDeniedExceptionHandler;
 import com.ktdsuniversity.edu.members.dao.MembersDao;
 import com.ktdsuniversity.edu.security.authenticate.filters.JsonWebTokenAuthenticationFilter;
 import com.ktdsuniversity.edu.security.authenticate.handlers.LoginFailureHandler;
@@ -100,10 +101,9 @@ public class HelloSpringConfiguration implements
 	
 	@Bean
 	OncePerRequestFilter createJwtAuthFilter() {
-	    return new JsonWebTokenAuthenticationFilter(
-	        this.createJwtAuthenticationProvider(), // 토큰 검증
-	        this.createUserDetailsService()         // 사용자 조회
-	    );
+		return new JsonWebTokenAuthenticationFilter(
+				this.createJwtAuthenticationProvider(),
+				this.createUserDetailsService());
 	}
 
 	// Spring Login Filter(BasicAuthenticationFilter) 등록.
@@ -143,8 +143,14 @@ public class HelloSpringConfiguration implements
 		httpSecurity.csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"));
 		
 		// Custom Filter(JsonWebTokenAuthenticationFilter) 추가
-		httpSecurity.addFilterAfter(this.createJwtAuthFilter(), UsernamePasswordAuthenticationFilter.class);
+		httpSecurity.addFilterAfter(this.createJwtAuthFilter()
+				  , UsernamePasswordAuthenticationFilter.class);
 
+		// AuthorizationDeniedExceptionHandler 를 추가한다.
+		// Controller 코드 이하에서 @PreAuthorize() 검증에 실패하면 아래 설정에 등록한 가 동작하게 된다.
+		httpSecurity.exceptionHandling(exceptionHandling -> 
+					exceptionHandling.accessDeniedHandler(new AuthorizationDeniedExceptionHandler()));
+		
 		// UsernamePasswordAuthenticationFilter 수정.
 		httpSecurity.formLogin(formLogin ->
 		// Login URL 지정.
