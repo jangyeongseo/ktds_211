@@ -47,8 +47,8 @@
 					<div class="right-align">
 					      <sec:authorize access="hasAnyRole('RL-20260414-000001', 'RL-20260414-000002')" var="isAdmin" />
                           <sec:authorize access="isAuthenticated()">
-                          <sec:authentication property="principal.email" var="loginUserEmail" />
-							<c:if test="${sessionScope.__LOGIN_DATA__.email eq articleId.email}">
+                            <sec:authentication property="principal.email" var="loginUserEmail" />
+							<c:if test="${ isAdmin or loginUserEmail eq article.email}">
 								<a href="/update/${articleId.id}">수정</a>
 								<a href="/delete?id=${articleId.id}">삭제</a>
 							</c:if>
