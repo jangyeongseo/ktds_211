@@ -64,7 +64,6 @@ public class HelloSpringConfiguration implements WebMvcConfigurer {
 	 */
 	@Bean
 	AuthenticationProvider createAuthenticationProvider() {
-
 		// 위에서 만든 Bean들을 직접 사용
 		UserDetailsService userDetailsService = this.createUserDetailsService();
 		PasswordEncoder passwordEncoder = this.createPasswordEncoder();
@@ -164,7 +163,7 @@ public class HelloSpringConfiguration implements WebMvcConfigurer {
 	    );
 
 	    /**
-	     * 설정 완료 → SecurityFilterChain 생성
+	     * 설정 완료 -> SecurityFilterChain 생성
 	     * -> 이 체인이 실제 요청을 가로채서 보안 처리 수행
 	     */
 	    return httpSecurity.build();

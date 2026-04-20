@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 	<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+	<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 		<!DOCTYPE html>
 		<html>
 
@@ -15,17 +16,15 @@
 			<header>
 				<h1>${param.title}</h1>
 				<div class="header-links">
-					<c:choose>
-						<c:when test="${not empty sessionScope.__LOGIN_DATA__}">
-							<span class="member-info" data-email="${sessionScope.__LOGIN_DATA__.email}">관리자 ${sessionScope.__LOGIN_DATA__.email}</span>
-							<a href="/">뒤로가기</a>
-							<a href="/member/view/${sessionScope.__LOGIN_DATA__.email}">마이페이지</a>
-							<a href="/logout">로그아웃</a>
-						</c:when>
-						<c:otherwise>
-							<a href="/login">로그인</a>
-							<a href="regist">회원가입</a>
-						</c:otherwise>
-					</c:choose>
+					<sec:authorize access="isAuthenticated()">
+						<span  class="member-info" data-email="<sec:authentication property='principal.email' />">관리자 <sec:authentication property="principal.name" /></span>
+						<a href="/">뒤로가기</a>
+						<a href="/member/view/<sec:authentication property='principal.email' />">마이페이지</a>
+						<a href="/logout">로그아웃</a>
+					</sec:authorize>
+					<sec:authorize access="!isAuthenticated()">
+						<a href="/login">로그인</a>
+						<a href="regist">회원가입</a>
+					</sec:authorize>
 				</div>
 			</header>

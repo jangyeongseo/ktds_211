@@ -66,7 +66,6 @@ public class MemberController {
 	}
 
 	// 회원이 입력한 정보
-	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/regist")
 	public String doMemberPage(@Valid @ModelAttribute WriteVO writeVO, BindingResult bindingResult, Model model) {
 		if (bindingResult.hasErrors()) {

@@ -3,6 +3,7 @@
 		<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 			<%-- JSTL을 사용하기 위해서는 taglib Directive 필요.--%>
 				<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+				<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 					<!-- /templates/header.jsp import -->
 					<jsp:include page="/WEB-INF/views/templates/header.jsp">
@@ -71,14 +72,9 @@
 						</table>
 
 						<div class="astyle">
-							<c:choose>
-								<c:when test="${not empty sessionScope.__LOGIN_DATA__}">
-									<a href="/write">글 작성</a>
-								</c:when>
-								<c:otherwise>
-									<div></div>
-								</c:otherwise>
-							</c:choose>
+							<sec:authorize access="isAuthenticated()">
+								<a href="/write">글 작성</a>
+							</sec:authorize>
 						</div>
 
 						<!-- 페이지네이션 -->
