@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.crypto.SecretKey;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
@@ -14,8 +15,43 @@ import io.jsonwebtoken.security.Keys;
  */
 public class JsonWebTokenAuthenticationProvider {
 
+	private String secretKey; // secert-key: a7F3kP9xQ2mZ8Lw1R5bT6YcH4uV0dN3sJ8eKpX2GqM7
+	private String issuer; // issuer: hello-spring-sts
+
+	public JsonWebTokenAuthenticationProvider(String secretKey, String issuer) {
+		super();
+		this.secretKey = secretKey;
+		this.issuer = issuer;
+	}
+
 	/**
-	 * 사용자의 이메일을 이용해 인증용 JWT를 생성한다
+	 * 사용자가 요청할 때마다 Request Header[Authorization]에 전달한 JsonWebToken을 가져와 복호화 시킨다.
+	 * 복호화 된 결과에서 사용자의 이메일(identify)을 추출하여 반환시킨다.
+	 * 
+	 * @param jsonWebToken 사용자가 전달한 토큰
+	 * @return jsonWebToken에서 추출한 사용자의 이메일
+	 */
+	public String decryptJsonWebToken(String jsonWebToken) {
+
+		// application.yml에 작성한 비밀키
+		// 암, 복호화 키 생성
+		SecretKey key = Keys.hmacShaKeyFor(this.secretKey.getBytes());
+
+		// .claim("identify", email) 이 정보를 가져오겠다
+		Claims claims = Jwts.parser() // JsonWebToken을 분석하기 위한 선언.
+				.verifyWith(key) // JsonWebToken을 복호화 하기 위한 비밀키 지정
+				.requireIssuer(this.issuer) // 사용자가 전달한 JsonWebToken이 hello-spring-sts시스템에서 만든것인지 확인한다.
+				.build() // JsonWebToken을 복호화 시작
+				.parseSignedClaims(jsonWebToken) // 사용자가 전달한 JsonWebToken을 복호화 한다.
+				.getPayload(); // 복호화된 결과에서 claim들만 모아 반환시킨다. - Map 의 형태
+
+		// 사용자가 전달한 JsonWebToken을 복호화 한 뒤 identify 값을 추출한다.
+		String email = claims.get("identify", String.class);
+		return email;
+	}
+
+	/**
+	 * 사용자의 이메일을 이용해 인증용 JWT를 생성하고 결과를 사용자에게 보내주어야 한다.
 	 * 
 	 * @param email    사용자의 이메일
 	 * @param expredAt JWT의 유효기간(지금으로부터 ~분까지(시간, 일, 월, 연) 유효 - 토큰이 길어지면 길어질 수록 좋지 않다
@@ -30,14 +66,12 @@ public class JsonWebTokenAuthenticationProvider {
 		Date expirationDate = new Date(issueData.getTime() + expiredAt.toMillis());
 
 		// application.yml에 작성한 비밀키
-		// TODO application.yml에 작성한 비밀키
-		SecretKey key = Keys.hmacShaKeyFor("a7F3kP9xQ2mZ8Lw1R5bT6YcH4uV0dN3sJ8eKpX2GqM7".getBytes());
+		SecretKey key = Keys.hmacShaKeyFor(this.secretKey.getBytes());
 
 		// JWT를 생성하고 만둘어준다 - JWTS
-		String jsonWebtoken = Jwts.builder()
+		String jsonWebToken = Jwts.builder()
 				// JsonWebTokendmf 발생한 시스템의 이름
-				// TODO application.yml에 작성한 시스템 이름
-				.issuer("hello-spring-sts")
+				.issuer(this.issuer)
 				// JsonWebToken의 이름
 				.subject(email + "_token")
 				// JsonWebToken에 포함되어야 할 회원의 정보들 claim(key,value) - 개인정보가 들어가면 들어갈 수록 위험해진다.
@@ -51,13 +85,17 @@ public class JsonWebTokenAuthenticationProvider {
 				// Jwts에 ㅔㅈ동된 데이터를 이용해 String Type의 Token을 생성
 				.compact();
 
-		return jsonWebtoken;
+		return jsonWebToken;
 	}
-	
+
 	public static void main(String[] args) {
-		JsonWebTokenAuthenticationProvider jsonProvider = new JsonWebTokenAuthenticationProvider();
+		JsonWebTokenAuthenticationProvider jsonProvider = new JsonWebTokenAuthenticationProvider("a7F3kP9xQ2mZ8Lw1R5bT6YcH4uV0dN3sJ8eKpX2GqM7","hello-spring-sts");
 		String jwt = jsonProvider.makeJsonWebToken("test@naver.com", Duration.ofHours(3));
 		System.out.println(jwt); // 토큰 확인
+
+		// 복호화 진행
+		String email = jsonProvider.decryptJsonWebToken(jwt);
+		System.out.println(email); // 토큰
 	}
 
 }

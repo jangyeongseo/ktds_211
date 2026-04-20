@@ -34,4 +34,4 @@ app:
   jwt:
     issuer: hello-spring
 #    이게 너무 짧은 데이터 호은 유출을 할 수 없는 글자를 작성하는것이 좋다 (43 이상)
-    secert-key: a7F3kP9xQ2mZ8Lw1R5bT6YcH4uV0dN3sJ8eKpX2GqM7
+    secret-key: a7F3kP9xQ2mZ8Lw1R5bT6YcH4uV0dN3sJ8eKpX2GqM7
