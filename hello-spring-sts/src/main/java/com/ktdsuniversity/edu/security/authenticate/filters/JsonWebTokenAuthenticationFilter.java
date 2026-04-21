@@ -101,7 +101,6 @@ public class JsonWebTokenAuthenticationFilter extends OncePerRequestFilter {
 				SecurityContextHolder.getContext().setAuthentication(authToken);
 
 			}
-
 		}
 
 		filterChain.doFilter(request, response); // 이 다음 필터가 있다면 그 다음 필터를 동작시킨다.

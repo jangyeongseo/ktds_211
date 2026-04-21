@@ -27,6 +27,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.ktdsuniversity.edu.exceptions.handlers.AuthorizationDeniedExceptionHandler;
 import com.ktdsuniversity.edu.members.dao.MembersDao;
 import com.ktdsuniversity.edu.security.authenticate.filters.JsonWebTokenAuthenticationFilter;
 import com.ktdsuniversity.edu.security.authenticate.handlers.LoginFailureHandler;
@@ -139,6 +140,7 @@ public class HelloSpringConfiguration implements
 		httpSecurity.oauth2Login(oauth2 -> oauth2.loginPage("/login")
 				.defaultSuccessUrl("/", true)
 				.userInfoEndpoint(endpoint -> endpoint.userService(this.createOAuth2UserService())));
+
 
 		// 상대방이 내 서버로 접속할 수 있도록 허용하기
 		// ==> 내 서버로 접속 가능한 안전한 URL 등록하기

@@ -37,7 +37,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class GlobalExceptionHandler {
 	
 	private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
-	
+
 	@ExceptionHandler(AuthorizationDeniedException.class)
 	public void viewErrorPage(AuthorizationDeniedException ade, Model model) {
 		
@@ -73,8 +73,7 @@ public class GlobalExceptionHandler {
 			}
 		}
 	}
-	
-	
+
 	/**
 	 * HelloSpringException이 던져지면,
 	 * viewErrorPage가 실행된다.

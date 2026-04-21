@@ -10,14 +10,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ktdsuniversity.edu.board.enums.ReadType;
@@ -28,6 +26,7 @@ import com.ktdsuniversity.edu.board.vo.request.UpdateVO;
 import com.ktdsuniversity.edu.board.vo.request.WriteVO;
 import com.ktdsuniversity.edu.board.vo.response.SearchResultVO;
 import com.ktdsuniversity.edu.common.utils.AuthUtils;
+
 import com.ktdsuniversity.edu.exceptions.HelloSpringApiException;
 import com.ktdsuniversity.edu.members.vo.MembersVO;
 
@@ -70,8 +69,9 @@ public class BoardApiController {
 		if (bindingResult.hasErrors()) {
 			throw new HelloSpringApiException("글쓰기 실패", HttpStatus.BAD_REQUEST.value()	, bindingResult.getFieldErrors());
 		}
-		
+
 		MembersVO loginUser = AuthUtils.getPrincipal();
+
 		writeVO.setEmail(loginUser.getEmail());
 		
 		boolean createResult = this.boardService.createNewBoard(writeVO);
@@ -125,6 +125,7 @@ public class BoardApiController {
 		updateVO.setId(articleId);
 		
 		MembersVO loginUser = AuthUtils.getPrincipal();
+
 		updateVO.setEmail(loginUser.getEmail());
 		
 		boolean updateResult = this.boardService.updateBoardByArticleId(updateVO);
