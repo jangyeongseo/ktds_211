@@ -111,7 +111,27 @@
 		CONNECT BY PRIOR ROLE_ID = TOP_ROLE_ID
     </select>
     
+    <!-- 구글, 네이버로 로그인 - OAuth -->
+    <select id="selectOAuthMemberByEmailAndRegistrationId" 
+    resultType="com.ktdsuniversity.edu.members.vo.request.OAuthMembersVO" 
+    parameterType="com.ktdsuniversity.edu.members.vo.request.OAuthMembersVO">
+        SELECT
+		    REGISTRATION_ID,
+		    EMAIL,
+		    NAME
+		FROM
+		    OAUTH_MEMBERS
+		WHERE EMAIL = #{email}
+		    AND REGISTRATION_ID = #{registrationId}
+    </select>
     
+	<insert id="insertOAuthMember"
+	        parameterType="com.ktdsuniversity.edu.members.vo.request.OAuthMembersVO">
+	    INSERT INTO OAUTH_MEMBERS
+	        (REGISTRATION_ID, EMAIL, NAME)
+	    VALUES
+	        (#{registrationId}, #{email}, #{name})
+	</insert>
     
 </mapper>
 

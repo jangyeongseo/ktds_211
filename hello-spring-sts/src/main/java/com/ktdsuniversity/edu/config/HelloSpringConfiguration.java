@@ -1,29 +1,40 @@
 package com.ktdsuniversity.edu.config;
 
+import org.hibernate.validator.internal.util.stereotypes.Lazy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.ktdsuniversity.edu.members.dao.MembersDao;
+import com.ktdsuniversity.edu.security.authenticate.filters.JsonWebTokenAuthenticationFilter;
 import com.ktdsuniversity.edu.security.authenticate.handlers.LoginFailureHandler;
 import com.ktdsuniversity.edu.security.authenticate.handlers.LoginSuccessHandler;
+import com.ktdsuniversity.edu.security.authenticate.oauth.HelloSpringOAuthService;
 import com.ktdsuniversity.edu.security.authenticate.service.SecurityPasswordEncoder;
 import com.ktdsuniversity.edu.security.authenticate.service.SecurityUserDetailsService;
+import com.ktdsuniversity.edu.security.providers.JsonWebTokenAuthenticationProvider;
 import com.ktdsuniversity.edu.security.providers.UsernameAndPasswordAuthenticationProvider;
 
 // application.yml에서 작성할 수 없는 설정들을 적용하기 위한 Annotation
@@ -45,8 +56,23 @@ public class HelloSpringConfiguration implements
 		// @EnableWebMvc Annotation 에서 적용하는 기본 설정들을 변경하기 위함.
 		WebMvcConfigurer {
 
-	@Autowired
+	@Autowired(required = false) // 클래스가 없더라도 에러가 발생하지 말아라
+	@Lazy // 필요할 때 넣겠다.
 	private MembersDao membersDao;
+
+	// application.yml 에서 관련된 정보를 가져온다.
+	// @Value가 동작하는 조건 : @Component 가 적용된 클래스에서만 가능. - @Configuration 부고가 component
+	// 여서 사용 가능
+	@Value("${app.jwt.secret-key}") // 환경설정 정보를 Bean 으로 가져오는 방법, 괄호에 환경설정 경로를 작성.
+	private String jwtSecretKey;
+
+	@Value("${app.jwt.issuer}")
+	private String jwtIssuer;
+
+	@Bean
+	JsonWebTokenAuthenticationProvider createJwtAuthenticationProvider() {
+		return new JsonWebTokenAuthenticationProvider(this.jwtSecretKey, this.jwtIssuer);
+	}
 
 	// SecurityPasswordEncoder의 Bean을 생성한다.
 	@Bean // 메소드가 실행되어서 반환되는 객체를 Bean Container에 적재한다.
@@ -69,23 +95,51 @@ public class HelloSpringConfiguration implements
 
 		return new UsernameAndPasswordAuthenticationProvider(userDetailsService, passwordEncoder);
 	}
-	
+
 	@Bean
 	AuthenticationSuccessHandler createLoginSuccessHandler() {
 		return new LoginSuccessHandler(this.membersDao);
 	}
-	
+
 	@Bean
 	AuthenticationFailureHandler createLoginFailureHandler() {
 		return new LoginFailureHandler(this.membersDao);
 	}
-	
-	
+
+	@Bean
+	OncePerRequestFilter createJwtAuthFilter() {
+		return new JsonWebTokenAuthenticationFilter(this.createJwtAuthenticationProvider(),
+				this.createUserDetailsService());
+	}
+
+
+	/**
+	 * 특정 URL에 대해서 Spring Security 가 개입하지 않도록 설정 /WEB-INF/views/ 아래의 모든 jsp 파일들은
+	 * Spring Security 의 간섭을 받지 않는다.
+	 * ============================================================= Controller 에서
+	 * 해당 페이지를 노출하려 할때 "/WEB-INF/views/..../.jsp" 경로 사용시 인증이 된 사용자에게만 노출시키려 하는 경우가
+	 * 존재 => Spring Security 가 개입하지 않도록 설정
+	 * 
+	 * @return
+	 */
+	@Bean
+	OAuth2UserService<OAuth2UserRequest, OAuth2User> createOAuth2UserService() {
+		return new HelloSpringOAuthService(this.membersDao);
+	}
+
+	@Bean
+	WebSecurityCustomizer webSecurityCustomizer() {
+		return (web) -> web.ignoring().requestMatchers("/WEB-INF/views/**");
+	}
+
 	// Spring Login Filter(BasicAuthenticationFilter) 등록.
 	// Spring Security의 기본 로그인 절차를 수정하는 작업.
 	@Bean
 	SecurityFilterChain configureFilterChain(HttpSecurity httpSecurity) {
-		
+		httpSecurity.oauth2Login(oauth2 -> oauth2.loginPage("/login")
+				.defaultSuccessUrl("/", true)
+				.userInfoEndpoint(endpoint -> endpoint.userService(this.createOAuth2UserService())));
+
 		// 상대방이 내 서버로 접속할 수 있도록 허용하기
 		// ==> 내 서버로 접속 가능한 안전한 URL 등록하기
 		httpSecurity.cors(corsConfigurer -> {
@@ -95,7 +149,7 @@ public class HelloSpringConfiguration implements
 				// 허용할 타 사이트의 URL
 				// http://192.168.211.26:8080 에서 요청하는 모든 접근(API)들을 허용하겠다.
 				config.addAllowedOrigin("http://192.168.211.26:8080");
-				
+
 				// 허용할 타 사이트의 Method
 				// http://192.168.211.26:8080 에서 POST와 GET으로 요청되는 접든들만 허용하겠다.
 				config.addAllowedMethod("POST");
@@ -103,36 +157,46 @@ public class HelloSpringConfiguration implements
 				// 허용할 타 사이트의 HttpHeader
 				// 모든 요청 HttpHeader를 허용하겠다.
 				config.addAllowedHeader("*");
-				
+
 				return config;
-				
+
 			};
 			corsConfigurer.configurationSource(source);
 		});
-		
-		// CSRF 수정, 댓글 등록 불가. (Invalid CSRF token found for  ...)
+
+		// CSRF 수정, 댓글 등록 불가. (Invalid CSRF token found for ...)
 		// CSRF를 체크하는 SecurityFilter(CsrfFilter)를 무효화.
 		// httpSecurity.csrf(csrf -> csrf.disable());
-		
+
+		// API 통신에서는 CSRF를 체크하지 않도록 설정
+		httpSecurity.csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"));
+
+		// Custom Filter(JsonWebTokenAuthenticationFilter) 추가
+		httpSecurity.addFilterAfter(this.createJwtAuthFilter(), UsernamePasswordAuthenticationFilter.class);
+
+		// AuthorizationDeniedExceptionHandler 를 추가한다.
+		// Controller 코드 이하에서 @PreAuthorize() 검증에 실패하면 아래 설정에 등록한 가 동작하게 된다.
+//		httpSecurity.exceptionHandling(
+//				exception -> exception.accessDeniedHandler(new AuthorizationDeniedExceptionHandler()));
+
 		// UsernamePasswordAuthenticationFilter 수정.
-		httpSecurity.formLogin(formLogin -> 
-					// Login URL 지정.
-					formLogin.loginPage("/login")
-					// Login 인증 처리 URL 지정 
-					// (UsernameAndPasswordAuthenticationProvider가 실행될 Endpoint)
-							 .loginProcessingUrl("/login-provider")
-					// 로그인에 필요한 아이디 파라미터 이름을 "username"에서 "email"로 변경한다.
-							 .usernameParameter("email")
-					// 로그인에 성공하면 뭐할까?
-					// email 이라고 작성한 이유는 login.jsp에서 email 이라는 이름으로 값을 받아오기 때문
-					// this.membersDao.updateSuccessLogin(loginVO); 실행해야 한다.
-							 .successHandler(this.createLoginSuccessHandler())
-					// 로그인에 실패하면 뭐할까?
-					// this.membersDao.updateIncreaseLoginFailCount(loginVO.getEmail());
-					// this.membersDao.updateBlock(loginVO.getEmail());
-							 .failureHandler(this.createLoginFailureHandler())
-		);
-		
+		httpSecurity.formLogin(formLogin ->
+		// Login URL 지정.
+		formLogin.loginPage("/login")
+				// Login 인증 처리 URL 지정
+				// (UsernameAndPasswordAuthenticationProvider가 실행될 Endpoint)
+				.loginProcessingUrl("/login-provider")
+				// 로그인에 필요한 아이디 파라미터 이름을 "username"에서 "email"로 변경한다.
+				.usernameParameter("email")
+				// 로그인에 성공하면 뭐할까?
+				// email 이라고 작성한 이유는 login.jsp에서 email 이라는 이름으로 값을 받아오기 때문
+				// this.membersDao.updateSuccessLogin(loginVO); 실행해야 한다.
+				.successHandler(this.createLoginSuccessHandler())
+				// 로그인에 실패하면 뭐할까?
+				// this.membersDao.updateIncreaseLoginFailCount(loginVO.getEmail());
+				// this.membersDao.updateBlock(loginVO.getEmail());
+				.failureHandler(this.createLoginFailureHandler()));
+
 		return httpSecurity.build();
 	}
 

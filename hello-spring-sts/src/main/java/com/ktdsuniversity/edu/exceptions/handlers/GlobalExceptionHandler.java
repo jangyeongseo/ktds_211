@@ -1,5 +1,7 @@
 package com.ktdsuniversity.edu.exceptions.handlers;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,8 +14,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ktdsuniversity.edu.common.utils.AuthUtils;
+import com.ktdsuniversity.edu.common.utils.ServletUtils;
 import com.ktdsuniversity.edu.exceptions.HelloSpringApiException;
 import com.ktdsuniversity.edu.exceptions.HelloSpringException;
+
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * Spring Application에서 던져진 catch되지 않은
@@ -31,21 +39,41 @@ public class GlobalExceptionHandler {
 	private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 	
 	@ExceptionHandler(AuthorizationDeniedException.class)
-	public String viewLoginPage( AuthorizationDeniedException ade, Model model ) {
-		
-		// 로그인을 했다면?
-		// 로그인을 했지만 접근을 잘못한 경우
-		boolean isAuthenticated = AuthUtils.isAuthenticated();
-		if(isAuthenticated) {
-			model.addAttribute("errorMessage", "잘못된 접근입니다");
-			return "errors/403";
-		}
+	public void viewErrorPage(AuthorizationDeniedException ade, Model model) {
 		
 		logger.error(ade.getMessage(), ade);
-		// return "redirect:/login" ==> /login 페이지로 이동해라! (URL 변경)
-		// return "forward:/login"; ==> /login 페이지를 보여줘라! (URL 변경 X)
-		return "forward:/login";
+		
+		HttpServletResponse response = ServletUtils.getResponse();
+		if (ServletUtils.isApiRequest()) {
+			response.setCharacterEncoding("UTF-8");
+			response.setContentType("application/json");
+			
+			PrintWriter writer;
+			try {
+				writer = response.getWriter();
+				writer.append("{ \"error\": \"인증이 필요하거나 잘못된 권한입니다.\" }");
+				writer.flush();
+			} catch (IOException e) {
+				logger.error(e.getMessage(), e);
+			}
+		}
+		else {
+			HttpServletRequest request = ServletUtils.getRequest();
+			String viewPath = "/WEB-INF/views/members/login.jsp";
+			if (AuthUtils.isAuthenticated()) {
+				viewPath = "/WEB-INF/views/errors/403.jsp";
+				request.setAttribute("errorMessage", "잘못된 접근입니다. 권한이 충분하지 않습니다.");
+			}
+			
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher(viewPath);
+			try {
+				requestDispatcher.forward(request, response);
+			} catch (ServletException | IOException e) {
+				logger.error(e.getMessage(), e);
+			}
+		}
 	}
+	
 	
 	/**
 	 * HelloSpringException이 던져지면,

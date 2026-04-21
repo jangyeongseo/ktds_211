@@ -134,6 +134,11 @@ public class HelloSpringConfiguration implements WebMvcConfigurer {
 	     */
 	    // httpSecurity.csrf(csrf -> csrf.disable());
 
+	    // -> 전체 비활성화 X
+	    // -> /api/** 만 CSRF 검사 안함
+	    httpSecurity.csrf(csrf ->
+	        csrf.ignoringRequestMatchers("/api/**")
+	    );
 
 	    /**
 	     * 로그인 설정 -> Form Login
