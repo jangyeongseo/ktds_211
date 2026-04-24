@@ -10,6 +10,7 @@ import "./ArticleMain.css";
 const ArticleMain = () => {
   console.log(articlesData);
   const [articles, setArticles] = useState(articlesData.articles); // articles.json에서 게시글 데이터 초기화
+  const [isWrite, setIsWrite] = useState(false); // 화면 변경시 작동
 
   // 아이디 생성 위한 함수
   const getTodayString = () => {
@@ -100,11 +101,20 @@ const ArticleMain = () => {
         </tbody>
       </table>
       <div className="write-form">
-        <h2>게시글 작성 폼 (제목, 이메일, 이름, 내용)</h2>
-        <ArticleWriter
-          onSaveSubmitHandler={onSaveSubmitHandler}
-          onButtonClickHandler={onButtonClickHandler}
-        />
+        <div>
+          {isWrite ? (
+            <ArticleWriter
+              className="writer"
+              setIsWrite={setIsWrite}
+              onSaveSubmitHandler={onSaveSubmitHandler}
+              onButtonClickHandler={onButtonClickHandler}
+            />
+          ) : (
+            <button className="button" onClick={() => setIsWrite(true)}>
+              글쓰기
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

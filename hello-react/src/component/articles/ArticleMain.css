@@ -64,6 +64,16 @@ th {
     min-height: 120px;
 }
 
+/* 글 쓰기 버튼 */
+.write-form .button {
+    width: 100%;
+    background-color: #4CAF50;
+}
+
+.write-form .button:hover {
+    background-color: #45a049;
+}
+
 /* 버튼 */
 .btnBox {
     display: flex;
@@ -87,11 +97,11 @@ th {
 }
 
 /* 취소 버튼 */
-.write-form button:last-child {
+.write-form .cancel {
     background-color: #ccc;
     color: black;
 }
 
-.write-form button:last-child:hover {
+.write-form .cancel:hover {
     background-color: #aaa;
 }
