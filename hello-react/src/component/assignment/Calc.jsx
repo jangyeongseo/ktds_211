@@ -15,6 +15,7 @@ const Calc = ({
           onChange={(e) => onValueChangeHandler("num1", e.target.value)}
         />
         <div className="btn-box">
+          {/* onclick={onCalcClickHandler.bind(this, "+")} */}
           <button
             className="btn btn-plus"
             onClick={() => onCalcClickHandler("+")}

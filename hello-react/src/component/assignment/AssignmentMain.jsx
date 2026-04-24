@@ -6,7 +6,7 @@ import Calc from "./Calc.jsx";
 export const AssignmentMain = () => {
   const [number, setNumber] = useState(0);
 
-  // Counter
+  // Counter - increment, decrement, includes
   const onCountChangeHandler = (type) => {
     if (type === "add") {
       if (number >= 100) {
@@ -27,21 +27,39 @@ export const AssignmentMain = () => {
   };
 
   // Calc
-  const [num1, setNum1] = useState(0);
-  const [num2, setNum2] = useState(0);
-  const [result, setResult] = useState(0);
+  const [nums, setNums] = useState({ num1: 0, num2: 0, result: 0 });
 
+  // parseInt, parseFloat, Number => 숫자 변환
+  // Number : 소숫점까지 작성 가능, parseInt : 정수만, parseFloat : 소숫점까지 작성 가능
   const onValueChangeHandler = (type, value) => {
-    if (type === "num1") setNum1(Number(value));
-    // parseInt(value)도 가능하지만, 소수점 입력도 가능하도록 Number()로 변경
-    if (type === "num2") setNum2(Number(value));
+    setNums((prev) => ({ ...prev, [type]: Number(value) }));
   };
 
+  // operatoer: +, -, *, / => result
+  // const onCalcClickHandler = (op) => {
+  //   setNums((prev) => {
+  //     const { num1, num2 } = prev;
+  //     let result = 0;
+  //     if (op === "+") result = num1 + num2;
+  //     if (op === "-") result = num1 - num2;
+  //     if (op === "*") result = num1 * num2;
+  //     if (op === "/") result = num2 !== 0 ? num1 / num2 : 0;
+
+  //     return { ...prev, result };
+  //   });
+  // };
+
   const onCalcClickHandler = (op) => {
-    if (op === "+") setResult(num1 + num2);
-    if (op === "-") setResult(num1 - num2);
-    if (op === "*") setResult(num1 * num2);
-    if (op === "/") setResult(num2 !== 0 ? num1 / num2 : 0);
+    let result = 0;
+    if (op === "+") result = num1 + num2;
+    if (op === "-") result = num1 - num2;
+    if (op === "*") result = num1 * num2;
+    if (op === "/") result = num2 !== 0 ? num1 / num2 : 0;
+
+    // Extended Object
+    setNums((prev) => {
+      return { ...prev, result };
+    });
   };
 
   return (
@@ -49,9 +67,9 @@ export const AssignmentMain = () => {
       <Counter number={number} onCountChangeHandler={onCountChangeHandler} />
 
       <Calc
-        num1={num1}
-        num2={num2}
-        result={result}
+        num1={nums.num1}
+        num2={nums.num2}
+        result={nums.result}
         onValueChangeHandler={onValueChangeHandler}
         onCalcClickHandler={onCalcClickHandler}
       />

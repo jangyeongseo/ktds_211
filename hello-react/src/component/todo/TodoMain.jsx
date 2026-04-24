@@ -43,11 +43,25 @@ const todoData = [
 // export default 이후에 const 키워드가 나타날 수 없음.
 // export const TodoMain = () => {};
 const TodoMain = () => {
-  const [todos, setTodos] = useState(todoData);
+  const [todos, setTodos] = useState(todoData); // todoData는 초기값, todos는 상태값, setTodos는 상태값을 변경하는 함수
+  const [newTodo, setNewTodo] = useState({
+    todo: "",
+    dueDate: "",
+    priority: 0,
+  }); // 값 넣기
+
   const priority = ["없음", "높음", "보통", "낮음"];
   // const ==> 상수 정의
   // let ==> 변수 정의
   // TODO JSON DATA
+
+  // 전체 선택용
+  const onAllCheckChangeHandler = (event) => {
+    const ischeck = event.target.checked;
+    const updatedTodos = todos.map((todo) => ({ ...todo, ischeck }));
+
+    setTodos(updatedTodos);
+  };
 
   // 특정 todo의 체크박스 상태 변경 이벤트 핸들러 함수 정의
   const onDoneChangeHandler = (todoId) => {
@@ -60,22 +74,29 @@ const TodoMain = () => {
   };
 
   // 이벤트 핸들러 함수 정의
-  const onTaskKeyUpHandler = (event) => {
-    if (event.key === "Enter") {
-      console.log("Enter key is pressed");
-    }
-  };
+  const onNewTodoChangeHandler = (event) => {
+    const { name, value } = event.target;
 
-  const onPrioritySelectChangeHandler = (event) => {
-    console.log(event.target.value);
-  };
-
-  const onDateChangeHandler = (event) => {
-    console.log(event.target.value);
+    setNewTodo((prev) => ({
+      ...prev,
+      [name]: name === "priority" ? Number(value) : value,
+    }));
   };
 
   const onSaveButtonClickHandler = () => {
-    console.log("Save button is clicked");
+    const newItem = {
+      id: `todo_${todos.length + 1}`,
+      ...newTodo,
+      ischeck: false,
+    };
+    setTodos((prev) => [...prev, newItem]);
+
+    // 입력 초기화
+    setNewTodo({
+      todo: "",
+      dueDate: "",
+      priority: 0,
+    });
   };
 
   // 컴포넌트가 만들어줄 HTML Tag set를 반환
@@ -84,7 +105,7 @@ const TodoMain = () => {
       {/* <StateTest /> */}
       <header>React Todo</header>
       <ul className="tasks">
-        <TodoHeader priority={priority} todoData={todoData} />
+        <TodoHeader onAllCheckChangeHandler={onAllCheckChangeHandler} />
         <TodoList
           priority={priority}
           todoData={todos}
@@ -92,9 +113,8 @@ const TodoMain = () => {
         />
       </ul>
       <TodoAppender
-        onTaskKeyUpHandler={onTaskKeyUpHandler}
-        onDateChangeHandler={onDateChangeHandler}
-        onPrioritySelectChangeHandler={onPrioritySelectChangeHandler}
+        newTodo={newTodo}
+        onNewTodoChangeHandler={onNewTodoChangeHandler}
         onSaveButtonClickHandler={onSaveButtonClickHandler}
       />
     </div>

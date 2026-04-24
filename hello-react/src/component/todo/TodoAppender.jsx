@@ -1,18 +1,31 @@
+// inputDate : {todo, dueDate, priority}
+// -> onChange 이벤트 핸들러 함수 - newTodo 상태값 변경
+
 const TodoAppender = ({
-  onTaskKeyUpHandler,
-  onDateChangeHandler,
-  onPrioritySelectChangeHandler,
+  newTodo,
+  onNewTodoChangeHandler,
   onSaveButtonClickHandler,
 }) => {
   return (
     <footer>
       <input
         type="text"
+        name="todo"
         placeholder="Task"
-        onKeyUp={onTaskKeyUpHandler} // 보관법 - interpolation : onEventName={eventHandlerFunction}
+        value={newTodo.todo}
+        onChange={onNewTodoChangeHandler}
       />
-      <input type="date" onChange={onDateChangeHandler} />
-      <select onChange={onPrioritySelectChangeHandler}>
+      <input
+        type="date"
+        name="dueDate"
+        onChange={onNewTodoChangeHandler}
+        value={newTodo.dueDate}
+      />
+      <select
+        name="priority"
+        onChange={onNewTodoChangeHandler}
+        value={newTodo.priority}
+      >
         <option>우선순위</option>
         <option value="1">높음</option>
         <option value="2">보통</option>

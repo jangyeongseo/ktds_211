@@ -9,8 +9,8 @@ export default function App() {
   return (
     <div>
       {/* <TodoMain /> */}
-      {/* <ArticleMain /> */}
-      <AssignmentMain />
+      <ArticleMain />
+      {/* <AssignmentMain /> */}
     </div>
   );
 }
