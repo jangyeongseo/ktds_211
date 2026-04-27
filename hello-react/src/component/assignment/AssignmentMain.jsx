@@ -36,31 +36,31 @@ export const AssignmentMain = () => {
   };
 
   // operatoer: +, -, *, / => result
-  // const onCalcClickHandler = (op) => {
-  //   setNums((prev) => {
-  //     const { num1, num2 } = prev;
-  //     let result = 0;
-  //     if (op === "+") result = num1 + num2;
-  //     if (op === "-") result = num1 - num2;
-  //     if (op === "*") result = num1 * num2;
-  //     if (op === "/") result = num2 !== 0 ? num1 / num2 : 0;
-
-  //     return { ...prev, result };
-  //   });
-  // };
-
   const onCalcClickHandler = (op) => {
-    let result = 0;
-    if (op === "+") result = num1 + num2;
-    if (op === "-") result = num1 - num2;
-    if (op === "*") result = num1 * num2;
-    if (op === "/") result = num2 !== 0 ? num1 / num2 : 0;
-
-    // Extended Object
     setNums((prev) => {
+      const { num1, num2 } = prev;
+      let result = 0;
+      if (op === "+") result = num1 + num2;
+      if (op === "-") result = num1 - num2;
+      if (op === "*") result = num1 * num2;
+      if (op === "/") result = num2 !== 0 ? num1 / num2 : 0;
+
       return { ...prev, result };
     });
   };
+
+  // const onCalcClickHandler = (op) => {
+  //   let result = 0;
+  //   if (op === "+") result = num1 + num2;
+  //   if (op === "-") result = num1 - num2;
+  //   if (op === "*") result = num1 * num2;
+  //   if (op === "/") result = num2 !== 0 ? num1 / num2 : 0;
+
+  //   // Extended Object
+  //   setNums((prev) => {
+  //     return { ...prev, result };
+  //   });
+  // };
 
   return (
     <div className="container">

@@ -1,4 +1,6 @@
 const ArticleHeader = () => {
+  console.log(ArticleHeader);
+
   return (
     <>
       <header className="article-header">

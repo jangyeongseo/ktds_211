@@ -8,9 +8,12 @@ import ArticleWriter from "./ArticleWriter";
 import "./ArticleMain.css";
 
 const ArticleMain = () => {
-  console.log(articlesData);
+  // state를 변경했다/
+  // 컴포넌트가 재실해된다
+  console.log(ArticleMain);
+
   const [articles, setArticles] = useState(articlesData.articles); // articles.json에서 게시글 데이터 초기화
-  const [isWrite, setIsWrite] = useState(false); // 화면 변경시 작동
+  // const [isWrite, setIsWrite] = useState(false); // 화면 변경시 작동
 
   // 아이디 생성 위한 함수
   const getTodayString = () => {
@@ -101,7 +104,8 @@ const ArticleMain = () => {
         </tbody>
       </table>
       <div className="write-form">
-        <div>
+        {/* 삼항 연산자 */}
+        {/* <div>
           {isWrite ? (
             <ArticleWriter
               className="writer"
@@ -114,7 +118,12 @@ const ArticleMain = () => {
               글쓰기
             </button>
           )}
-        </div>
+        </div> */}
+        <ArticleWriter
+          className="writer"
+          onSaveSubmitHandler={onSaveSubmitHandler}
+          onButtonClickHandler={onButtonClickHandler}
+        />
       </div>
     </div>
   );
