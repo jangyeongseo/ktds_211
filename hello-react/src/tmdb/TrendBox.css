@@ -1,0 +1,110 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: white;
+}
+
+/* TrendBox */
+.continent {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+/* TrendHeader */
+.trendhead {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    padding: 20px 0;
+}
+
+.trendhead h3 {
+    font-size: 24px;
+    font-weight: 800;
+    margin-right: 20px;
+}
+
+/* TrendSelect */
+.header-list {
+    display: flex;
+    gap: 10px;
+}
+
+.header-list div {
+    border-radius: 20px;
+    background-color: #fff;
+    border: 1px solid #032541;
+
+}
+
+.header-list button {
+    border: none;
+    padding: 4px 20px;
+    border-radius: 20px;
+    background-color: #fff;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.header-list button.active {
+    background-color: #032541;
+}
+
+.header-list button.active span {
+    background: linear-gradient(to right, #c0fecf 0, #1ed5a9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* TrendList */
+.trend-list {
+    display: flex;
+    gap: 20px;
+
+    padding-bottom: 10px;
+    scroll-behavior: smooth;
+    overflow-x: auto;
+}
+
+.trend-list::-webkit-scrollbar {
+    display: none;
+}
+
+/* TrendItem */
+.trend-card {
+    min-width: 150px;
+    overflow: hidden;
+    background: #fff;
+    cursor: pointer;
+
+    transition: transform 0.2s ease;
+}
+
+.trend-card img {
+    border-radius: 10px;
+}
+
+.trend-card:hover {
+    transform: translateY(-5px);
+}
+
+.trend-card p {
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 4px;
+}
+
+.trend-card span {
+    font-size: 16px;
+    font-weight: 300;
+    color: #ababab;
+}

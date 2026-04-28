@@ -1,0 +1,110 @@
+* {
+    box-sizing: border-box;
+}
+
+/* 전체 가운데 정렬 */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    background: #f5f7fa;
+    gap: 40px;
+}
+
+/* 카드 스타일 */
+.counter-box {
+    width: 80%;
+    background: white;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* 제목 */
+.counter-box h1 {
+    margin-bottom: 20px;
+}
+
+/* 카운터 */
+.counter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+/* 입력 필드 */
+.counter input {
+    width: 80px;
+    padding: 8px;
+    font-size: 18px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+/* 숫자 */
+.count {
+    font-size: 32px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+/* 버튼 */
+.btn-box {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* 버튼 공통 */
+.btn {
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+/* + 버튼 */
+.btn-plus {
+    background-color: #4caf50;
+    color: white;
+}
+
+.btn-plus:hover {
+    background-color: #45a049;
+}
+
+/* - 버튼 */
+.btn-minus {
+    background-color: #f44336;
+    color: white;
+}
+
+.btn-minus:hover {
+    background-color: #d7382e;
+}
+
+.btn-multiply {
+    background-color: #2196f3;
+    color: white;
+}
+
+.btn-multiply:hover {
+    background-color: #1976d2;
+}
+
+.btn-divide {
+    background-color: #ff9800;
+    color: white;
+}
+
+.btn-divide:hover {
+    background-color: #e68900;
+}

@@ -1,13 +1,10 @@
 import { useRef } from "react";
 import { Confirm } from "../ui/Modals";
+import { useContext } from "react";
+import TodoContext from "./contexts/TodoContext";
 
-const TodoItem = ({ todo, priorities, onDoneChange }) => {
-  /**
-   * todo 구조 분해
-   * props로 받은 todo 객체에서 값 꺼내기
-   */
-  const { id, todo: todoTask, dueDate, priority } = todo;
-
+const TodoItem = ({ todo, onDoneChange }) => {
+  const priorities = ["없음", "높음", "보통", "낮음"];
   /**
    * confirm 모달 제어용 ref
    * 부모처럼 dialog를 직접 열기 위해 사용
@@ -19,6 +16,20 @@ const TodoItem = ({ todo, priorities, onDoneChange }) => {
    * 현재 체크 상태를 직접 읽기 위해 사용
    */
   const checkboxRef = useRef();
+
+  const { componentName } = useContext(TodoContext);
+  console.log("TodoItem : " + componentName);
+
+  // if문 작성시 return이 시작되기 전에useRef가 먼저 샐행되어야해서 위에 있어야한다.
+  if (!componentName || componentName !== "TodoList") {
+    return <></>; // 아무것도 보이게 하지 말아라
+  }
+
+  /**
+   * todo 구조 분해
+   * props로 받은 todo 객체에서 값 꺼내기
+   */
+  const { id, todo: todoTask, dueDate, priority } = todo;
 
   /**
    * 완료 상태에 따라 CSS class 변경

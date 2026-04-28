@@ -1,20 +1,14 @@
 /** @format */
 
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 import { Confirm } from "../ui/Modals";
-import { useContext } from "react";
-import TodoContext from "./contexts/TodoContext.jsx";
+import { TodoContext } from "./contexts/TodoContext.jsx";
 
-const TodoHeader = ({ onAllDoneChange }) => {
+const TodoHeader = () => {
+  const { allDone } = useContext(TodoContext); // 전체를 가져오는 것보다 나한테 필요한것만 가져온다.
+
   const checkboxRef = useRef();
   const confirmRef = useRef();
-
-  const { componentName } = useContext(TodoContext);
-  console.log("TodoHeader : " + componentName);
-
-  if (!componentName || componentName !== "TodoList") {
-    return <></>;
-  }
 
   const onAllDoneChangeHandler = () => {
     const checked = checkboxRef.current.checked;
@@ -29,7 +23,7 @@ const TodoHeader = ({ onAllDoneChange }) => {
   };
 
   const onConfirmOkClickHander = () => {
-    onAllDoneChange(checkboxRef.current.checked);
+    allDone(checkboxRef.current.checked);
   };
   const onConfirmCloseClickHandler = () => {
     checkboxRef.current.checked = !checkboxRef.current.checked;

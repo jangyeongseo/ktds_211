@@ -5,6 +5,8 @@ import { StateTest } from "./StateTest.jsx";
 import TodoAppender from "./TodoAppender.jsx";
 import TodoHeader from "./TodoHeader.jsx";
 import TodoList from "./TodoList.jsx";
+import TodoItem from "./TodoItem.jsx";
+import TodoGrid from "./TodoGrid.jsx";
 
 // ecma function (fat arrow function)
 // const: 상수를 정의하는 키워드.
@@ -88,10 +90,18 @@ const TodoMain = () => {
       {/* <StateTest /> */}
 
       <header>React Todo</header>
-      <ul className="tasks">
-        <TodoHeader onAllDoneChange={onAllDoneChangeHandler} />
-        <TodoList todoDatas={cachedData} onDoneChange={onDoneChangeHandler} />
-      </ul>
+      <TodoGrid>
+        <TodoList>
+          <TodoHeader onAllDoneChange={onAllDoneChangeHandler} />
+          {cachedData.map((todo) => (
+            <TodoItem
+              key={todo.id}
+              todo={todo}
+              onDoneChange={onDoneChangeHandler}
+            />
+          ))}
+        </TodoList>
+      </TodoGrid>
       <TodoAppender onSaveButtonClick={onSaveButtonClickHandler} />
     </div>
   );
