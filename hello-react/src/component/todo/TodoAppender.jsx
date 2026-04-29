@@ -1,10 +1,17 @@
 // inputDate : {todo, dueDate, priority}
 // -> onChange 이벤트 핸들러 함수 - newTodo 상태값 변경
 
-import { useRef } from "react";
+import { memo, useRef } from "react";
 import { Alert } from "../ui/Modals";
 
-const TodoAppender = ({ onSaveButtonClickHandler }) => {
+const TodoAppender = memo(({ onSaveButtonClickHandler }) => {
+  console.log(TodoAppender);
+
+  // Component Rendering을 Delay
+  // for (let i = 1; i < 10000; i++) {
+  //   console.log(i);
+  // }
+
   const todoRef = useRef();
   const dueDateRef = useRef();
   const priorityRef = useRef();
@@ -30,7 +37,8 @@ const TodoAppender = ({ onSaveButtonClickHandler }) => {
       return;
     }
 
-    onSaveButtonClickHandler({ todo, dueDate, priority });
+    onSaveButtonClickHandler(todo, dueDate, priority);
+    console.log(todo, dueDate, priority);
 
     // 입력값 초기화
     todoRef.current.value = "";
@@ -55,6 +63,6 @@ const TodoAppender = ({ onSaveButtonClickHandler }) => {
       </button>
     </footer>
   );
-};
+});
 
 export default TodoAppender;

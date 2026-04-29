@@ -4,6 +4,8 @@ import { useContext } from "react";
 import TodoContext from "./contexts/TodoContext.jsx";
 
 const TodoList = ({ children }) => {
+  console.log(TodoList);
+
   const { componentName } = useContext(TodoContext);
   if (!componentName || componentName !== "TodoGrid") {
     return <></>;

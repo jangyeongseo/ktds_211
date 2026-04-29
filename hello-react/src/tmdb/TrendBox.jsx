@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./TrendBox.css";
+//import "./TrendBox.css";
 import TrendHeader from "./TrendHeader";
 import TrendList from "./TrendList";
 import trend from "./trend.json";

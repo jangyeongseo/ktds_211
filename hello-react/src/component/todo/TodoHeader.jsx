@@ -5,7 +5,8 @@ import { Confirm } from "../ui/Modals";
 import { useContext } from "react";
 import TodoContext from "./contexts/TodoContext.jsx";
 
-const TodoHeader = ({ onAllDoneChange }) => {
+const TodoHeader = ({ todoCount, onAllDoneChange }) => {
+  console.log(TodoHeader);
   const checkboxRef = useRef();
   const confirmRef = useRef();
 
@@ -36,22 +37,29 @@ const TodoHeader = ({ onAllDoneChange }) => {
   };
 
   return (
-    <li className="tasks-header">
-      <Confirm
-        dialogRef={confirmRef}
-        onOkClick={onConfirmOkClickHander}
-        onCloseClick={onConfirmCloseClickHandler}
-      />
-      <input
-        id="checkall"
-        type="checkbox"
-        ref={checkboxRef}
-        onChange={onAllDoneChangeHandler}
-      />
-      <label>Task</label>
-      <span className="due-date">Due Date</span>
-      <span className="priority">Priority</span>
-    </li>
+    <>
+      <li className="tasks-counter">
+        <div>전체 : {todoCount.all}</div>
+        <div>진행 중 : {todoCount.done}</div>
+        <div>완료 : {todoCount.process}</div>
+      </li>
+      <li className="tasks-header">
+        <Confirm
+          dialogRef={confirmRef}
+          onOkClick={onConfirmOkClickHander}
+          onCloseClick={onConfirmCloseClickHandler}
+        />
+        <input
+          id="checkall"
+          type="checkbox"
+          ref={checkboxRef}
+          onChange={onAllDoneChangeHandler}
+        />
+        <label>Task</label>
+        <span className="due-date">Due Date</span>
+        <span className="priority">Priority</span>
+      </li>
+    </>
   );
 };
 export default TodoHeader;

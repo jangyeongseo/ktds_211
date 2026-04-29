@@ -10,8 +10,8 @@ import TrendBox from "./tmdb/TrendBox.jsx";
 export default function App() {
   return (
     <div>
-      <TrendBox />
-      {/* <TodoMain /> */}
+      {/* <TrendBox /> */}
+      <TodoMain />
       {/* <ArticleMain2 /> */}
       {/* <ArticleMain /> */}
       {/* <AssignmentMain /> */}

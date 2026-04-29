@@ -29,13 +29,13 @@ const TodoItem = ({ todo, onDoneChange }) => {
    * todo 구조 분해
    * props로 받은 todo 객체에서 값 꺼내기
    */
-  const { id, todo: todoTask, dueDate, priority } = todo;
+  const { id, task: todoTask, dueDate, priority } = todo;
 
   /**
    * 완료 상태에 따라 CSS class 변경
    * todo.isDone === true → done 클래스 추가
    */
-  const doneClass = todo.isDone ? "done" : "";
+  const doneClass = todo.done ? "done" : "";
 
   /**
    * 체크박스 클릭했을 때 실행
@@ -90,7 +90,7 @@ const TodoItem = ({ todo, onDoneChange }) => {
          * todo.isDone이 "진짜 상태"
          * UI는 props가 결정함
          */
-        checked={todo.isDone}
+        checked={todo.done}
         ref={checkboxRef}
         onChange={onDoneChangeHandler}
       />
