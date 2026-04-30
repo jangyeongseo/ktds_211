@@ -2,9 +2,13 @@ import { useRef } from "react";
 import { Confirm } from "../ui/Modals";
 import { useContext } from "react";
 import TodoContext from "./contexts/TodoContext";
+import { fetchDoneTodo, fetchTodoList } from "../../http/todo/fetchTodo";
+import { useDispatch } from "react-redux";
+import { todoAction } from "../../stores/toolkit/slices/todoSlice";
 
-const TodoItem = ({ todo, onDoneChange }) => {
+const TodoItem = ({ todo }) => {
   const priorities = ["없음", "높음", "보통", "낮음"];
+  const reactReduxDispatcher = useDispatch();
   /**
    * confirm 모달 제어용 ref
    * 부모처럼 dialog를 직접 열기 위해 사용
@@ -57,11 +61,18 @@ const TodoItem = ({ todo, onDoneChange }) => {
    * OK 버튼 눌렀을 때
    * => 실제 상태 변경 실행
    */
-  const onConfirmOkClickHandler = () => {
-    console.log("현재 체크 상태:", checkboxRef.current.checked);
 
-    // 부모에게 상태 변경 요청
-    onDoneChange(todo.id, !checkboxRef.current.checked);
+  reactReduxDispatcher(todoAction.doneItem(id));
+
+  const onConfirmOkClickHandler = async () => {
+    console.log("현재 체크 상태:", checkboxRef.current.checked);
+    const doneResult = await fetchDoneTodo(id);
+    if (doneResult) {
+      alert(doneResult.errors);
+    }
+
+    const fetchResult = await fetchTodoList();
+    reactReduxDispatcher(todoAction.refresh(fetchResult.body));
   };
 
   /**

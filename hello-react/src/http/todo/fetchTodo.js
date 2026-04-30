@@ -68,7 +68,7 @@ export const fetchDoneTodo = async (todoId) => {
  * 전체 todo 완료 처리
  * 모든 todo를 한 번에 완료 상태로 변경
  */
-export const fetchAllDoenTodo = async () => {
+export const fetchAllDoneTodo = async () => {
     try {
         // PUT 요청: 전체 todo 상태 변경
         const fetchResult = await fetch("http://localhost:8888/api/v1/task", {
@@ -148,4 +148,3 @@ export const fetchAddTodo = async (todo, dueDate, priority) => {
         };
     }
 };
-

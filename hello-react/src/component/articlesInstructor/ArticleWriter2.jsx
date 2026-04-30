@@ -1,7 +1,9 @@
 /** @format */
 
-import { useRef, useState, forwardRef } from "react";
+import { useRef, useState, forwardRef, useImperativeHandle } from "react";
 import { Alert } from "../ui/Modals";
+import { isString } from "../utils/type";
+import { getValidationResult } from "../utils/errorHandler";
 
 /**
  *  Input 컴포넌트
@@ -37,16 +39,15 @@ const Textarea = forwardRef(({ id, title, ...props }, ref) => {
   );
 });
 
-const ArticleWriter2 = ({ onAddArticleClick }) => {
+const ArticleWriter2 = ({ errorHandlerRef, onAddArticleClick }) => {
   /**
    *  useRef
    * - 각각 input, textarea DOM을 직접 참조하기 위한 변수
    * - 나중에 .current로 실제 DOM 접근 가능
    */
   const subjectRef = useRef();
-  const nameRef = useRef();
-  const emailRef = useRef();
   const contentRef = useRef();
+  const attachFileRef = useRef();
 
   const alertRef = useRef(); // dialogRef (다이얼로그)를 제어할 ref(레프)
 
@@ -57,6 +58,19 @@ const ArticleWriter2 = ({ onAddArticleClick }) => {
    */
   const [viewMode, setViewMode] = useState("button");
 
+  const [addError, setAddError] = useState();
+  useImperativeHandle(errorHandlerRef, () => {
+    return {
+      setResponseError(fetchError) {
+        if (isString(fetchError)) {
+          setAddError(fetchError);
+        } else {
+          setAddError(getValidationResult(fetchError));
+        }
+      },
+    };
+  });
+
   /**
    *  저장 버튼 클릭 시 실행
    * - ref를 통해 입력값을 직접 가져옴
@@ -64,13 +78,11 @@ const ArticleWriter2 = ({ onAddArticleClick }) => {
   const onSaveButtonClickHandler = () => {
     // .current → 실제 DOM
     const subject = subjectRef.current.value;
-    const name = nameRef.current.value;
-    const email = emailRef.current.value;
+    const attachFile = attachFileRef.current.files; // 파일이라 file라고 작성
     const content = contentRef.current.value;
 
     console.log("제목:", subject);
-    console.log("이름:", name);
-    console.log("이메일:", email);
+    console.log("파일:", attachFile);
     console.log("내용:", content);
     console.log("모달(어러트?)", alertRef);
 
@@ -80,13 +92,8 @@ const ArticleWriter2 = ({ onAddArticleClick }) => {
       return;
     }
 
-    if (!name) {
-      alertRef.current?.showModal("이름을 입력해주세요");
-      return;
-    }
-
-    if (!email) {
-      alertRef.current?.showModal("이메일을 입력해주세요");
+    if (!attachFile) {
+      alertRef.current?.showModal("파일을 등록해주세요");
       return;
     }
 
@@ -98,16 +105,14 @@ const ArticleWriter2 = ({ onAddArticleClick }) => {
     // 부모 컴포넌트로 전달 가능
     onAddArticleClick({
       subject,
-      name,
-      email,
+      attachFile,
       content,
     });
 
     // 입력값 초기화
     subjectRef.current.value = "";
-    nameRef.current.value = "";
-    emailRef.current.value = "";
     contentRef.current.value = "";
+    attachFileRef.current.value = "";
 
     // 다시 버튼 화면으로 전환
     setViewMode("button");
@@ -121,45 +126,47 @@ const ArticleWriter2 = ({ onAddArticleClick }) => {
   };
 
   return (
-    <div className="article-writer">
-      {/* 글쓰기 버튼 */}
+    <div className="write-form">
       {viewMode === "button" && (
         <button
           type="button"
+          className="button"
           onClick={() => onViewChangeButtonClickHandler("form")}
         >
           글쓰기
         </button>
       )}
 
-      {/* 입력 폼 */}
-      {/* 옵셔널 체이닝 */}
       {viewMode === "form" && (
         <>
           <Alert dialogRef={alertRef} />
+          {isString(addError) && <div>{addError}</div>}
           {/* ref를 각 input에 연결 */}
           <Input id="subject" title="제목" ref={subjectRef} />
-          <Input id="name" title="이름" ref={nameRef} />
-          <Input id="email" title="이메일" ref={emailRef} />
+          <input
+            type="file"
+            id="attachFile"
+            title="파일"
+            ref={attachFileRef}
+            multiple
+          />
           <Textarea id="content" title="내용" ref={contentRef} />
-
-          {/* 저장 버튼 */}
-          <button
-            type="button"
-            className="positive-button"
-            onClick={onSaveButtonClickHandler}
-          >
-            저장
-          </button>
-
-          {/* 취소 버튼 */}
-          <button
-            type="button"
-            className="negative-button"
-            onClick={() => onViewChangeButtonClickHandler("button")}
-          >
-            취소
-          </button>
+          <div className="btnBox">
+            <button
+              type="button"
+              className="positive-button"
+              onClick={onSaveButtonClickHandler}
+            >
+              저장
+            </button>
+            <button
+              type="button"
+              className="negative-button"
+              onClick={() => onViewChangeButtonClickHandler("button")}
+            >
+              취소
+            </button>
+          </div>
         </>
       )}
     </div>

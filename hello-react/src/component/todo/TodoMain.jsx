@@ -1,30 +1,34 @@
 /** @format */
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect } from "react";
 import TodoAppender from "./TodoAppender.jsx";
 import TodoHeader from "./TodoHeader.jsx";
 import TodoList from "./TodoList.jsx";
 import TodoItem from "./TodoItem.jsx";
 import TodoGrid from "./TodoGrid.jsx";
-import {
-  fetchAddTodo,
-  fetchAllDoenTodo,
-  fetchDoneTodo,
-  fetchTodoList,
-} from "../../http/todo/fetchTodo.js";
+import { fetchTodoList } from "../../http/todo/fetchTodo.js";
+import { useDispatch, useSelector } from "react-redux";
+import { todoAction } from "../../stores/toolkit/slices/todoSlice.js";
 
 const TodoMain = () => {
   console.log("TodoMain 렌더링");
 
-  const [cachedData, setCachedData] = useState([]);
+  // const [cachedData, setCachedData] = useState([]);
+  // ReactRedux Store에서 rodo state를 가져온다.
+  const { list: todoList } = useSelector((store) => store.todo); // store의 state를 가져옴
+  console.log("TodoList state", todoList);
+  const storeDispatch = useDispatch(); // todo만을 위한 dispatch가 아니다. / store의 state를 사용?
 
   const refreshTodoList = async () => {
-    const todoList = await fetchTodoList();
-    setCachedData(todoList.body);
+    const fetchResult = await fetchTodoList();
+    // setCachedData(todoList.body);
+    storeDispatch(todoAction.refresh(fetchResult.body));
+    // redux가 실행된다.
+    // 객체를 만들어 줄거임. type으로 payload 뭐할거냐
 
     // 모든 fetch마다 필요하다.
-    if (todoList.errors) {
-      alert(todoList.errors);
+    if (fetchResult.errors) {
+      alert(fetchResult.errors);
     }
   };
 
@@ -32,78 +36,19 @@ const TodoMain = () => {
     refreshTodoList();
   }, []);
 
-  const onAllDoneChangeHandler = useCallback(async () => {
-    const allDoneResult = await fetchAllDoenTodo();
-
-    if (!allDoneResult.errors) {
-      refreshTodoList();
-    } else {
-      alert(allDoneResult.errors);
-    }
-  }, []);
-
-  const onDoneChangeHandler = async (todoId) => {
-    const doneResult = await fetchDoneTodo(todoId);
-
-    // 모든 fetch마다 필요하다.
-    if (doneResult.errors) {
-      refreshTodoList();
-    } else {
-      alert(doneResult.errors);
-    }
-  };
-
-  const onSaveButtonClickHandler = useCallback(
-    async (todo, dueDate, priority) => {
-      const addResult = await fetchAddTodo(todo, dueDate, priority);
-
-      // 모든 fetch마다 필요하다.
-      if (addResult.errors) {
-        refreshTodoList();
-      } else {
-        alert(addResult.errors);
-      }
-    },
-    [],
-  );
-
-  /**
-   * todo 개수 계산
-   * cachedData가 변경될 때만 다시 계산됨 (성능 최적화)
-   */
-  const todoCount = useMemo(() => {
-    return {
-      // 전체 개수
-      all: cachedData.length,
-
-      // 완료된 개수
-      done: cachedData.filter((todo) => todo.done).length,
-
-      // 진행 중 개수
-      process: cachedData.filter((todo) => !todo.done).length,
-    };
-  }, [cachedData]);
-
   return (
     <div className="wrapper">
       <header>React Todo</header>
 
       <TodoGrid>
         <TodoList>
-          <TodoHeader
-            todoCount={todoCount}
-            onAllDoneChange={onAllDoneChangeHandler}
-          />
-          {cachedData.map((todo) => (
-            <TodoItem
-              key={todo.id}
-              todo={todo}
-              onDoneChange={onDoneChangeHandler}
-            />
+          <TodoHeader />
+          {todoList.map((todo) => (
+            <TodoItem key={todo.id} todo={todo} />
           ))}
         </TodoList>
       </TodoGrid>
-      <TodoAppender onSaveButtonClickHandler={onSaveButtonClickHandler} />
+      <TodoAppender />
     </div>
   );
 };
