@@ -14,8 +14,8 @@ export default function App() {
   return (
     <ToolkitProvider>
       {/* <TrendBox /> */}
-      <TodoMain />
-      {/* <ArticleMain2 /> */}
+      {/* <TodoMain /> */}
+      <ArticleMain2 />
       {/* <ArticleMain /> */}
       {/* <AssignmentMain /> */}
     </ToolkitProvider>

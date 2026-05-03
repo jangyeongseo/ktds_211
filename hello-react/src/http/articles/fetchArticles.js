@@ -62,7 +62,7 @@ export const fetchAddArticle = async (jwt, subject, attachFile, content) => {
         const fetchResult = await fetch(`http://192.168.0.50:8080/api/articles`, {
             method: "post",
             headers: {
-                Authorization: `Bearer${jwt}`,
+                Authorization: `Bearer ${jwt}`,
             },
             body: formDate
         });

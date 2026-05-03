@@ -1,79 +1,84 @@
-/** @format */
-// articles.json 파일 불러오기
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+
 import ArticleHeader from "./ArticleHeader.jsx";
 import ArticleList from "./ArticleList.jsx";
 import ArticleWriter2 from "./ArticleWriter2.jsx";
+
 import {
-  fetchAddArticle,
   fetchArticleList,
   fetchJsonWebToken,
 } from "../../http/articles/fetchArticles.js";
+
 import "./ArticleMain.css";
 import Login from "./Login.jsx";
+
 import { isString } from "../utils/type.js";
 import { getValidationResult } from "../utils/errorHandler.js";
+import { useDispatch, useSelector } from "react-redux";
+import { articleAction } from "../../stores/toolkit/slices/articleSlice.js";
 
+// 게시글 메인 컴포넌트
 const ArticleMain2 = () => {
-  // state를 변경했다!
-  // 컴포넌트가 재실행된다. (props의 전달 여부 관계 없이.)
-  // console.log("ArticleMain");
+  // 로그인 에러 메시지 상태
+  const [loginErrors, setLoginErrors] = useState();
 
-  const [loginErrors, setLoginErrors] = useState(); // 로그인 에러
+  // 토큰 상태 (초기값은 localStorage에서 가져옴)
   const [token, setToken] = useState(() => {
     return localStorage.getItem("token") || "";
-  }); // 토큰
+  });
 
-  const writeRef = useRef();
+  // 로그인 입력값 상태
   const [loginform, setLoginform] = useState({
     email: "",
     password: "",
-  }); // 로그인
-
-  // 페이지네이션
-  const [viewPageNo, setViewPageNo] = useState(0);
-  const onPaginationButtonClickHandler = (nextPageNo) => {
-    setViewPageNo(nextPageNo);
-  };
-
-  // 전체 보여주기
-  const [
-    {
-      count,
-      result: articles,
-      pagination: { pageNo = 0, pageCount = 0 },
-    },
-    setArticles,
-  ] = useState({
-    count: 0,
-    result: [],
-    pagination: {},
   });
-  const refreshArticleList = async () => {
+
+  // 현재 페이지 번호 상태
+  const [viewPageNo, setViewPageNo] = useState(0);
+
+  // Redux store에서 게시글 데이터 가져오기
+  const {
+    list: articles,
+    count,
+    pagination,
+  } = useSelector((state) => state.article);
+
+  // pagination 값 구조 분해
+  const { pageNo = 0, pageCount = 0 } = pagination;
+
+  // Redux dispatch 함수
+  const dispatch = useDispatch();
+
+  // 게시글 목록 조회 함수
+  const refreshArticleList = useCallback(async () => {
     const articleList = await fetchArticleList(viewPageNo);
-    /*  articleList의 구조
-    {
-      result: { count: 0, result: [] },
-      pagination: {},
-    }
-    */
+
     const {
       result: { count, result },
       pagination,
     } = articleList;
 
-    setArticles({ count, result, pagination });
+    // Redux store에 데이터 저장
+    dispatch(
+      articleAction.refresh({
+        list: result,
+        count,
+        pagination,
+      }),
+    );
 
+    // 에러 발생 시 알림
     if (articleList.error) {
       alert(articleList.error);
     }
-  };
+  }, [viewPageNo, dispatch]);
 
+  // 컴포넌트 처음 실행 + 페이지 변경 시 목록 조회
   useEffect(() => {
     refreshArticleList();
-  }, [viewPageNo]);
+  }, [refreshArticleList]);
 
-  // 로그인 작성 input
+  // 로그인 입력값 변경 처리
   const onLoginChangeHandler = (event) => {
     const { name, value } = event.target;
 
@@ -83,45 +88,34 @@ const ArticleMain2 = () => {
     }));
   };
 
-  // 로그인 버튼
+  // 로그인 버튼 클릭 시 토큰 요청
   const onTokenButtonClickHandler = async () => {
     const jsonWebToken = await fetchJsonWebToken(
       loginform.email,
       loginform.password,
     );
 
+    // 로그인 성공 시
     if (jsonWebToken?.token) {
       setToken(jsonWebToken.token);
-      // “브라우저 저장소”라서 페이지 새로고침해도 유지됨
       localStorage.setItem("token", jsonWebToken.token);
       setLoginErrors(null);
-    } else {
+    }
+    // 로그인 실패 시
+    else {
       if (jsonWebToken.error) {
         if (isString(jsonWebToken.error)) {
-          setLoginErrors(jsonWebToken.error); // 문자열
+          setLoginErrors(jsonWebToken.error);
         } else {
-          setLoginErrors(getValidationResult(jsonWebToken.error)); // 객체
+          setLoginErrors(getValidationResult(jsonWebToken.error));
         }
       }
     }
   };
 
-  // 글 작성
-  const onAddArticleClickHandler = useCallback(
-    async (subject, attachFile, content) => {
-      const addResult = await fetchAddArticle(subject, attachFile, content);
-
-      if (!addResult.error) {
-        refreshArticleList();
-      } else {
-        writeRef.current.setResponseError(addResult.error);
-      }
-    },
-    [],
-  );
-
   return (
     <div className="wrapper">
+      {/* 로그인 안된 상태 */}
       {!token ? (
         <Login
           loginErrors={loginErrors}
@@ -131,37 +125,32 @@ const ArticleMain2 = () => {
         />
       ) : (
         <>
+          {/* 게시글 개수 */}
           <div>{count}개의 게시글</div>
+
+          {/* 게시글 목록 테이블 */}
           <table>
             <ArticleHeader />
             <ArticleList articles={articles} />
           </table>
 
+          {/* 페이지 이동 버튼 */}
           <div className="btnBox">
             {pageNo > 0 && (
-              <button
-                onClick={() => onPaginationButtonClickHandler(pageNo - 1)}
-              >
-                이전
-              </button>
+              <button onClick={() => setViewPageNo(pageNo - 1)}>이전</button>
             )}
 
             {pageNo < pageCount - 1 && (
-              <button
-                onClick={() => onPaginationButtonClickHandler(pageNo + 1)}
-              >
-                다음
-              </button>
+              <button onClick={() => setViewPageNo(pageNo + 1)}>다음</button>
             )}
           </div>
 
-          <ArticleWriter2
-            errorHandlerRef={errorHandlerRef}
-            onAddArticleClick={onAddArticleClickHandler}
-          />
+          {/* 게시글 작성 컴포넌트 */}
+          <ArticleWriter2 token={token} pageNo={pageNo} />
         </>
       )}
     </div>
   );
 };
+
 export default ArticleMain2;

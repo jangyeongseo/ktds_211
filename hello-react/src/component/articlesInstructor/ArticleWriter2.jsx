@@ -1,176 +1,138 @@
-/** @format */
-
-import { useRef, useState, forwardRef, useImperativeHandle } from "react";
+import { useRef, useState, forwardRef } from "react";
 import { Alert } from "../ui/Modals";
-import { isString } from "../utils/type";
-import { getValidationResult } from "../utils/errorHandler";
+import { isString } from "../../utils/type";
+import {
+  fetchAddArticle,
+  fetchArticleList,
+} from "../../http/articles/fetchArticles";
+import { useDispatch } from "react-redux";
+import { articleAction } from "../../stores/toolkit/slices/articleSlice";
 
 /**
- *  Input 컴포넌트
- * - label + input 묶은 재사용 컴포넌트
- * - forwardRef를 사용해야 부모에서 ref 연결 가능
+ * forwardRef: 부모에서 ref로 input 값 접근 가능하게 함
  */
 const Input = forwardRef(({ id, title, type = "text", ...props }, ref) => {
-  console.log("Input");
-
   return (
     <div className="input-field">
-      {/* label은 input과 연결됨 */}
       <label htmlFor={id}>{title}</label>
-
-      {/* ref를 input에 연결 */}
       <input type={type} id={id} ref={ref} {...props} />
     </div>
   );
 });
 
-/**
- *  Textarea 컴포넌트
- * - textarea도 동일하게 ref 연결 가능하도록 forwardRef 사용
- */
 const Textarea = forwardRef(({ id, title, ...props }, ref) => {
   return (
     <div className="input-field">
       <label htmlFor={id}>{title}</label>
-
-      {/* textarea에도 ref 연결 */}
       <textarea id={id} ref={ref} {...props}></textarea>
     </div>
   );
 });
 
-const ArticleWriter2 = ({ errorHandlerRef, onAddArticleClick }) => {
+const ArticleWriter = ({ token, pageNo }) => {
+  const [addError, setAddError] = useState();
+
   /**
-   *  useRef
-   * - 각각 input, textarea DOM을 직접 참조하기 위한 변수
-   * - 나중에 .current로 실제 DOM 접근 가능
+   * Redux dispatch는 이 컴포넌트에서 사용하는 구조
    */
+  const dispatch = useDispatch();
+  const [viewMode, setViewMode] = useState("button");
+
   const subjectRef = useRef();
   const contentRef = useRef();
   const attachFileRef = useRef();
 
-  const alertRef = useRef(); // dialogRef (다이얼로그)를 제어할 ref(레프)
+  const alertRef = useRef();
 
-  /**
-   *  viewMode
-   * - button: 글쓰기 버튼만 보임
-   * - form: 입력 폼 보임
-   */
-  const [viewMode, setViewMode] = useState("button");
-
-  const [addError, setAddError] = useState();
-  useImperativeHandle(errorHandlerRef, () => {
-    return {
-      setResponseError(fetchError) {
-        if (isString(fetchError)) {
-          setAddError(fetchError);
-        } else {
-          setAddError(getValidationResult(fetchError));
-        }
-      },
-    };
-  });
-
-  /**
-   *  저장 버튼 클릭 시 실행
-   * - ref를 통해 입력값을 직접 가져옴
-   */
-  const onSaveButtonClickHandler = () => {
-    // .current → 실제 DOM
-    const subject = subjectRef.current.value;
-    const attachFile = attachFileRef.current.files; // 파일이라 file라고 작성
-    const content = contentRef.current.value;
-
-    console.log("제목:", subject);
-    console.log("파일:", attachFile);
-    console.log("내용:", content);
-    console.log("모달(어러트?)", alertRef);
-
-    // dialog가 있어 가능
-    if (!subject) {
-      alertRef.current?.showModal("제목을 입력해주세요");
+  const onSaveButtonClickHandler = async () => {
+    // 제목 검증
+    if (!subjectRef.current.value) {
+      alertRef.current.showModal("제목을 입력해주세요.");
       return;
     }
 
-    if (!attachFile) {
-      alertRef.current?.showModal("파일을 등록해주세요");
+    // 내용 검증
+    if (!contentRef.current.value) {
+      alertRef.current.showModal("내용을 입력해주세요.");
       return;
     }
 
-    if (!content) {
-      alertRef.current?.showModal("내용을 입력해주세요");
+    // 파일 검증
+    if (!attachFileRef.current.files.length) {
+      alertRef.current.showModal("파일을 선택해주세요.");
       return;
     }
 
-    // 부모 컴포넌트로 전달 가능
-    onAddArticleClick({
-      subject,
-      attachFile,
-      content,
-    });
+    /**
+     * 서버 등록
+     */
+    const addResult = await fetchAddArticle(
+      token,
+      subjectRef.current.value,
+      attachFileRef.current.files,
+      contentRef.current.value,
+    );
+
+    /**
+     * addResult 자체가 아니라 addResult.error로 체크해야 함
+     */
+    if (addResult.error) {
+      setAddError(addResult.error);
+      return;
+    }
+
+    /**
+     * 최신 리스트 다시 가져오기
+     */
+    const fetchResult = await fetchArticleList(pageNo);
+
+    const {
+      result: { count, result },
+      pagination,
+    } = fetchResult;
+
+    /**
+     * Redux 업데이트
+     */
+    dispatch(
+      articleAction.refresh({
+        list: result,
+        count,
+        pagination,
+      }),
+    );
 
     // 입력값 초기화
     subjectRef.current.value = "";
     contentRef.current.value = "";
     attachFileRef.current.value = "";
 
-    // 다시 버튼 화면으로 전환
     setViewMode("button");
   };
 
-  /**
-   *  화면 전환 함수
-   */
-  const onViewChangeButtonClickHandler = (viewName) => {
-    setViewMode(viewName);
-  };
-
   return (
-    <div className="write-form">
+    <div className="article-writer">
       {viewMode === "button" && (
-        <button
-          type="button"
-          className="button"
-          onClick={() => onViewChangeButtonClickHandler("form")}
-        >
-          글쓰기
-        </button>
+        <button onClick={() => setViewMode("form")}>글쓰기</button>
       )}
 
       {viewMode === "form" && (
         <>
           <Alert dialogRef={alertRef} />
+
+          {/* 에러 출력 */}
           {isString(addError) && <div>{addError}</div>}
-          {/* ref를 각 input에 연결 */}
+
           <Input id="subject" title="제목" ref={subjectRef} />
-          <input
-            type="file"
-            id="attachFile"
-            title="파일"
-            ref={attachFileRef}
-            multiple
-          />
           <Textarea id="content" title="내용" ref={contentRef} />
-          <div className="btnBox">
-            <button
-              type="button"
-              className="positive-button"
-              onClick={onSaveButtonClickHandler}
-            >
-              저장
-            </button>
-            <button
-              type="button"
-              className="negative-button"
-              onClick={() => onViewChangeButtonClickHandler("button")}
-            >
-              취소
-            </button>
-          </div>
+          <Input type="file" id="file" title="첨부파일" ref={attachFileRef} />
+
+          <button onClick={onSaveButtonClickHandler}>저장</button>
+          <button onClick={() => setViewMode("button")}>취소</button>
         </>
       )}
     </div>
   );
 };
 
-export default ArticleWriter2;
+export default ArticleWriter;

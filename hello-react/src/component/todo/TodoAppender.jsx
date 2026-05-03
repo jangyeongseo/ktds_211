@@ -65,7 +65,6 @@ const TodoAppender = memo(() => {
       <input type="text" name="todo" placeholder="Task" ref={todoRef} />
       <input type="date" name="dueDate" ref={dueDateRef} />
       <select name="priority" ref={priorityRef}>
-        {/* 우선순위한테 값이 '' 공백일 때 이걸 우선순위로 넣어라 */}
         <option value="">우선순위</option>
         <option value="1">높음</option>
         <option value="2">보통</option>

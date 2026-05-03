@@ -17,6 +17,7 @@ const TodoMain = () => {
   // ReactRedux Store에서 rodo state를 가져온다.
   const { list: todoList } = useSelector((store) => store.todo); // store의 state를 가져옴
   console.log("TodoList state", todoList);
+
   const storeDispatch = useDispatch(); // todo만을 위한 dispatch가 아니다. / store의 state를 사용?
 
   const refreshTodoList = async () => {
