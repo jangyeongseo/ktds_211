@@ -1,16 +1,10 @@
 import { useRef, useState, forwardRef } from "react";
 import { Alert } from "../ui/Modals";
-import { isString } from "../../utils/type";
-import {
-  fetchAddArticle,
-  fetchArticleList,
-} from "../../http/articles/fetchArticles";
-import { useDispatch } from "react-redux";
-import { articleAction } from "../../stores/toolkit/slices/articleSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { articleThunk } from "../../stores/toolkit/slices/articleSlice";
+import { isString } from "../utils/type";
 
-/**
- * forwardRef: 부모에서 ref로 input 값 접근 가능하게 함
- */
+//forwardRef: 부모에서 ref로 input 값 접근 가능하게 함
 const Input = forwardRef(({ id, title, type = "text", ...props }, ref) => {
   return (
     <div className="input-field">
@@ -29,19 +23,17 @@ const Textarea = forwardRef(({ id, title, ...props }, ref) => {
   );
 });
 
-const ArticleWriter = ({ token, pageNo }) => {
-  const [addError, setAddError] = useState();
-
-  /**
-   * Redux dispatch는 이 컴포넌트에서 사용하는 구조
-   */
+const ArticleWriter = () => {
+  // Redux dispatch는 이 컴포넌트에서 사용하는 구조
+  const {
+    error: { write: addError },
+  } = useSelector((store) => store.article);
   const dispatch = useDispatch();
   const [viewMode, setViewMode] = useState("button");
 
   const subjectRef = useRef();
   const contentRef = useRef();
   const attachFileRef = useRef();
-
   const alertRef = useRef();
 
   const onSaveButtonClickHandler = async () => {
@@ -63,49 +55,19 @@ const ArticleWriter = ({ token, pageNo }) => {
       return;
     }
 
-    /**
-     * 서버 등록
-     */
-    const addResult = await fetchAddArticle(
-      token,
-      subjectRef.current.value,
-      attachFileRef.current.files,
-      contentRef.current.value,
-    );
-
-    /**
-     * addResult 자체가 아니라 addResult.error로 체크해야 함
-     */
-    if (addResult.error) {
-      setAddError(addResult.error);
-      return;
-    }
-
-    /**
-     * 최신 리스트 다시 가져오기
-     */
-    const fetchResult = await fetchArticleList(pageNo);
-
-    const {
-      result: { count, result },
-      pagination,
-    } = fetchResult;
-
-    /**
-     * Redux 업데이트
-     */
+    // 서버 등록
     dispatch(
-      articleAction.refresh({
-        list: result,
-        count,
-        pagination,
-      }),
+      articleThunk.write(
+        subjectRef.current.value,
+        attachFileRef.current.value,
+        contentRef.current.value,
+      ),
     );
 
     // 입력값 초기화
     subjectRef.current.value = "";
-    contentRef.current.value = "";
     attachFileRef.current.value = "";
+    contentRef.current.value = "";
 
     setViewMode("button");
   };

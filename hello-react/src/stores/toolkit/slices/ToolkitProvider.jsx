@@ -8,6 +8,7 @@ import { todoSlice } from "./todoSlice";
 // React와 Redux를 연결해주는 Provider
 import { Provider } from "react-redux";
 import { articleSlice } from "./articleSlice";
+import { userSlice } from "./userSlice";
 
 /**
  * Redux Toolkit 기반 store 생성
@@ -22,7 +23,7 @@ const toolkitStore = configureStore({
     // 다른 slice들도 여기에 추가할 수 있다.
     // 예:
     article: articleSlice.reducer,
-    // user: userSlice.reducer,
+    user: userSlice.reducer,
   },
 });
 

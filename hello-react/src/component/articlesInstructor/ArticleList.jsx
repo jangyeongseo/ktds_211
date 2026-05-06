@@ -1,6 +1,10 @@
 /** @format */
 
-const ArticleList = ({ articles }) => {
+import { useSelector } from "react-redux";
+
+const ArticleList = () => {
+  const { list: articles } = useSelector((state) => state.article);
+
   return (
     <tbody>
       {articles.map((article) => (
